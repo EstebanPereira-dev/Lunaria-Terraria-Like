@@ -11,9 +11,6 @@ public class Adepte extends Acteur {
 
     @Override
     public boolean conditionApparation() {
-        if(this.getEnv().getCylceJourNuit() == 'N'){
-            return true;
-        }
-        return false;
+        return true;
     }
 }
