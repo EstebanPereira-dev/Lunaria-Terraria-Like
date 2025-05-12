@@ -1,4 +1,4 @@
-package universite_paris8.iut.epereira.lunaria.modele.ennemis;
+package universite_paris8.iut.epereira.lunaria.modele.acteurs;
 
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
@@ -8,7 +8,7 @@ public class Lycanthrope extends Acteur {
         super(pv, v, degat, env);
     }
 
-    @Override
+    // Invocation ou autre type de condition
     public boolean conditionApparation() {
         return false;
     }

@@ -36,8 +36,6 @@ public abstract class Acteur {
         this.env = env;
         id = "A"+0;
     }
-    // Invocation ou autre type de condition
-    public abstract boolean conditionApparation();
 
     // GETTER :
     public Environement getEnv() {
