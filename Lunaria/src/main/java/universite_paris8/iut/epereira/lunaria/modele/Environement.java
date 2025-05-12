@@ -5,4 +5,23 @@ public class Environement {
     private int width;
     private int height;
 
+    public Environement(int width, int height){
+        this.height = height;
+        this.width = width;
+    }
+
+
+    // GETTER :
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public char getCylceJourNuit() {
+        return cylceJourNuit;
+    }
+
 }
