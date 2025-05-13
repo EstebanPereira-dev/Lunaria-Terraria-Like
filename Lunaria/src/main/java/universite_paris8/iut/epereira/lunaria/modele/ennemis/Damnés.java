@@ -10,6 +10,6 @@ public class Damnés extends Acteur {
 
     @Override
     public boolean conditionApparation() {
-        return true;
+        return this.getEnv().getCylceJourNuit() == 'N';
     }
 }
