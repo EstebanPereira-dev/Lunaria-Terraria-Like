@@ -1,9 +1,8 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.Random;
 
@@ -11,11 +10,11 @@ public abstract class Acteur {
     static Random random = new Random();
     
     private int pv;
-    private int v;
+    private double v;
     public static int compteur=1;
     private String id;
-    private DoubleProperty x;
-    private DoubleProperty y;
+    public DoubleProperty x;
+    public DoubleProperty y;
     private Environement env;
     private int degat;
 
@@ -34,11 +33,20 @@ public abstract class Acteur {
     public Acteur(Environement env){
         this.env = env;
         pv = 100;
-        v = 3;
+        this.v = 3;
         this.x = new SimpleDoubleProperty(100); // a definir
         this.y = new SimpleDoubleProperty(100); // a definir
         degat = 5;
         id = "A"+0;
+    }
+    //SETTER
+
+    public void setXProperty(double x) {
+        this.x.set(x);
+    }
+
+    public void setYProperty(double y) {
+        this.y.set(y);
     }
 
     // GETTER :
@@ -60,7 +68,7 @@ public abstract class Acteur {
         return pv;
     }
 
-    public int getV() {
+    public double getV() {
         return v;
     }
 

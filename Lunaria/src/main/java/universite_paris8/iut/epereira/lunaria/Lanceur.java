@@ -13,7 +13,7 @@ public class Lanceur extends Application {
         public void start(Stage stage) throws IOException {
             FXMLLoader fxmlLoader = new FXMLLoader(Lanceur.class.getResource("/universite_paris8/iut/epereira/lunaria/DossierMap/Map.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-            stage.setTitle("LoupMouton");
+            stage.setTitle("Lunaria");
             stage.setScene(scene);
             stage.show();
         }
