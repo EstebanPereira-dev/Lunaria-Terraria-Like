@@ -1,5 +1,6 @@
 package universite_paris8.iut.epereira.lunaria.DossierControleur;
 
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,22 +31,30 @@ public class Controleur implements Initializable {
         sprites.put(H, h);
         tabJeu.getChildren().add(h);
         env.ajouter(H);
+
         tabJeu.setFocusTraversable(true);
+        Platform.runLater(() -> {
+            tabJeu.requestFocus();
+        });
         tabJeu.requestFocus();
         tabJeu.setOnKeyPressed(keyEvent -> {
-            if (H instanceof Hero){
-                if (keyEvent.getText().equalsIgnoreCase("z")) {
-                    H.getYProperty().set(H.getYProperty().get() - H.getV());
-                }
-                else if (keyEvent.getText().equalsIgnoreCase("q")) {
-                    H.getXProperty().set(H.getXProperty().get() - H.getV());
-                }
-                else if (keyEvent.getText().equalsIgnoreCase("s")) {
-                    H.getYProperty().set(H.getYProperty().get() + H.getV());
-                }
-                else if (keyEvent.getText().equalsIgnoreCase("d")) {
-                    H.getXProperty().set(H.getXProperty().get() + H.getV());
-                }
+            switch(keyEvent.getCode()) {
+                case SPACE:
+                    H.y.set(H.y.get() - H.getV());
+                    System.out.println("1");
+                    break;
+                case Q:
+                    H.x.set(H.x.get() - H.getV());
+                    System.out.println("2");
+                    break;
+                case S:
+                    H.y.set(H.y.get() + H.getV());
+                    System.out.println("3");
+                    break;
+                case D:
+                    H.x.set(H.x.get() + H.getV());
+                    System.out.println("4");
+                    break;
             }
         });
     }
