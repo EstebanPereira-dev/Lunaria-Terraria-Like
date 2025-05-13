@@ -6,6 +6,7 @@ import java.util.Random;
 
 public abstract class Acteur {
     static Random random;
+    
     private int pv;
     private int v;
     public static int compteur=1;
