@@ -1,4 +1,4 @@
-package universite_paris8.iut.epereira.lunaria.modele.DossierControleur;
+package universite_paris8.iut.epereira.lunaria.DossierControleur;
 
 import javafx.fxml.Initializable;
 
