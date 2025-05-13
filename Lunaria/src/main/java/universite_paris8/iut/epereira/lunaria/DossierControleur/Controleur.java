@@ -8,19 +8,32 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
+import universite_paris8.iut.epereira.lunaria.modele.Terrain;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
+
+import java.awt.event.TextEvent;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.scene.layout.TilePane;
+
+
+
+
+
 
 public class Controleur implements Initializable {
+    @FXML
+    private TilePane TilePaneID;
     @FXML
     private Pane tabJeu;
     private Environement env;
     private final Map<Acteur, Circle> sprites = new HashMap<>();
     private Acteur H;
+    private Terrain terrain;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -33,21 +46,28 @@ public class Controleur implements Initializable {
         tabJeu.setFocusTraversable(true);
         tabJeu.requestFocus();
         tabJeu.setOnKeyPressed(keyEvent -> {
-            if (H instanceof Hero){
+            if (H instanceof Hero) {
                 if (keyEvent.getText().equalsIgnoreCase("z")) {
                     H.getYProperty().set(H.getYProperty().get() - H.getV());
-                }
-                else if (keyEvent.getText().equalsIgnoreCase("q")) {
+                } else if (keyEvent.getText().equalsIgnoreCase("q")) {
                     H.getXProperty().set(H.getXProperty().get() - H.getV());
-                }
-                else if (keyEvent.getText().equalsIgnoreCase("s")) {
+                } else if (keyEvent.getText().equalsIgnoreCase("s")) {
                     H.getYProperty().set(H.getYProperty().get() + H.getV());
-                }
-                else if (keyEvent.getText().equalsIgnoreCase("d")) {
+                } else if (keyEvent.getText().equalsIgnoreCase("d")) {
                     H.getXProperty().set(H.getXProperty().get() + H.getV());
                 }
             }
+
         });
+       /* this.terrain = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1}
+        }*/
     }
 
     public Circle creerSprite(Acteur a){
