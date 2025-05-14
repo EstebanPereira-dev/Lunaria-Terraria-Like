@@ -51,7 +51,7 @@ public class GestionnaireMap {
                     panneauDeTuile.getChildren().add(imageView);
 
                 } catch (Exception e) {
-                    System.err.println("Erreur lors du chargement de la tuile [" + i + "," + j + "]: " + e.getMessage());
+                    System.out.println("Erreur lors du chargement de la tuile [" + i + "," + j + "]: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
