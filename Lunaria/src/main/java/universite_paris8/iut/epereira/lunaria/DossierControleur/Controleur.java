@@ -22,7 +22,7 @@ public class Controleur implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            terrain = new Terrain(608, 384);
+            terrain = new Terrain(19, 12);
             gestionnaireJeu = new GestionnaireJeu(tabJeu);
             gestionMap = new GestionnaireMap(tilePaneId, terrain);
 

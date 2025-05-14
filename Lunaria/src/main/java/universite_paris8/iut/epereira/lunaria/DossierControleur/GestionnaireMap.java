@@ -37,16 +37,14 @@ public class GestionnaireMap {
                     int tile = mapData[i][j];
                     Image sprite;
 
-                    // Vérifiez les ressources et utilisez le bon chemin
                     if (tile == 0)
-                        sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/ciel.png"));
+                        sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Ciel.png"));
                      else if (tile ==1)
                         sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Terre.png"));
-                     else //if(tile ==2)
-                        sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/nuages1.png"));
-
-
-
+                     else if (tile ==2)
+                        sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Herbe.png"));
+                     else
+                        sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
 
                     ImageView imageView = new ImageView(sprite);
                     imageView.setFitHeight(32);
