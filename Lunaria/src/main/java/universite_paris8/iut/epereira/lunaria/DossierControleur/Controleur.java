@@ -26,18 +26,23 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.TilePane;
 
 
-
 public class Controleur implements Initializable {
+    @FXML
+    private TilePane TilePaneID;
     @FXML
     private Pane tabJeu;
     private Environement env;
     private final Map<Acteur, Circle> sprites = new HashMap<>();
     private Acteur H;
     private Terrain terrain;
+
     private double vitesseY = 0;
     private final double GRAVITE = 0.2;
-    private final double SAUT = -5;
+    private final double SAUT = -10;
 
+    private boolean toucheGauche = false;
+    private boolean toucheDroite = false;
+    private boolean toucheEspace = false;
 
 
     @Override
@@ -49,46 +54,80 @@ public class Controleur implements Initializable {
         tabJeu.getChildren().add(h);
         env.ajouter(H);
 
-        tabJeu.setFocusTraversable(true);
+
         Platform.runLater(() -> {
             tabJeu.requestFocus();
         });
-                tabJeu.setOnKeyPressed(keyEvent -> {
-                    switch (keyEvent.getCode()) {
-                        case SPACE:
-                            double limiteSol = tabJeu.getPrefHeight() * 0.9;
-                            if (H.y.get() >= limiteSol - 11) {
-                                vitesseY = SAUT;
-                                H.y.set(H.y.get() + vitesseY);
-                            }
-                            break;
+        // EVENT TOUCHES PRESSE
+        tabJeu.setOnKeyPressed(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case SPACE:
+                    toucheEspace = true;
+                    break;
+                case Q:
+                    toucheGauche = true;
+                    break;
+                case D:
+                    toucheDroite = true;
+                    break;
+            }
+        });
 
-                        case Q:
-                            H.x.set(H.x.get() - H.getV());
-                            break;
-                        case D:
-                            H.x.set(H.x.get() + H.getV());
-                            break;
-                    }
-                });
+        // EVENT TOUCHE RELACHE
+        tabJeu.setOnKeyReleased(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case SPACE:
+                    toucheEspace = false;
+                    break;
+                case Q:
+                    toucheGauche = false;
+                    break;
+                case D:
+                    toucheDroite = false;
+                    break;
+            }
+        });
 
-        Timeline graviteTimeline = new Timeline(
+        Timeline gameLoop = new Timeline(
                 new KeyFrame(Duration.millis(16), e -> {
                     double limiteSol = tabJeu.getPrefHeight() * 0.9;
+                    double posY = H.y.get();
+                    boolean auSol = (posY + 10 >= limiteSol - 1);
 
-                    double posY = H.y.get(); // position actuelle du héros
+                    // Saute si espace est pressé et au sol
+                    if (toucheEspace && auSol) {
+                        System.out.println("SAUT !");
+                        vitesseY = SAUT;
+                    }
 
-                    if (posY + 10 < limiteSol) {
+                    // Application de la gravité
+                    if (!auSol) {
                         vitesseY += GRAVITE;
-                        H.y.set(posY + vitesseY);
-                    } else {
+                    } else if (vitesseY > 0) {
+                        vitesseY = 0;
+                        H.y.set(limiteSol - 10);
+                    }
+
+                    H.y.set(H.y.get() + vitesseY);
+
+                    if (H.y.get() > limiteSol - 10) {
                         H.y.set(limiteSol - 10);
                         vitesseY = 0;
                     }
+
+
+                    if (toucheGauche) {
+                        H.x.set(H.x.get() - H.getV());
+                    }
+                    if (toucheDroite) {
+                        H.x.set(H.x.get() + H.getV());
+                    }
                 })
         );
-        graviteTimeline.setCycleCount(Animation.INDEFINITE); // PARAMETRE LA TIMELINE SUR L'INFINI
-        graviteTimeline.play(); // LANCE LA TIMELINE
+        gameLoop.setCycleCount(Animation.INDEFINITE); // PARAMETRE LA TIMELINE SUR L'INFINI
+        gameLoop.play(); // LANCE LA TIMELINE
+
+    }
 
 
        /* this.terrain = {
@@ -100,7 +139,6 @@ public class Controleur implements Initializable {
                 {1, 1, 1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1, 1, 1}
         }*/
-    }
 
     public Circle creerSprite(Acteur a){
         Circle r=new Circle(10);
@@ -112,11 +150,7 @@ public class Controleur implements Initializable {
             r.setFill(Color.RED);
             r.setId("Ennemis");
         }
-        r.setLayoutY(a.getYProperty().get());
-        a.getYProperty().addListener((obs, oldVal, newVal) -> {
-            r.setLayoutY(newVal.doubleValue());
-        });
-
+        r.layoutYProperty().bind(a.getYProperty());
         r.layoutXProperty().bind(a.getXProperty());
         return r;
     }
