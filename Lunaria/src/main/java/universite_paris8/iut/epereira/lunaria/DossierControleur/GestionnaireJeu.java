@@ -21,7 +21,7 @@ public class GestionnaireJeu {
     private final Environement environnement;
     private final Map<Acteur, Circle> sprites = new HashMap<>();
     private final Acteur hero;
-    //private Terrain terrain;
+    private Terrain terrain;
 
     private double vitesseY = 0;
     private final double GRAVITE = 0.2;
@@ -49,15 +49,7 @@ public class GestionnaireJeu {
         configurerEvenements();
         creerBoucleDeJeu();
 
-//        this.terrain.setTerrain(new int[][] {
-//                {0, 0, 0, 0, 0, 0, 0},
-//                {0, 0, 0, 0, 0, 0, 0},
-//                {0, 0, 0, 0, 0, 0, 0},
-//                {0, 0, 0, 0, 0, 0, 0},
-//                {0, 0, 0, 0, 0, 0, 0},
-//                {1, 1, 1, 1, 1, 1, 1},
-//                {1, 1, 1, 1, 1, 1, 1}
-//        });
+
     }
     // PASSE LES FONCTION QUI APPELLE LES METHODE CI DESSOUS
     private void configurerEvenements() {

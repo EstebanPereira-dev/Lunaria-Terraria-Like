@@ -34,4 +34,7 @@ public class Terrain {
         return s;
     }
 
+    public int[][] getTerrain() {
+        return terrain;
+    }
 }

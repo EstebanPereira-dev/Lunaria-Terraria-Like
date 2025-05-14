@@ -11,6 +11,9 @@ import java.util.ResourceBundle;
 
 public class Controleur implements Initializable {
     @FXML
+    private TilePane TilePaneId;
+
+    @FXML
     private Pane tabJeu;
     private GestionnaireJeu gestionnaireJeu;
     private Terrain terrain;
