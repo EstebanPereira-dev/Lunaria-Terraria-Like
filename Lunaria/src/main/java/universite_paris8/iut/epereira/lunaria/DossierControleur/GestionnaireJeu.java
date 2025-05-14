@@ -38,7 +38,7 @@ public class GestionnaireJeu {
 
     public GestionnaireJeu(Pane zoneJeu) {
         this.zoneJeu = zoneJeu;
-        this.environnement = new Environement(800, 600);
+        this.environnement = new Environement(608, 384);
         this.hero = new Hero(environnement);
 
         Circle heroSprite = creerSprite(hero);
