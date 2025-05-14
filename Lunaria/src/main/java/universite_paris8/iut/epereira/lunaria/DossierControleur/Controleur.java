@@ -11,12 +11,12 @@ import java.util.ResourceBundle;
 
 public class Controleur implements Initializable {
     @FXML
-    private TilePane TilePaneId;
+    private TilePane tilePaneId;
 
     @FXML
     private Pane tabJeu;
     private GestionnaireJeu gestionnaireJeu;
-    private Terrain terrain;
+    GestionnaireMap gestionMap;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -25,6 +25,8 @@ public class Controleur implements Initializable {
             tabJeu.requestFocus();
         });
         gestionnaireJeu.demarrer();
+        gestionMap= new GestionnaireMap(tilePaneId);
+        gestionMap.chargerTiles(gestionMap.getCarte());
     }
 
 }
