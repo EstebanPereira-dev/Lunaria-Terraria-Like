@@ -3,6 +3,8 @@ package universite_paris8.iut.epereira.lunaria.DossierControleur;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -17,6 +19,7 @@ import java.util.Map;
 
 public class GestionnaireJeu {
 
+    private TextArea pauseID;
     private final Pane zoneJeu;
     private final Environement environnement;
     private final Map<Acteur, Circle> sprites = new HashMap<>();
@@ -26,20 +29,22 @@ public class GestionnaireJeu {
     private double vitesseY = 0;
     private final double GRAVITE = 0.2;
     private final double SAUT = -5;
+    private final int TAILLE_TUILE = 32;
 
     private boolean toucheGauche = false;
     private boolean toucheDroite = false;
     private boolean toucheEspace = false;
-    private boolean toucheEchap = false;
 
     private boolean jeuEnPause = false;
 
     private Timeline gameLoop;
 
-    public GestionnaireJeu(Pane zoneJeu) {
+    public GestionnaireJeu(Pane zoneJeu, TextArea pauseID) {
         this.zoneJeu = zoneJeu;
-        this.environnement = new Environement(608, 384);
+        this.environnement = new Environement(800, 608);
+        this.terrain = new Terrain(25, 19); // Création du terrain
         this.hero = new Hero(environnement);
+        this.pauseID = pauseID;
 
         Circle heroSprite = creerSprite(hero);
         sprites.put(hero, heroSprite);
@@ -48,10 +53,9 @@ public class GestionnaireJeu {
 
         configurerEvenements();
         creerBoucleDeJeu();
-
-
     }
-    // PASSE LES FONCTION QUI APPELLE LES METHODE CI DESSOUS
+
+    // Configuration des événements
     private void configurerEvenements() {
         zoneJeu.setFocusTraversable(true);
         zoneJeu.setOnKeyPressed(this::gererTouchePressee);
@@ -71,10 +75,13 @@ public class GestionnaireJeu {
                 break;
             case ESCAPE:
                 jeuEnPause = !jeuEnPause;
-                if (jeuEnPause)
+                if (jeuEnPause) {
+                    pauseID.setVisible( true );
                     arreter();
-                else
+                } else {
                     demarrer();
+                    pauseID.setVisible( false );
+                }
                 break;
         }
     }
@@ -92,7 +99,7 @@ public class GestionnaireJeu {
                 break;
         }
     }
-    // RESET TOUT LES 16 MS
+
     private void creerBoucleDeJeu() {
         gameLoop = new Timeline(
                 new KeyFrame(Duration.millis(16), e -> miseAJourJeu())
@@ -100,36 +107,109 @@ public class GestionnaireJeu {
         gameLoop.setCycleCount(Animation.INDEFINITE);
     }
 
-    private void miseAJourJeu() {
-        double limiteSol = zoneJeu.getPrefHeight() * 0.9;
-        double posY = hero.y.get();
-        boolean auSol = (posY + 10 >= limiteSol - 1);
+    private boolean estEnCollisionDirection(Acteur acteur, int tailleTuile, int directionX, int directionY) {
+        double centreX = acteur.x.get();
+        double centreY = acteur.y.get();
+        double rayon = 10;
 
-        // Gestion du saut
+        // Calculer la position du point dans la direction spécifiée
+        double pointX = centreX + directionX * rayon;
+        double pointY = centreY + directionY * rayon;
+
+        // Convertir en indices de tuile
+        int tuileX = (int) (pointX / tailleTuile);
+        int tuileY = (int) (pointY / tailleTuile);
+
+        return terrain.estTangible(tuileY, tuileX);
+    }
+
+    private void miseAJourJeu() {
+        // Mettre à jour le sprite visuel
+        Circle heroSprite = sprites.get(hero);
+        if (heroSprite != null) {
+            heroSprite.setTranslateX(hero.x.get());
+            heroSprite.setTranslateY(hero.y.get());
+        }
+
+        // Vérifier si au sol
+        boolean auSol = estAuSol();
+
+        // Appliquer la gravité
+        if (!auSol) {
+            vitesseY += GRAVITE;
+            if (vitesseY > 8.0) vitesseY = 8.0; // Limiter la vitesse de chute
+        } else if (vitesseY > 0) {
+            vitesseY = 0;
+        }
+
         if (toucheEspace && auSol) {
             vitesseY = SAUT;
         }
 
-        if (!auSol) {
-            vitesseY += GRAVITE;
-        } else if (vitesseY > 0) {
-            vitesseY = 0;
-            hero.y.set(limiteSol - 10);
+        double oldX = hero.x.get();
+        double oldY = hero.y.get();
+
+        double vitesseX = 0;
+        if (toucheGauche) vitesseX -= ((Hero)hero).getV();
+        if (toucheDroite) vitesseX += ((Hero)hero).getV();
+
+        if (vitesseX != 0) {
+            hero.x.set(oldX + vitesseX);
+            if (estEnCollision()) {
+                hero.x.set(oldX);
+            }
         }
 
-        hero.y.set(hero.y.get() + vitesseY);
-
-        if (hero.y.get() > limiteSol - 10) {
-            hero.y.set(limiteSol - 10);
-            vitesseY = 0;
+        if (vitesseY != 0) {
+            hero.y.set(oldY + vitesseY);
+            if (estEnCollision()) {
+                hero.y.set(oldY);
+                vitesseY = 0;
+            }
         }
+    }
 
-        if (toucheGauche)
-            hero.x.set(hero.x.get() - ((Hero)hero).getV());
+    private boolean estEnCollision() {
 
-        if (toucheDroite)
-            hero.x.set(hero.x.get() + ((Hero)hero).getV());
+        double centreX = hero.x.get();
+        double centreY = hero.y.get();
+        double rayon = 10;
 
+        int minTileX = Math.max(0, (int)((centreX - rayon) / TAILLE_TUILE));
+        int maxTileX = Math.min(terrain.getWidth() - 1, (int)((centreX + rayon) / TAILLE_TUILE));
+        int minTileY = Math.max(0, (int)((centreY - rayon) / TAILLE_TUILE));
+        int maxTileY = Math.min(terrain.getHeight() - 1, (int)((centreY + rayon) / TAILLE_TUILE));
+
+        for (int y = minTileY; y <= maxTileY; y++) {
+            for (int x = minTileX; x <= maxTileX; x++) {
+                if (terrain.getTerrain()[y][x] != 0) { // 0 = CIEL
+                    double tuileCentreX = x * TAILLE_TUILE + TAILLE_TUILE/2;
+                    double tuileCentreY = y * TAILLE_TUILE + TAILLE_TUILE/2;
+
+                    double distX = Math.abs(centreX - tuileCentreX);
+                    double distY = Math.abs(centreY - tuileCentreY);
+
+                    if (distX < (TAILLE_TUILE/2 + rayon - 2) &&
+                            distY < (TAILLE_TUILE/2 + rayon - 2)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean estAuSol() {
+
+        double centreX = hero.x.get();
+        double testY = hero.y.get() + 11; // 10 (rayon) + 1
+
+        int tileX = (int)(centreX / TAILLE_TUILE);
+        int tileY = (int)(testY / TAILLE_TUILE);
+
+        return tileY >= 0 && tileY < terrain.getHeight() &&
+                tileX >= 0 && tileX < terrain.getWidth() &&
+                terrain.getTerrain()[tileY][tileX] != 0;
     }
 
 
@@ -142,18 +222,21 @@ public class GestionnaireJeu {
             r.setFill(javafx.scene.paint.Color.RED);
             r.setId("Ennemis");
         }
-        r.layoutYProperty().bind(a.getYProperty());
-        r.layoutXProperty().bind(a.getXProperty());
+        r.setTranslateX(a.x.get());
+        r.setTranslateY(a.y.get());
         return r;
     }
 
+    // Démarrage
     public void demarrer() {
         gameLoop.play();
     }
-    // AU CAS OU  : Pour PAUSE
+
+    // Pause
     public void arreter() {
         gameLoop.stop();
     }
+
 
     public void ajouterActeur(Acteur acteur) {
         Circle sprite = creerSprite(acteur);
@@ -162,12 +245,20 @@ public class GestionnaireJeu {
         environnement.ajouter(acteur);
     }
 
-    // GETTER
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+
+    // GETTER :
     public Environement getEnvironnement() {
         return environnement;
     }
 
     public Acteur getHero() {
         return hero;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
     }
 }
