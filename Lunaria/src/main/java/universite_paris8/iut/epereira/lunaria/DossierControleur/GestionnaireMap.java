@@ -43,8 +43,12 @@ public class GestionnaireMap {
                         sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Terre.png"));
                      else if (tile ==2)
                         sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Herbe.png"));
-                     else
+                     else if (tile ==3)
                         sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
+                      else if (tile ==4)
+                    sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
+                     else
+                    sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
 
                     ImageView imageView = new ImageView(sprite);
                     imageView.setFitHeight(32);

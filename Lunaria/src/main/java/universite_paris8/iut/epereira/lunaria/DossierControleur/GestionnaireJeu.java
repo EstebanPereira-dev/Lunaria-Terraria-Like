@@ -112,11 +112,10 @@ public class GestionnaireJeu {
         double centreY = acteur.y.get();
         double rayon = 10;
 
-        // Calculer la position du point dans la direction spécifiée
+
         double pointX = centreX + directionX * rayon;
         double pointY = centreY + directionY * rayon;
 
-        // Convertir en indices de tuile
         int tuileX = (int) (pointX / tailleTuile);
         int tuileY = (int) (pointY / tailleTuile);
 
@@ -124,17 +123,14 @@ public class GestionnaireJeu {
     }
 
     private void miseAJourJeu() {
-        // Mettre à jour le sprite visuel
         Circle heroSprite = sprites.get(hero);
         if (heroSprite != null) {
             heroSprite.setTranslateX(hero.x.get());
             heroSprite.setTranslateY(hero.y.get());
         }
 
-        // Vérifier si au sol
         boolean auSol = estAuSol();
 
-        // Appliquer la gravité
         if (!auSol) {
             vitesseY += GRAVITE;
             if (vitesseY > 8.0) vitesseY = 8.0; // Limiter la vitesse de chute
@@ -182,7 +178,7 @@ public class GestionnaireJeu {
 
         for (int y = minTileY; y <= maxTileY; y++) {
             for (int x = minTileX; x <= maxTileX; x++) {
-                if (terrain.getTerrain()[y][x] != 0) { // 0 = CIEL
+                if (terrain.getTerrain()[y][x] != 0 && terrain.getTerrain()[y][x] != 5) { // 0 = CIEL 5 = Fond en bois
                     double tuileCentreX = x * TAILLE_TUILE + TAILLE_TUILE/2;
                     double tuileCentreY = y * TAILLE_TUILE + TAILLE_TUILE/2;
 
@@ -209,7 +205,8 @@ public class GestionnaireJeu {
 
         return tileY >= 0 && tileY < terrain.getHeight() &&
                 tileX >= 0 && tileX < terrain.getWidth() &&
-                terrain.getTerrain()[tileY][tileX] != 0;
+                terrain.getTerrain()[tileY][tileX] != 0 &&
+                terrain.getTerrain()[tileY][tileX] != 5;
     }
 
 
