@@ -39,7 +39,7 @@ public class GestionnaireMap {
 
                     // Vérifiez les ressources et utilisez le bon chemin
                     if (tile == 0)
-                        sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Blue.png"));
+                        sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Ciel.png"));
                      else
                         sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Terre.png"));
 
