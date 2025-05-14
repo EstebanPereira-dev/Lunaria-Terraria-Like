@@ -45,8 +45,8 @@ public class GestionnaireMap {
 
 
                     ImageView imageView = new ImageView(sprite);
-                    imageView.setFitHeight(12);
-                    imageView.setFitWidth(19);
+                    imageView.setFitHeight(32);
+                    imageView.setFitWidth(32);
 
                     panneauDeTuile.getChildren().add(imageView);
 
