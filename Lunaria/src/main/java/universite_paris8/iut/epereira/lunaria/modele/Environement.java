@@ -9,7 +9,6 @@ public class Environement {
     private int height;
     private final ObservableList<Acteur> acteurs = FXCollections.observableArrayList();
 
-
     public Environement(int width, int height){
         this.height = height;
         this.width = width;

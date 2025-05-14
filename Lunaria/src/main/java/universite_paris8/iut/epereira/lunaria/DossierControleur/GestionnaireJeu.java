@@ -9,6 +9,7 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
+import universite_paris8.iut.epereira.lunaria.modele.Terrain;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class GestionnaireJeu {
     private final Environement environnement;
     private final Map<Acteur, Circle> sprites = new HashMap<>();
     private final Acteur hero;
+    //private Terrain terrain;
 
     private double vitesseY = 0;
     private final double GRAVITE = 0.2;
@@ -28,6 +30,9 @@ public class GestionnaireJeu {
     private boolean toucheGauche = false;
     private boolean toucheDroite = false;
     private boolean toucheEspace = false;
+    private boolean toucheEchap = false;
+
+    private boolean jeuEnPause = false;
 
     private Timeline gameLoop;
 
@@ -43,8 +48,18 @@ public class GestionnaireJeu {
 
         configurerEvenements();
         creerBoucleDeJeu();
+
+//        this.terrain.setTerrain(new int[][] {
+//                {0, 0, 0, 0, 0, 0, 0},
+//                {0, 0, 0, 0, 0, 0, 0},
+//                {0, 0, 0, 0, 0, 0, 0},
+//                {0, 0, 0, 0, 0, 0, 0},
+//                {0, 0, 0, 0, 0, 0, 0},
+//                {1, 1, 1, 1, 1, 1, 1},
+//                {1, 1, 1, 1, 1, 1, 1}
+//        });
     }
-    // SERT A CONFIG
+    // PASSE LES FONCTION QUI APPELLE LES METHODE CI DESSOUS
     private void configurerEvenements() {
         zoneJeu.setFocusTraversable(true);
         zoneJeu.setOnKeyPressed(this::gererTouchePressee);
@@ -61,6 +76,13 @@ public class GestionnaireJeu {
                 break;
             case D:
                 toucheDroite = true;
+                break;
+            case ESCAPE:
+                jeuEnPause = !jeuEnPause;
+                if (jeuEnPause)
+                    arreter();
+                else
+                    demarrer();
                 break;
         }
     }
@@ -110,13 +132,14 @@ public class GestionnaireJeu {
             vitesseY = 0;
         }
 
-        if (toucheGauche) {
+        if (toucheGauche)
             hero.x.set(hero.x.get() - ((Hero)hero).getV());
-        }
-        if (toucheDroite) {
+
+        if (toucheDroite)
             hero.x.set(hero.x.get() + ((Hero)hero).getV());
-        }
+
     }
+
 
     public Circle creerSprite(Acteur a) {
         Circle r = new Circle(10);

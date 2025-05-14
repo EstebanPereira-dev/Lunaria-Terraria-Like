@@ -8,26 +8,19 @@ public class Terrain {
     public Terrain(int width, int height){
         this.width=width;
         this.height=height;
-        this.terrain=new int[width][height];
+
     }
 
-    public void setTerrain(){
-      for (int ligne= 0;ligne<this.width;ligne++) {
-          for (int colonne = 0; colonne < this.height; colonne++) {
-
-          }
-      }
+    public void setTerrain(int [][] terrain){
+      this.terrain = terrain;
     }
+
     public int getWidth(){
         return this.width;
     }
 
     public int getHeight() {
         return this.height;
-    }
-
-    public int[][] getTerrain() {
-        return terrain;
     }
 
     public String toString(){
