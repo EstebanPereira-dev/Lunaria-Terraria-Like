@@ -15,18 +15,32 @@ public class Controleur implements Initializable {
 
     @FXML
     private Pane tabJeu;
+    private Terrain terrain;
     private GestionnaireJeu gestionnaireJeu;
-    GestionnaireMap gestionMap;
+    private GestionnaireMap gestionMap;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        gestionnaireJeu = new GestionnaireJeu(tabJeu);
-        Platform.runLater(() -> {
-            tabJeu.requestFocus();
-        });
-        gestionnaireJeu.demarrer();
-        gestionMap= new GestionnaireMap(tilePaneId);
-        gestionMap.chargerTiles(gestionMap.getCarte());
-    }
+        try {
+            terrain = new Terrain(70, 70);
+            gestionnaireJeu = new GestionnaireJeu(tabJeu);
+            gestionMap = new GestionnaireMap(tilePaneId, terrain);
 
+            Platform.runLater(() -> {
+                try {
+                    gestionMap.chargerTiles(terrain);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            Platform.runLater(() -> {
+                tabJeu.requestFocus();
+                gestionnaireJeu.demarrer();
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

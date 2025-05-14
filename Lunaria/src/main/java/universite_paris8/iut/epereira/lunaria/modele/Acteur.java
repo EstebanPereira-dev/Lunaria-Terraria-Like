@@ -33,7 +33,7 @@ public abstract class Acteur {
     public Acteur(Environement env){
         this.env = env;
         pv = 100;
-        this.v = 10;
+        this.v = 1;
         this.x = new SimpleDoubleProperty(100); // a definir
         this.y = new SimpleDoubleProperty(100); // a definir
         degat = 5;

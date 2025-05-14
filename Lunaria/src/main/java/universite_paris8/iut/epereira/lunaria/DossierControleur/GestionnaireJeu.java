@@ -25,7 +25,7 @@ public class GestionnaireJeu {
 
     private double vitesseY = 0;
     private final double GRAVITE = 0.2;
-    private final double SAUT = -10;
+    private final double SAUT = -5;
 
     private boolean toucheGauche = false;
     private boolean toucheDroite = false;
