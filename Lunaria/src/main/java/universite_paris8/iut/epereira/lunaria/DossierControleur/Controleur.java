@@ -25,7 +25,7 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-            terrain = new Terrain(25, 19);
+            terrain = new Terrain(22, 16);
             gestionnaireJeu = new GestionnaireJeu(tabJeu,pauseID);
             gestionMap = new GestionnaireMap(tilePaneId, terrain);
 

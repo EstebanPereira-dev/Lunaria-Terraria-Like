@@ -8,7 +8,6 @@ public class Item {
     private String id;
     private boolean condition;
 
-
     public Item(String nom, int quantite, String description){
         this.description = description;
         this.nom = nom;
@@ -17,8 +16,6 @@ public class Item {
         item_ID++;
         condition = false;
     }
-
-
 
     public String getNom() {
         return nom;

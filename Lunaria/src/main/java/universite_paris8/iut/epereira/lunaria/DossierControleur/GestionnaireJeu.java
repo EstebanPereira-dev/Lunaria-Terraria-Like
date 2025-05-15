@@ -12,7 +12,7 @@ import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Terrain;
-import universite_paris8.iut.epereira.lunaria.modele.acteurs.Damnés;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
 
@@ -31,7 +31,7 @@ public class GestionnaireJeu {
 
     private double vitesseY = 0;
     private final double GRAVITE = 0.2;
-    private final double SAUT = -5;
+    private final double SAUT = -10;
     private final int TAILLE_TUILE = 32;
 
     private boolean toucheGauche = false;
@@ -45,19 +45,16 @@ public class GestionnaireJeu {
 
     public GestionnaireJeu(Pane zoneJeu, TextArea pauseID) {
         this.zoneJeu = zoneJeu;
-        this.environnement = new Environement(800, 608);
-        this.terrain = new Terrain(25, 19); // Création du terrain
-        this.hero = new Hero(environnement);
+        this.environnement = new Environement(704, 512);
+        this.terrain = new Terrain(22, 16); // Création du terrain
         this.pauseID = pauseID;
 
-        Circle heroSprite = creerSprite(hero);
-        sprites.put(hero, heroSprite);
-        zoneJeu.getChildren().add(heroSprite);
-        environnement.ajouter(hero);
+        hero = new Hero(environnement);
+        ajouterActeur(hero);
+        ajouterActeur(new Adepte(environnement,100,380));
 
         configurerEvenements();
         creerBoucleDeJeu();
-        ajouterActeur(new Damnés(20,1,1,environnement,200,100));
 
 
     }
@@ -129,21 +126,6 @@ public class GestionnaireJeu {
         gameLoop.setCycleCount(Animation.INDEFINITE);
     }
 
-    private boolean estEnCollisionDirection(Acteur acteur, int tailleTuile, int directionX, int directionY) {
-        double centreX = acteur.x.get();
-        double centreY = acteur.y.get();
-        double rayon = 10;
-
-
-        double pointX = centreX + directionX * rayon;
-        double pointY = centreY + directionY * rayon;
-
-        int tuileX = (int) (pointX / tailleTuile);
-        int tuileY = (int) (pointY / tailleTuile);
-
-        return terrain.estTangible(tuileY, tuileX);
-    }
-
     private void miseAJourJeu() {
         Circle heroSprite = sprites.get(hero);
         if (heroSprite != null) {
@@ -155,7 +137,7 @@ public class GestionnaireJeu {
 
         if (!auSol) {
             vitesseY += GRAVITE;
-            if (vitesseY > 8.0) vitesseY = 8.0; // Limiter la vitesse de chute
+            if (vitesseY > 8.0) vitesseY = 8.0;
         } else if (vitesseY > 0) {
             vitesseY = 0;
         }
@@ -207,8 +189,7 @@ public class GestionnaireJeu {
                     double distX = Math.abs(centreX - tuileCentreX);
                     double distY = Math.abs(centreY - tuileCentreY);
 
-                    if (distX < (TAILLE_TUILE/2 + rayon - 2) &&
-                            distY < (TAILLE_TUILE/2 + rayon - 2)) {
+                    if (distX < (TAILLE_TUILE/2 + rayon - 2) && distY < (TAILLE_TUILE/2 + rayon - 2)) {
                         return true;
                     }
                 }
@@ -216,7 +197,7 @@ public class GestionnaireJeu {
         }
         return false;
     }
-
+    //  Bloc tangible ou pas a mettre dans terrain.getTerrain()[tileY][tileX] != x
     private boolean estAuSol() {
 
         double centreX = hero.x.get();
@@ -263,7 +244,6 @@ public class GestionnaireJeu {
         zoneJeu.getChildren().add(sprite);
         environnement.ajouter(acteur);
     }
-
 
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
