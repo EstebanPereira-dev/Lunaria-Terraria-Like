@@ -36,6 +36,7 @@ public class GestionnaireJeu {
     private boolean toucheEspace = false;
 
     private boolean jeuEnPause = false;
+    private boolean inventaireOuvert = false;
 
     private Timeline gameLoop;
 
@@ -81,6 +82,15 @@ public class GestionnaireJeu {
                 } else {
                     demarrer();
                     pauseID.setVisible( false );
+                }
+                break;
+            case I:
+                inventaireOuvert = !inventaireOuvert;
+                if(inventaireOuvert){
+
+                }
+                else{
+
                 }
                 break;
         }

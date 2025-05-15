@@ -40,6 +40,10 @@ public class Item {
         return condition;
     }
 
+
+
+
+
     @Override
     public String toString() {
         return nom + "\n" + description + "\n";
