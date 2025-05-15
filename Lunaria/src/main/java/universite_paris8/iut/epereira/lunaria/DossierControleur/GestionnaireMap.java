@@ -20,11 +20,6 @@ public class GestionnaireMap {
 
     public void chargerTiles(Terrain terrain) {
 
-        if (panneauDeTuile == null || terrain == null || terrain.getTerrain() == null) {
-            System.err.println("Erreur: panneauDeTuile ou terrain est null");
-            return;
-        }
-
         panneauDeTuile.getChildren().clear();
 
         int[][] mapData = terrain.getTerrain();
@@ -33,22 +28,21 @@ public class GestionnaireMap {
 
         for (int i = 0; i < terrain.getHeight(); i++) {
             for (int j = 0; j < terrain.getWidth(); j++) {
-                try {
                     int tile = mapData[i][j];
                     Image sprite;
 
                     if (tile == 0)
                         sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png"));
-                     else if (tile ==1)
+                    else if (tile ==1)
                         sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Terre.png"));
-                     else if (tile ==2)
+                    else if (tile ==2)
                         sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Herbe.png"));
-                     else if (tile ==3)
+                    else if (tile ==3)
                         sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
-                      else if (tile ==4)
-                    sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
-                     else
-                    sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
+                    else if (tile ==4)
+                        sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
+                    else
+                        sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
 
                     ImageView imageView = new ImageView(sprite);
                     imageView.setFitHeight(32);
@@ -56,10 +50,6 @@ public class GestionnaireMap {
 
                     panneauDeTuile.getChildren().add(imageView);
 
-                } catch (Exception e) {
-                    System.out.println("Erreur lors du chargement de la tuile [" + i + "," + j + "]: " + e.getMessage());
-                    e.printStackTrace();
-                }
             }
         }
     }

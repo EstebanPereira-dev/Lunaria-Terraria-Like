@@ -33,7 +33,7 @@ public abstract class Acteur {
     public Acteur(Environement env){
         this.env = env;
         pv = 100;
-        this.v = 10;
+        this.v = 7;
         this.x = new SimpleDoubleProperty(100); // a definir
         this.y = new SimpleDoubleProperty(100); // a definir
         degat = 5;
@@ -58,6 +58,14 @@ public abstract class Acteur {
     }
     public DoubleProperty getYProperty() {
         return y;
+    }
+
+    public double getX() {
+        return x.get();
+    }
+
+    public double getY() {
+        return y.get();
     }
 
     public String getId() {

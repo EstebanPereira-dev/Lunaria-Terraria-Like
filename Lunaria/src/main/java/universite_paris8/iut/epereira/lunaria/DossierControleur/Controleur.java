@@ -28,20 +28,19 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-            terrain = new Terrain(22, 16);
-            gestionnaireJeu = new GestionnaireJeu(tabJeu,pauseID,inventaire);
-            gestionMap = new GestionnaireMap(tilePaneId, terrain);
+        terrain = new Terrain(22, 16);
+        gestionnaireJeu = new GestionnaireJeu(tabJeu,pauseID,inventaire);
+        gestionMap = new GestionnaireMap(tilePaneId, terrain);
 
-            gestionnaireJeu.setTerrain(terrain);
+        gestionnaireJeu.setTerrain(terrain);
 
-            Platform.runLater(() -> {
+        Platform.runLater(() -> {
+            gestionMap.chargerTiles(terrain);
+        });
 
-                    gestionMap.chargerTiles(terrain);
-            });
-
-            Platform.runLater(() -> {
-                tabJeu.requestFocus();
-                gestionnaireJeu.demarrer();
-            });
+        Platform.runLater(() -> {
+            tabJeu.requestFocus();
+            gestionnaireJeu.demarrer();
+        });
     }
 }

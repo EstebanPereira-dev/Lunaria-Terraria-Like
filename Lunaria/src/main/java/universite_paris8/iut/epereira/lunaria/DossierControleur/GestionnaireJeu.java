@@ -3,12 +3,8 @@ package universite_paris8.iut.epereira.lunaria.DossierControleur;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Circle;
@@ -215,10 +211,16 @@ public class GestionnaireJeu {
         double centreY = acteur.y.get();
         double rayon = 10;
 
+        // Les fonctions Math.max/min assurent que le hero reste dans les limites du terrain.
+
         int minTileX = Math.max(0, (int) ((centreX - rayon) / TAILLE_TUILE));
         int maxTileX = Math.min(terrain.getWidth() - 1, (int) ((centreX + rayon) / TAILLE_TUILE));
         int minTileY = Math.max(0, (int) ((centreY - rayon) / TAILLE_TUILE));
         int maxTileY = Math.min(terrain.getHeight() - 1, (int) ((centreY + rayon) / TAILLE_TUILE));
+
+        //Si la tuile est solide, on calcule :
+        //La position centrale de la tuile (tuileCentreX, tuileCentreY)
+        //La distance entre le centre de l'acteur et le centre de la tuile (distX, distY)
 
         for (int y = minTileY; y <= maxTileY; y++) {
             for (int x = minTileX; x <= maxTileX; x++) {
@@ -245,8 +247,7 @@ public class GestionnaireJeu {
         int tileX = (int) (centreX / TAILLE_TUILE);
         int tileY = (int) (testY / TAILLE_TUILE);
 
-        return tileY >= 0 && tileY < terrain.getHeight() &&
-                tileX >= 0 && tileX < terrain.getWidth() &&
+        return tileY >= 0 && tileY < terrain.getHeight() && tileX >= 0 && tileX < terrain.getWidth() &&
                 terrain.getTerrain()[tileY][tileX] != 0 &&
                 terrain.getTerrain()[tileY][tileX] != 5;
     }
