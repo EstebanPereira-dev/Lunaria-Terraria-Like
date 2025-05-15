@@ -4,8 +4,8 @@ import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 
 public class Lycanthrope extends Acteur {
-    public Lycanthrope(int pv, int v, int degat, Environement env) {
-        super(pv, v, degat, env);
+    public Lycanthrope(int pv, int v, int degat, Environement env, double x, double y) {
+        super(pv, v, degat, env,x,y);
     }
 
     // Invocation ou autre type de condition

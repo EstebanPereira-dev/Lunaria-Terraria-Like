@@ -19,14 +19,14 @@ public abstract class Acteur {
     private int degat;
 
 
-    public Acteur(int pv, int v, int degat, Environement env){
+    public Acteur(int pv, int v, int degat, Environement env, double x, double y){
         this.pv = pv;
         this.v = v;
         this.degat = degat;
         id = "A"+compteur;
         compteur++;
-        this.x = new SimpleDoubleProperty(random.nextInt(env.getWidth()-1));
-        this.y = new SimpleDoubleProperty(random.nextInt(env.getHeight()-1));
+        this.x = new SimpleDoubleProperty(x);//random.nextInt(env.getWidth()-1));
+        this.y = new SimpleDoubleProperty(y);//random.nextInt(env.getHeight()-1));
     }
 
     // Main character

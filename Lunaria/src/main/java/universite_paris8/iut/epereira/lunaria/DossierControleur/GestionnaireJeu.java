@@ -12,7 +12,9 @@ import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Terrain;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.Damnés;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +27,7 @@ public class GestionnaireJeu {
     private final Map<Acteur, Circle> sprites = new HashMap<>();
     private final Acteur hero;
     private Terrain terrain;
+
 
     private double vitesseY = 0;
     private final double GRAVITE = 0.2;
@@ -54,6 +57,9 @@ public class GestionnaireJeu {
 
         configurerEvenements();
         creerBoucleDeJeu();
+        ajouterActeur(new Damnés(20,1,1,environnement,200,100));
+
+
     }
 
     // Configuration des événements
@@ -66,6 +72,9 @@ public class GestionnaireJeu {
     private void gererTouchePressee(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE:
+                toucheEspace = true;
+                break;
+            case Z:
                 toucheEspace = true;
                 break;
             case Q:
@@ -99,6 +108,9 @@ public class GestionnaireJeu {
     private void gererToucheRelachee(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE:
+                toucheEspace = false;
+                break;
+            case Z:
                 toucheEspace = false;
                 break;
             case Q:
@@ -251,6 +263,7 @@ public class GestionnaireJeu {
         zoneJeu.getChildren().add(sprite);
         environnement.ajouter(acteur);
     }
+
 
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
