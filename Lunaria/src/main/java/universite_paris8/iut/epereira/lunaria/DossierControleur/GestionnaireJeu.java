@@ -3,10 +3,14 @@ package universite_paris8.iut.epereira.lunaria.DossierControleur;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
@@ -23,8 +27,11 @@ public class GestionnaireJeu {
     private final Pane zoneJeu;
     private final Environement environnement;
     private final Map<Acteur, Circle> sprites = new HashMap<>();
-    private final Acteur hero;
+    private final Hero hero;
     private Terrain terrain;
+
+    private Pane inventaire;
+    private GridPane inventaire2;
 
     private double vitesseY = 0;
     private final double GRAVITE = 0.2;
@@ -36,16 +43,17 @@ public class GestionnaireJeu {
     private boolean toucheEspace = false;
 
     private boolean jeuEnPause = false;
-    private boolean inventaireOuvert = false;
+    private boolean test = false;
 
     private Timeline gameLoop;
 
-    public GestionnaireJeu(Pane zoneJeu, TextArea pauseID) {
+    public GestionnaireJeu(Pane zoneJeu, TextArea pauseID, TilePane inventaire) {
         this.zoneJeu = zoneJeu;
         this.environnement = new Environement(800, 608);
         this.terrain = new Terrain(25, 19); // Création du terrain
         this.hero = new Hero(environnement);
         this.pauseID = pauseID;
+        this.inventaire = inventaire;
 
         Circle heroSprite = creerSprite(hero);
         sprites.put(hero, heroSprite);
@@ -61,6 +69,10 @@ public class GestionnaireJeu {
         zoneJeu.setFocusTraversable(true);
         zoneJeu.setOnKeyPressed(this::gererTouchePressee);
         zoneJeu.setOnKeyReleased(this::gererToucheRelachee);
+    }
+
+    private void gereInventaire(){
+
     }
 
     private void gererTouchePressee(KeyEvent event) {
@@ -85,12 +97,18 @@ public class GestionnaireJeu {
                 }
                 break;
             case I:
-                inventaireOuvert = !inventaireOuvert;
-                if(inventaireOuvert){
+                if(jeuEnPause){
 
                 }
-                else{
-
+                else {
+                    test = !test;
+                    if (test) {
+                        inventaire.setVisible(true);
+                        inventaire.setDisable(false);
+                    } else {
+                        inventaire.setVisible(false);
+                        inventaire.setDisable(true);
+                    }
                 }
                 break;
         }
@@ -268,4 +286,16 @@ public class GestionnaireJeu {
     public Terrain getTerrain() {
         return terrain;
     }
+
+
+    public boolean ouvrirInventaire(boolean inventaireOuvert){
+        inventaire.setDisable(inventaireOuvert);
+        return !inventaireOuvert;
+    }
+
+
+
+
+
+
 }
