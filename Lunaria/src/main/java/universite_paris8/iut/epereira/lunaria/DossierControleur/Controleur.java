@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import universite_paris8.iut.epereira.lunaria.modele.Terrain;
@@ -29,7 +28,7 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-            terrain = new Terrain(25, 19);
+            terrain = new Terrain(22, 16);
             gestionnaireJeu = new GestionnaireJeu(tabJeu,pauseID,inventaire);
             gestionMap = new GestionnaireMap(tilePaneId, terrain);
 
