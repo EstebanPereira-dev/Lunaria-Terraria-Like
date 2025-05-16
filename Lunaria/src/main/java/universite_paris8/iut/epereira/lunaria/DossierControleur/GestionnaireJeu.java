@@ -20,6 +20,7 @@ import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class GestionnaireJeu {
 
@@ -47,6 +48,7 @@ public class GestionnaireJeu {
 
     private Timeline gameLoop;
 
+    static Random rdm = new Random();
     public GestionnaireJeu(Pane zoneJeu, TextArea pauseID, TilePane inventaire) {
         this.zoneJeu = zoneJeu;
         this.environnement = new Environement(704, 512);
