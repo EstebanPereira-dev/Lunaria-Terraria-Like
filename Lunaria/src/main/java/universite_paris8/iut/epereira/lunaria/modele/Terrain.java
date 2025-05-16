@@ -36,30 +36,29 @@ public class Terrain {
     }
 
     public boolean estEnCollision(Acteur acteur) {
-        double centreX = acteur.x.get();
-        double centreY = acteur.y.get();
+        double centreX = acteur.getPosX();
+        double centreY = acteur.getPosY();
         double rayon = 10;
 
-        // Les fonctions Math.max/min assurent que le hero reste dans les limites du terrain.
-
+        // Calculer les limites de tuiles à vérifier
         int minTileX = Math.max(0, (int) ((centreX - rayon) / TAILLE_TUILE));
         int maxTileX = Math.min(getWidth() - 1, (int) ((centreX + rayon) / TAILLE_TUILE));
         int minTileY = Math.max(0, (int) ((centreY - rayon) / TAILLE_TUILE));
         int maxTileY = Math.min(getHeight() - 1, (int) ((centreY + rayon) / TAILLE_TUILE));
 
-        //Si la tuile est solide, on calcule :
-        //La position centrale de la tuile (tuileCentreX, tuileCentreY)
-        //La distance entre le centre de l'acteur et le centre de la tuile (distX, distY)
-
+        // Vérifier les tuiles aux bords du cercle de collision
         for (int y = minTileY; y <= maxTileY; y++) {
             for (int x = minTileX; x <= maxTileX; x++) {
+                // Vérifier uniquement les tuiles solides (pas d'air ni de bois)
                 if (getTableau()[y][x] != 0 && getTableau()[y][x] != 5) {
                     double tuileCentreX = x * TAILLE_TUILE + TAILLE_TUILE / 2;
                     double tuileCentreY = y * TAILLE_TUILE + TAILLE_TUILE / 2;
 
+                    // Calcul de distance optimisé
                     double distX = Math.abs(centreX - tuileCentreX);
                     double distY = Math.abs(centreY - tuileCentreY);
 
+                    // Test de collision avec une petite marge de tolérance
                     if (distX < (TAILLE_TUILE / 2 + rayon - 2) && distY < (TAILLE_TUILE / 2 + rayon - 2)) {
                         return true;
                     }
@@ -68,16 +67,31 @@ public class Terrain {
         }
         return false;
     }
+
+
     public boolean estAuSol(Acteur a) {
-        double centreX = a.x.get();
-        double testY = a.y.get() + 11; // 10 (rayon) + 1
+        double centreX = a.getPosX();
+        double centreY = a.getPosY();
+        double rayon = 10;
 
-        int tileX = (int) (centreX / TAILLE_TUILE);
-        int tileY = (int) (testY / TAILLE_TUILE);
+        double testY = centreY + rayon + 1;
 
-        return tileY >= 0 && tileY < getHeight() && tileX >= 0 && tileX < getWidth() &&
-                getTableau()[tileY][tileX] != 0 &&
-                getTableau()[tileY][tileX] != 5;
+        int[] pointsToCheck = {-5, 0, 5};
+
+        for (int offset : pointsToCheck) {
+            double testX = centreX + offset;
+            int tileX = (int) (testX / TAILLE_TUILE);
+            int tileY = (int) (testY / TAILLE_TUILE);
+
+            if (tileY >= 0 && tileY < getHeight() && tileX >= 0 && tileX < getWidth()) {
+                int tileType = getTableau()[tileY][tileX];
+                if (tileType != 0 && tileType != 5) {
+                    return true;
+                }
+            }
+        }
+
+        return false; // Aucun point n'est au sol
     }
 
     private void initTangibilite() {

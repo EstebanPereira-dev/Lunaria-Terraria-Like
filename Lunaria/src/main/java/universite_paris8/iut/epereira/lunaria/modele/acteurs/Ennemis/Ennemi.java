@@ -8,4 +8,9 @@ public class Ennemi extends Acteur {
         super(75,2,20,env,x,y);
     }
 
+    @Override
+    public void deplacement(){
+        appliquerGravite();
+        deplacerVerticalement();
+    }
 }

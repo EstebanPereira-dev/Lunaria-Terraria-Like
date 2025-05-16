@@ -26,37 +26,25 @@ public class Hero extends Acteur {
         actions.add(inventaire);
         actions.add(pause);
     }
-    public void action(){
-        double vitesseX = 0;
-        if (gauche) vitesseX -= (this).getVitesseX();
-        if (droite) vitesseX += (this).getVitesseX();
+    @Override
+    public void deplacement() {
+        haut = actions.get(0);
+        droite = actions.get(2);
+        gauche = actions.get(3);
 
-        if (!auSol) {
-            vitesseY += GRAVITE;
-            if (vitesseY > 8.0) vitesseY = 8.0;
-        }
+        appliquerGravite();
 
         if (haut && auSol) {
             vitesseY = SAUT;
+            auSol = false;
         }
 
-        double oldX = x.get();
-        double oldY = y.get();
+        deplacerVerticalement();
 
-        if (vitesseX != 0) {
-            x.set(oldX + vitesseX);
-            if (collision) {
-                x.set(oldX);
-            }
-        }
-
-        if (vitesseY != 0) {
-            y.set(oldY + vitesseY);
-            if (collision) {
-                y.set(oldY);
-                vitesseY = 0;
-            }
-        }
+        double deltaX = 0;
+        if (gauche) deltaX -= getVitesseX();
+        if (droite) deltaX += getVitesseX();
+        deplacerHorizontalement(deltaX);
     }
 
     public InventaireJoueur getInv() {

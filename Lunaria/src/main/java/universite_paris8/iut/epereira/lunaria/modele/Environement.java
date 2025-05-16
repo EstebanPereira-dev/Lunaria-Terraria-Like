@@ -2,6 +2,7 @@ package universite_paris8.iut.epereira.lunaria.modele;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ public class Environement {
     public Environement(int width, int height){
         this.terrain = new Terrain(width/TAILLE_TUILE,height/TAILLE_TUILE, TAILLE_TUILE);
         this.hero = new Hero(this);
+        Acteur a1 = new Adepte(500,100,this);
         acteurs = new ArrayList<>();
+        acteurs.add(a1);
         acteurs.add(hero);
         this.height = height;
         this.width = width;

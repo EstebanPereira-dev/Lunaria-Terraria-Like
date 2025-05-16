@@ -42,7 +42,10 @@ public class GestionnaireJeu {
         this.env = env;
 
         ajouterActeurVue(env.getHero());
-        ajouterActeurVue(new Adepte(100, 100,env));
+        for (Acteur a : env.getActeurs()) {
+            ajouterActeurVue(a);
+        }
+
 
         configurerEvenements();
         creerBoucleDeJeu();
@@ -50,7 +53,6 @@ public class GestionnaireJeu {
 
     }
 
-    // Configuration des événements
     private void configurerEvenements() {
         zoneJeu.setFocusTraversable(true);
         zoneJeu.setOnKeyPressed(this::gererTouchePressee);
@@ -116,15 +118,14 @@ public class GestionnaireJeu {
 
     private void creerBoucleDeJeu() {
         gameLoop = new Timeline(
-                new KeyFrame(Duration.millis(16), e -> miseAJourJeu())
+                new KeyFrame(Duration.millis(15), e -> miseAJourJeu())
         );
         gameLoop.setCycleCount(Animation.INDEFINITE);
     }
 
     private void miseAJourJeu() {
         for (Acteur a : env.getActeurs()){
-            a.physique();
-            ((Hero) a).action();
+            a.deplacement();
         }
     }
 
