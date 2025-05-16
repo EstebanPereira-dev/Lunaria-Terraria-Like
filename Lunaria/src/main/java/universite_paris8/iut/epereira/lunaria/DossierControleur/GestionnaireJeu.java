@@ -32,7 +32,8 @@ public class GestionnaireJeu {
     private ArrayList<Ennemi> ennemis;
     private ArrayList<Acteur> acteurs;
     private TilePane inventaire;
-    private double vitesseY = 0;
+    private double vitesseYHero = 0;
+    private double vitesseYEnnemi = 0;
     private final double GRAVITE = 0.2;
     private final double SAUT = -10;
     private final int TAILLE_TUILE = 32;
@@ -149,17 +150,20 @@ public class GestionnaireJeu {
                 sprite.setTranslateX(a.x.get());
                 sprite.setTranslateY(a.y.get());
             }
-
+            double oldY = a.y.get();
             boolean auSol = estAuSol(a);
 
-            if (a instanceof Ennemi) {
-                Ennemi ennemi = (Ennemi) a;
+            if (a instanceof Ennemi ennemi) {
                 if (!auSol) {
+                    vitesseYEnnemi += GRAVITE;
+                    if (vitesseYEnnemi > 8.0) vitesseYEnnemi = 8.0;
+                }
 
-                    ennemi.y.set(ennemi.y.get() + GRAVITE);
-
+                if (vitesseYEnnemi != 0) {
+                    ennemi.y.set(oldY + vitesseYEnnemi);
                     if (estEnCollision(ennemi)) {
-                        ennemi.y.set(ennemi.y.get() - GRAVITE);
+                        ennemi.y.set(oldY);
+                        vitesseYEnnemi = 0;
                     }
                 }
             }
@@ -168,14 +172,12 @@ public class GestionnaireJeu {
         boolean heroAuSol = estAuSol(hero);
 
         if (!heroAuSol) {
-            vitesseY += GRAVITE;
-            if (vitesseY > 8.0) vitesseY = 8.0;
-        } else if (vitesseY > 0) {
-            vitesseY = 0;
+            vitesseYHero += GRAVITE;
+            if (vitesseYHero > 8.0) vitesseYHero = 8.0;
         }
 
         if (toucheEspace && heroAuSol) {
-            vitesseY = SAUT;
+            vitesseYHero = SAUT;
         }
 
         double oldX = hero.x.get();
@@ -192,18 +194,14 @@ public class GestionnaireJeu {
             }
         }
 
-        if (vitesseY != 0) {
-            hero.y.set(oldY + vitesseY);
+        if (vitesseYHero != 0) {
+            hero.y.set(oldY + vitesseYHero);
             if (estEnCollision(hero)) {
                 hero.y.set(oldY);
-                vitesseY = 0;
+                vitesseYHero = 0;
             }
         }
     }
-
-
-
-
 
 
     private boolean estEnCollision(Acteur acteur) {
