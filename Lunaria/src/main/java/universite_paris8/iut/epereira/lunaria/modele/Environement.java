@@ -15,12 +15,12 @@ public class Environement {
     private int height;
     //private final ObservableList<Acteur> acteurs = FXCollections.observableArrayList();
     private ArrayList<Acteur> acteurs;
-    private final int TAILLE_TUILE = 32;
+    private final int TAILLE_TUILE = 16;
 
     public Environement(int width, int height){
         this.terrain = new Terrain(width/TAILLE_TUILE,height/TAILLE_TUILE, TAILLE_TUILE);
         this.hero = new Hero(this);
-        Acteur a1 = new Adepte(500,100,this);
+        Acteur a1 = new Adepte(650,100,this);
         acteurs = new ArrayList<>();
         acteurs.add(a1);
         acteurs.add(hero);
@@ -54,6 +54,10 @@ public class Environement {
 
     public char getCylceJourNuit() {
         return cylceJourNuit;
+    }
+
+    public int getTAILLE_TUILE() {
+        return TAILLE_TUILE;
     }
 
     public Hero getHero() {

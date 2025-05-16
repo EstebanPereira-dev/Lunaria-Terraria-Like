@@ -130,7 +130,7 @@ public class GestionnaireJeu {
     }
 
     public Circle creerSprite(Acteur a) {
-        Circle r = new Circle(10);
+        Circle r = new Circle(8);
         if (a instanceof Hero) {
             r.setFill(javafx.scene.paint.Color.LIGHTGOLDENRODYELLOW);
             r.setId("Hero");

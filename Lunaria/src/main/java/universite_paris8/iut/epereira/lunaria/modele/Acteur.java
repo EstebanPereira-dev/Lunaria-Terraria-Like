@@ -26,7 +26,7 @@ public abstract class Acteur {
 
     public boolean collision;
     public boolean auSol;
-    public double SAUT = -10;
+    public double SAUT = -5;
 
     public Acteur(int pv, int v, int degat, Environement env, double x, double y) {
         this.pv = pv;
