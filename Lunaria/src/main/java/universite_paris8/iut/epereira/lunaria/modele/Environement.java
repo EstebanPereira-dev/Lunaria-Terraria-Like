@@ -2,14 +2,25 @@ package universite_paris8.iut.epereira.lunaria.modele;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+
+import java.util.ArrayList;
 
 public class Environement {
+    private Terrain terrain;
+    private Hero hero;
     private char cylceJourNuit;
     private int width;
     private int height;
-    private final ObservableList<Acteur> acteurs = FXCollections.observableArrayList();
+    //private final ObservableList<Acteur> acteurs = FXCollections.observableArrayList();
+    private ArrayList<Acteur> acteurs;
+    private final int TAILLE_TUILE = 32;
 
     public Environement(int width, int height){
+        this.terrain = new Terrain(width/TAILLE_TUILE,height/TAILLE_TUILE, TAILLE_TUILE);
+        this.hero = new Hero(this);
+        acteurs = new ArrayList<>();
+        acteurs.add(hero);
         this.height = height;
         this.width = width;
     }
@@ -20,7 +31,7 @@ public class Environement {
         return height;
     }
 
-    public ObservableList<Acteur> getActeurs() {
+    public ArrayList<Acteur> getActeurs() {
         return acteurs;
     }
     public Acteur getActeur(String id) {
@@ -42,6 +53,10 @@ public class Environement {
         return cylceJourNuit;
     }
 
-
-
+    public Hero getHero() {
+        return hero;
+    }
+    public Terrain getTerrain() {
+        return terrain;
+    }
 }

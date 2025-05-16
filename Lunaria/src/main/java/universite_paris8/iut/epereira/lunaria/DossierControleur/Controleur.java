@@ -5,15 +5,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Terrain;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controleur implements Initializable {
     @FXML
-    private TilePane inventaire;
+    private GridPane inventaire;
     @FXML
     private TilePane tilePaneId;
     @FXML
@@ -21,21 +23,19 @@ public class Controleur implements Initializable {
     @FXML
     private Pane tabJeu;
 
-    private Terrain terrain;
+    private Environement env;
     private GestionnaireJeu gestionnaireJeu;
     private GestionnaireMap gestionMap;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        terrain = new Terrain(22, 16);
-        gestionnaireJeu = new GestionnaireJeu(tabJeu,pauseID,inventaire);
-        gestionMap = new GestionnaireMap(tilePaneId, terrain);
-
-        gestionnaireJeu.setTerrain(terrain);
+        env = new Environement(704,512);
+        gestionnaireJeu = new GestionnaireJeu(tabJeu,pauseID,inventaire,env);
+        gestionMap = new GestionnaireMap(tilePaneId, env);
 
         Platform.runLater(() -> {
-            gestionMap.chargerTiles(terrain);
+            gestionMap.chargerTiles(env.getTerrain());
         });
 
         Platform.runLater(() -> {

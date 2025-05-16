@@ -3,16 +3,19 @@ package universite_paris8.iut.epereira.lunaria.DossierControleur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
+import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Terrain;
 
 public class GestionnaireMap {
-    private Terrain carte;
+    private Terrain tableau;
     private TilePane panneauDeTuile;
     private Image image;
+    private Environement env;
     ImageView vue;
 
-    public GestionnaireMap(TilePane panneauDeTuile, Terrain carte) {
-        this.carte = carte;
+    public GestionnaireMap(TilePane panneauDeTuile, Environement env) {
+        this.env = env;
+        tableau = env.getTerrain();
         this.panneauDeTuile = panneauDeTuile;
         this.image = null;
         this.vue = null;
@@ -22,7 +25,7 @@ public class GestionnaireMap {
 
         panneauDeTuile.getChildren().clear();
 
-        int[][] mapData = terrain.getTerrain();
+        int[][] mapData = terrain.getTableau();
 
         System.out.println("Dimensions du terrain: " + terrain.getWidth() + "x" + terrain.getHeight());
 
@@ -54,7 +57,7 @@ public class GestionnaireMap {
         }
     }
 
-    public Terrain getCarte() {
-        return carte;
+    public Terrain getTableau() {
+        return tableau;
     }
 }
