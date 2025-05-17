@@ -24,7 +24,6 @@ public class GestionnaireMap {
         tableau = env.getTerrain();
         this.panneauDeTuile = panneauDeTuile;
 
-        // Chargement des images une seule fois
         imageVide = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png"));
         imageTerre = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Terre.png"));
         imageHerbe = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Herbe.png"));

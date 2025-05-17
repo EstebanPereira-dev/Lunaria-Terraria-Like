@@ -50,7 +50,7 @@ public abstract class Acteur {
     public Acteur(Environement env) {
         this.env = env;
         pv = 100;
-        this.vitesseX = 7;
+        this.vitesseX = 2;
 
         this.posX = 100;
         this.posY = 100;

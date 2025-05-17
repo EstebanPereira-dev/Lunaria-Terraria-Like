@@ -1,7 +1,5 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
-import javafx.scene.control.Tab;
-
 public class Terrain {
     private int width;
     private int height;
@@ -9,7 +7,10 @@ public class Terrain {
     private boolean[][] tangibilite;
     private int TAILLE_TUILE;
 
-    public Terrain(int width, int height,int TAILLE_TUILE) {
+    // Définir facilement quels types de tuiles sont non tangibles
+    private static final int[] TUILES_NON_TANGIBLES = {0, 3, 5}; // Vide, Buisson, Bois
+
+    public Terrain(int width, int height, int TAILLE_TUILE) {
         this.TAILLE_TUILE = TAILLE_TUILE;
         this.width = width;
         this.height = height;
@@ -51,6 +52,25 @@ public class Terrain {
         initTangibilite();
     }
 
+    private void initTangibilite() {
+        this.tangibilite = new boolean[height][width];
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                tangibilite[y][x] = !estTypeNonTangible(tableau[y][x]);
+            }
+        }
+    }
+
+    private boolean estTypeNonTangible(int type) {
+        for (int nonTangible : TUILES_NON_TANGIBLES) {
+            if (type == nonTangible) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean estEnCollision(Acteur acteur) {
         double centreX = acteur.getPosX();
         double centreY = acteur.getPosY();
@@ -65,12 +85,11 @@ public class Terrain {
         // Vérifier les tuiles aux bords du cercle de collision
         for (int y = minTileY; y <= maxTileY; y++) {
             for (int x = minTileX; x <= maxTileX; x++) {
-                // Vérifier uniquement les tuiles solides (pas d'air ni de bois)
-                if (getTableau()[y][x] != 0 && getTableau()[y][x] != 5 && getTableau()[y][x] != 3) {
+                if (tangibilite[y][x]) {
                     double tuileCentreX = x * TAILLE_TUILE + TAILLE_TUILE / 2;
                     double tuileCentreY = y * TAILLE_TUILE + TAILLE_TUILE / 2;
 
-                    // Calcul de distance optimisé
+                    // Calcul de distance
                     double distX = Math.abs(centreX - tuileCentreX);
                     double distY = Math.abs(centreY - tuileCentreY);
 
@@ -83,7 +102,6 @@ public class Terrain {
         }
         return false;
     }
-
 
     public boolean estAuSol(Acteur a) {
         double centreX = a.getPosX();
@@ -100,24 +118,30 @@ public class Terrain {
             int tileY = (int) (testY / TAILLE_TUILE);
 
             if (tileY >= 0 && tileY < getHeight() && tileX >= 0 && tileX < getWidth()) {
-                int tileType = getTableau()[tileY][tileX];
-                if (tileType != 0 && tileType != 5 && tileType != 3) {
+                if (tangibilite[tileY][tileX]) {
                     return true;
                 }
             }
         }
 
-        return false; // Aucun point n'est au sol
+        return false;
+    }
+    // UTILE POUR POSER DES BLOCS ETC
+    public void setTangible(int x, int y, boolean estTangible) {
+        if (x >= 0 && x < width && y >= 0 && y < height) {
+            tangibilite[y][x] = estTangible;
+        }
     }
 
-    private void initTangibilite() {
-        this.tangibilite = new boolean[height][width];
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                tangibilite[i][j] = (tableau[i][j] != 0);
-            }
+    public boolean estTangible(int x, int y) {
+        if (x >= 0 && x < width && y >= 0 && y < height) {
+            return tangibilite[y][x];
         }
+        return false;
+    }
+
+    public void updateTangibilite() {
+        initTangibilite();
     }
 
     public int getWidth() {
@@ -131,5 +155,4 @@ public class Terrain {
     public int[][] getTableau() {
         return tableau;
     }
-
 }
