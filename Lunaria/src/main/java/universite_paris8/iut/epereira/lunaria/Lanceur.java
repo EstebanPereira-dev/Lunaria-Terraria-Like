@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ public class Lanceur extends Application {
         @Override
         public void start(Stage stage) throws IOException {
             FXMLLoader fxmlLoader = new FXMLLoader(Lanceur.class.getResource("/universite_paris8/iut/epereira/lunaria/DossierMap/Map.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 704  , 512);
+            Scene scene = new Scene(fxmlLoader.load(), ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
             stage.setTitle("Lunaria");
             stage.setResizable(false);
             stage.setScene(scene);

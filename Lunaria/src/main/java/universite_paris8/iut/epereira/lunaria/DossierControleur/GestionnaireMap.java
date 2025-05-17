@@ -3,6 +3,7 @@ package universite_paris8.iut.epereira.lunaria.DossierControleur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
+import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Terrain;
 
@@ -67,8 +68,8 @@ public class GestionnaireMap {
                 }
 
                 ImageView imageView = new ImageView(sprite);
-                imageView.setFitHeight(env.getTAILLE_TUILE());
-                imageView.setFitWidth(env.getTAILLE_TUILE());
+                imageView.setFitHeight(ConfigurationJeu.TAILLE_TUILE);
+                imageView.setFitWidth(ConfigurationJeu.TAILLE_TUILE);
 
                 panneauDeTuile.getChildren().add(imageView);
             }
