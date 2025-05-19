@@ -10,15 +10,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import universite_paris8.iut.epereira.lunaria.modele.Acteur;
-import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
-import universite_paris8.iut.epereira.lunaria.modele.Environement;
-import universite_paris8.iut.epereira.lunaria.modele.Terrain;
+import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
 import java.net.URL;
@@ -28,7 +26,7 @@ import java.util.ResourceBundle;
 
 public class Controleur implements Initializable {
     @FXML
-    private GridPane inventaire;
+    private GridPane inventaireGridPane;
     @FXML
     private TilePane tilePaneId;
     @FXML
@@ -37,6 +35,8 @@ public class Controleur implements Initializable {
     private Pane tabJeu;
     @FXML
     private ImageView background;
+
+    private Item tempItemSouris;
 
     private final Map<Acteur, Circle> sprites = new HashMap<>();
 
@@ -47,7 +47,10 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        env = new Environement(ConfigurationJeu.WIDTH_SCREEN,ConfigurationJeu.HEIGHT_SCREEN);
+        env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
+
+        tempItemSouris = null;
+
 
         tabJeu.setPrefWidth(ConfigurationJeu.WIDTH_SCREEN);
         tabJeu.setPrefHeight(ConfigurationJeu.HEIGHT_SCREEN);
@@ -76,16 +79,20 @@ public class Controleur implements Initializable {
             tabJeu.requestFocus();
             demarrer();
         });
+
+
     }
 
     private void configurerEvenements() {
         tabJeu.setFocusTraversable(true);
         tabJeu.setOnKeyPressed(this::gererTouchePressee);
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
+        inventaireGridPane.setOnMouseClicked(this::gereInventaire);
+
     }
 
-    private void gereInventaire(){
-
+    private void gereInventaire(MouseEvent event) {
+        System.out.println("rentrer");
     }
 
     private void gererTouchePressee(KeyEvent event) {
@@ -110,19 +117,21 @@ public class Controleur implements Initializable {
                 }
                 break;
             case I:
-                if(env.getHero().getActions().get(5)){
+                if (env.getHero().getActions().get(5)) {
 
-                }
-                else {
+                } else {
                     env.getHero().getActions().set(4, !env.getHero().getActions().get(4));
                     if (env.getHero().getActions().get(4)) {
-                        inventaire.setVisible(true);
-                        inventaire.setDisable(false);
+                        inventaireGridPane.setVisible(true);
+                        inventaireGridPane.setDisable(true);
                     } else {
-                        inventaire.setVisible(false);
-                        inventaire.setDisable(true);
+                        inventaireGridPane.setVisible(false);
+                        inventaireGridPane.setDisable(true);
                     }
                 }
+                break;
+            case K:
+                inventaireGridPane.getChildren().get(0).setStyle("-fx-background-color: Red");
                 break;
         }
     }
@@ -149,7 +158,7 @@ public class Controleur implements Initializable {
     }
 
     private void miseAJourJeu() {
-        for (Acteur a : env.getActeurs()){
+        for (Acteur a : env.getActeurs()) {
             a.deplacement();
         }
     }
@@ -177,6 +186,7 @@ public class Controleur implements Initializable {
     public void arreter() {
         gameLoop.stop();
     }
+
     public void ajouterActeurVue(Acteur acteur) {
         Circle sprite = creerSprite(acteur);
         sprites.put(acteur, sprite);
