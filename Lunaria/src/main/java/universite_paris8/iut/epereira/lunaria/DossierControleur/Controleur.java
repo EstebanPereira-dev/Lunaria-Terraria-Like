@@ -82,7 +82,6 @@ public class Controleur implements Initializable {
     }
 
     private void configurerEvenements() {
-        tabJeu.setFocusTraversable(true);
         tabJeu.setOnKeyPressed(this::gererTouchePressee);
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
         inventaireGridPane.setOnMouseClicked(this::gereInventaire);
@@ -98,10 +97,17 @@ public class Controleur implements Initializable {
     private void gereInventaire(MouseEvent event) {
         System.out.println("rentrer");
     }
+
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
         env.getHero().getActions().set(6, true);
     }
+
+    @FXML
+    public void plusClicSouris(){
+        env.getHero().getActions().set(6, false);
+    }
+
     private void gererTouchePressee(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE, Z:
