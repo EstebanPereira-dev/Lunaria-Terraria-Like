@@ -89,6 +89,10 @@ public class Controleur implements Initializable {
 
     }
 
+    public void invClicked(){
+        System.out.println("clicked INv");
+    }
+
 
 
     private void gereInventaire(MouseEvent event) {

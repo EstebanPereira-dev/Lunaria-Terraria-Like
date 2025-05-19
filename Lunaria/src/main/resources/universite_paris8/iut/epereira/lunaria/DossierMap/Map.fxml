@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane onMouseClicked="#clicSouris" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.DossierControleur.Controleur">
+<StackPane onMouseClicked="#clicSouris" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.DossierControleur.Controleur">
    <children>
       <Pane fx:id="tabJeu" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" style="-fx-background-color: #131D24;">
          <children>
@@ -21,7 +21,7 @@
                </image>
             </ImageView>
             <TilePane fx:id="tilePaneId" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
-            <GridPane fx:id="inventaireGridPane" gridLinesVisible="true" opacity="0.33" prefHeight="288.0" prefWidth="288.0" style="-fx-background-color: grey; -fx-border-color: black;" visible="false">
+            <GridPane fx:id="inventaireGridPane" gridLinesVisible="true" onMouseClicked="#invClicked" opacity="0.33" prefHeight="288.0" prefWidth="288.0" style="-fx-background-color: grey; -fx-border-color: black;" visible="false">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
