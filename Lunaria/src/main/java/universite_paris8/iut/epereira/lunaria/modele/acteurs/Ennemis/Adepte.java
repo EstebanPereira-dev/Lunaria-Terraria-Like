@@ -5,8 +5,8 @@ import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
 public class Adepte extends Ennemi {
 
-    public Adepte(int pv, int v, int degat, Environement env, Hero hero, double x, double y) {
-        super(pv,v,degat,env,hero,x,y);
+    public Adepte(int pv, int v, int degat,int range, Environement env, Hero hero, double x, double y) {
+        super(pv,v,degat,range,env,hero,x,y);
     }
 
     @Override

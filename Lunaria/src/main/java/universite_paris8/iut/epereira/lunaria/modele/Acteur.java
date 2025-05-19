@@ -15,6 +15,8 @@ public abstract class Acteur {
     public static int compteur=1;
     private String id;
 
+    private int range;
+
     private double posX, posY;
 
     public DoubleProperty x;
@@ -28,13 +30,15 @@ public abstract class Acteur {
     public boolean auSol;
     public double SAUT = -5;
 
-    public Acteur(int pv, int v, int degat, Environement env, double x, double y) {
+    public Acteur(int pv, int v, int degat, int range, Environement env, double x, double y) {
         this.pv = pv;
         this.vitesseX = v;
         this.degat = degat;
         this.env = env;
         id = "A"+compteur;
         compteur++;
+
+        this.range = range;
 
         this.posX = x;
         this.posY = y;
