@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,9 +11,9 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane onMousePressed="#clicSouris" onMouseReleased="#plusClicSouris" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.DossierControleur.Controleur">
+<StackPane onMouseClicked="#clicSouris" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.DossierControleur.Controleur">
    <children>
-      <Pane focusTraversable="true"  fx:id="tabJeu" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" style="-fx-background-color: #131D24;">
+      <Pane fx:id="tabJeu" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #131D24;">
          <children>
             <ImageView fx:id="background" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
                <image>
