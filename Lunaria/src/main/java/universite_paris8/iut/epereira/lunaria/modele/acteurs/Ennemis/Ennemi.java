@@ -9,8 +9,8 @@ import java.util.Random;
 public abstract class Ennemi extends Acteur {
     static public Random rdm = new Random();
     protected Hero hero;
-    public Ennemi(int pv, int v, int degat, Environement env, Hero hero, double x, double y){
-        super(pv,v,degat,env,x,y);
+    public Ennemi(int pv, int v, int degat,int range, Environement env, Hero hero, double x, double y){
+        super(pv,v,degat,range,env,x,y);
         this.hero = hero;
     }
     @Override

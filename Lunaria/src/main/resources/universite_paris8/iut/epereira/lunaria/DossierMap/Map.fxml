@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane onMousePressed="#clicSouris" onMouseReleased="#plusClicSouris" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.DossierControleur.Controleur">
+<StackPane focusTraversable="true" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.DossierControleur.Controleur">
    <children>
-      <Pane focusTraversable="true"  fx:id="tabJeu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" style="-fx-background-color: #131D24;">
+      <Pane onMousePressed="#clicSouris" onMouseReleased="#plusClicSouris"  fx:id="tabJeu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #131D24;">
          <children>
             <ImageView fx:id="background" pickOnBounds="true" preserveRatio="true">
                <image>
