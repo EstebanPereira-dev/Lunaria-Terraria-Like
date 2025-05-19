@@ -10,6 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -82,12 +83,16 @@ public class Controleur implements Initializable {
         tabJeu.setFocusTraversable(true);
         tabJeu.setOnKeyPressed(this::gererTouchePressee);
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
+
     }
 
     private void gereInventaire(){
 
     }
-
+    @FXML
+    public void clicSouris(MouseEvent mouseEvent) {
+        env.getHero().getActions().set(6, true);
+    }
     private void gererTouchePressee(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE, Z:
@@ -182,5 +187,4 @@ public class Controleur implements Initializable {
         sprites.put(acteur, sprite);
         tabJeu.getChildren().add(sprite);
     }
-
 }

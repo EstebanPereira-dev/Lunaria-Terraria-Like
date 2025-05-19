@@ -22,6 +22,12 @@ public class Adepte extends Ennemi {
         deplacerVerticalement();
     }
 
+    @Override
+    public void attaque() {
+        if (getPosX() == hero.getPosX() && auSol)
+            hero.setPv(hero.getPv()-getDegat());
+    }
+
     // Invocation ou autre type de condition
     public boolean conditionApparation() {
         return this.getEnv().getCylceJourNuit() == 'N';
