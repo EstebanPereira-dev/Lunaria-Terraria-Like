@@ -5,28 +5,28 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
-import universite_paris8.iut.epereira.lunaria.modele.Terrain;
-import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
-import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
+import universite_paris8.iut.epereira.lunaria.modele.Item;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+
 public class GestionnaireJeu {
 
+    private Item tempItemSouris;
     private TextArea pauseID;
     private final Pane zoneJeu;
-    private GridPane inventaire;
+    private GridPane inventaireGridPane;
     private Environement env;
 
     private final Map<Acteur, Circle> sprites = new HashMap<>();
@@ -34,10 +34,12 @@ public class GestionnaireJeu {
     private Timeline gameLoop;
 
     static Random rdm = new Random();
-    public GestionnaireJeu(Pane zoneJeu, TextArea pauseID, GridPane inventaire, Environement env) {
+    public GestionnaireJeu(Pane zoneJeu, TextArea pauseID, GridPane inventaireGridPane, Environement env) {
         this.zoneJeu = zoneJeu;
         this.pauseID = pauseID;
-        this.inventaire = inventaire;
+        this.inventaireGridPane = inventaireGridPane;
+
+        tempItemSouris = null;
 
         this.env = env;
 
@@ -50,20 +52,23 @@ public class GestionnaireJeu {
         configurerEvenements();
         creerBoucleDeJeu();
 
-
     }
 
     private void configurerEvenements() {
         zoneJeu.setFocusTraversable(true);
         zoneJeu.setOnKeyPressed(this::gererTouchePressee);
         zoneJeu.setOnKeyReleased(this::gererToucheRelachee);
+        zoneJeu.setOnMouseClicked(this::gereInventaire);
+
     }
 
-    private void gereInventaire(){
-
+    private void gereInventaire(MouseEvent event){
+        inventaireGridPane.getChildren().get(0).setOnMouseClicked(mouseEvent -> System.out.println("cc"));
+        inventaireGridPane.getChildren().get(0).setStyle("-fx-background-color: Red");
     }
 
     private void gererTouchePressee(KeyEvent event) {
+
         switch (event.getCode()) {
             case SPACE, Z:
                 env.getHero().getActions().set(0, true);
@@ -91,11 +96,11 @@ public class GestionnaireJeu {
                 else {
                     env.getHero().getActions().set(4, !env.getHero().getActions().get(4));
                     if (env.getHero().getActions().get(4)) {
-                        inventaire.setVisible(true);
-                        inventaire.setDisable(false);
+                        inventaireGridPane.setVisible(true);
+                        inventaireGridPane.setDisable(true);
                     } else {
-                        inventaire.setVisible(false);
-                        inventaire.setDisable(true);
+                        inventaireGridPane.setVisible(false);
+                        inventaireGridPane.setDisable(true);
                     }
                 }
                 break;

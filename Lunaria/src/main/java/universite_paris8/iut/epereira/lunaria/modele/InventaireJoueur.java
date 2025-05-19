@@ -7,6 +7,9 @@ public class InventaireJoueur {
 
     public InventaireJoueur(){
         listeditem = new Item[9];
+        for(int i = 0; i < 9; i++){
+            listeditem[i] = null;
+        }
     }
 
 

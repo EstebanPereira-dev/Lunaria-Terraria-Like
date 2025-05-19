@@ -4,10 +4,13 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -16,10 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import universite_paris8.iut.epereira.lunaria.modele.Acteur;
-import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
-import universite_paris8.iut.epereira.lunaria.modele.Environement;
-import universite_paris8.iut.epereira.lunaria.modele.Terrain;
+import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
 import java.net.URL;
@@ -27,7 +27,7 @@ import java.util.*;
 
 public class Controleur implements Initializable {
     @FXML
-    private GridPane inventaire;
+    private GridPane inventaireGridPane;
     @FXML
     private TilePane tilePaneId;
     @FXML
@@ -36,6 +36,8 @@ public class Controleur implements Initializable {
     private Pane tabJeu;
     @FXML
     private ImageView background;
+
+    private Item tempItemSouris;
 
     private final Map<Acteur, Circle> sprites = new HashMap<>();
 
@@ -46,7 +48,10 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        env = new Environement(ConfigurationJeu.WIDTH_SCREEN,ConfigurationJeu.HEIGHT_SCREEN);
+        env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
+
+        tempItemSouris = null;
+
 
         tabJeu.setPrefWidth(ConfigurationJeu.WIDTH_SCREEN);
         tabJeu.setPrefHeight(ConfigurationJeu.HEIGHT_SCREEN);
@@ -83,10 +88,27 @@ public class Controleur implements Initializable {
 
     }
 
-    private void gereInventaire(){
+    @FXML
+    public void inv(ActionEvent event) {
+        Node source = (Node) event.getSource();
+        Integer row = GridPane.getRowIndex(source);
+        Integer col = GridPane.getColumnIndex(source);
+
+
+        Item temp = env.getHero().getInv().getIteminList(row*3+col);
+
+        if( temp != null){
+            Item switch2 = temp;
+            env.getHero().getInv().addItem(row*3+col,tempItemSouris);
+            tempItemSouris = switch2;
+        }
+        else{
+            env.getHero().getInv().addItem(row*3+col,tempItemSouris);
+        }
+
+        //inventaireGridPane.getChildren().get(row*3+col).setStyle("-fx-background-image: ");
 
     }
-
     @FXML
     public void clicSouris() {
         attaqueHero();
@@ -94,6 +116,7 @@ public class Controleur implements Initializable {
 
     @FXML
     public void plusClicSouris(){
+        //env.getHero().getActions().set(6, false);
         // METTEZ CE QUE VOUS VOULEZ ICI
     }
 
@@ -119,17 +142,16 @@ public class Controleur implements Initializable {
                 }
                 break;
             case I:
-                if(env.getHero().getActions().get(5)){
+                if (env.getHero().getActions().get(5)) {
 
-                }
-                else {
+                } else {
                     env.getHero().getActions().set(4, !env.getHero().getActions().get(4));
                     if (env.getHero().getActions().get(4)) {
-                        inventaire.setVisible(true);
-                        inventaire.setDisable(false);
+                        inventaireGridPane.setVisible(true);
+                        inventaireGridPane.setDisable(true);
                     } else {
-                        inventaire.setVisible(false);
-                        inventaire.setDisable(true);
+                        inventaireGridPane.setVisible(false);
+                        inventaireGridPane.setDisable(true);
                     }
                 }
                 break;
@@ -241,6 +263,7 @@ public class Controleur implements Initializable {
     public void arreter() {
         gameLoop.stop();
     }
+
     public void ajouterActeurVue(Acteur acteur) {
         Circle sprite = creerSprite(acteur);
         sprites.put(acteur, sprite);
