@@ -23,9 +23,7 @@ import universite_paris8.iut.epereira.lunaria.modele.Terrain;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Controleur implements Initializable {
     @FXML
@@ -90,13 +88,13 @@ public class Controleur implements Initializable {
     }
 
     @FXML
-    public void clicSouris(MouseEvent mouseEvent) {
-        env.getHero().getActions().set(6, true);
+    public void clicSouris() {
+        attaqueHero();
     }
 
     @FXML
     public void plusClicSouris(){
-        env.getHero().getActions().set(6, false);
+        // METTEZ CE QUE VOUS VOULEZ ICI
     }
 
     private void gererTouchePressee(KeyEvent event) {
@@ -160,8 +158,63 @@ public class Controleur implements Initializable {
     }
 
     private void miseAJourJeu() {
-        for (Acteur a : env.getActeurs()){
+        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
+
+        for (Acteur a : acteursCopie) {
             a.deplacement();
+            attaqueEnnemis();
+        }
+
+        List<Acteur> acteursASupprimer = env.getActeursASupprimer();
+        for (Acteur acteur : acteursASupprimer) {
+            supprimerActeurVue(acteur);
+        }
+        env.supprimerActeursMarques();
+    }
+    public void attaqueHero(){
+        if (!env.getHero().attackOnCooldown) {
+            env.getHero().getActions().set(6, true);
+            env.getHero().attaque();
+
+            Platform.runLater(() -> {
+                env.getHero().getActions().set(6, false);
+            });
+
+            env.getHero().attackOnCooldown = true;
+
+            Timeline attackCooldownTimer = new Timeline(
+                    new KeyFrame(Duration.seconds(3), e -> {
+                        env.getHero().attackOnCooldown = false;
+                        System.out.println("Attaque dispo");
+                    })
+            );
+            attackCooldownTimer.setCycleCount(1);
+            attackCooldownTimer.play();
+
+        } else {
+            System.out.println("COOLDOWN");
+        }
+    }
+    public void attaqueEnnemis(){
+        if (!env.getActeur("A1").attackOnCooldown) {
+            env.getActeur("A1").attaque();
+            System.out.println("attaque" + env.getHero().getPv());
+            env.getActeur("A1").attackOnCooldown = true;
+
+            Timeline attackCooldownTimerEnnemi = new Timeline(
+                    new KeyFrame(Duration.seconds(5), e -> {
+                        env.getActeur("A1").attackOnCooldown = false;
+                    })
+            );
+            attackCooldownTimerEnnemi.setCycleCount(1);
+            attackCooldownTimerEnnemi.play();
+        }
+    }
+    public void supprimerActeurVue(Acteur acteur) {
+        Circle sprite = sprites.get(acteur);
+        if (sprite != null) {
+            tabJeu.getChildren().remove(sprite);
+            sprites.remove(acteur);
         }
     }
 
