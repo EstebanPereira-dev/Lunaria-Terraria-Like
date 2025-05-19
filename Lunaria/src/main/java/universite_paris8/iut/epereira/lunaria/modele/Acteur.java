@@ -148,22 +148,6 @@ public abstract class Acteur {
         return env;
     }
 
-    public DoubleProperty getXProperty() {
-        return x;
-    }
-
-    public DoubleProperty getYProperty() {
-        return y;
-    }
-
-    public double getX() {
-        return posX;
-    }
-
-    public double getY() {
-        return posY;
-    }
-
     public String getId() {
         return id;
     }
