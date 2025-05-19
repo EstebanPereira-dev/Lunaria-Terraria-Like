@@ -4,10 +4,13 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -84,28 +87,38 @@ public class Controleur implements Initializable {
     private void configurerEvenements() {
         tabJeu.setOnKeyPressed(this::gererTouchePressee);
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
-        inventaireGridPane.setOnMouseClicked(this::gereInventaire);
 
-    }
-
-    public void invClicked(){
-        System.out.println("clicked INv");
-    }
-
-
-
-    private void gereInventaire(MouseEvent event) {
-        System.out.println("rentrer");
     }
 
     @FXML
+    public void inv(ActionEvent event) {
+        Node source = (Node) event.getSource();
+        Integer row = GridPane.getRowIndex(source);
+        Integer col = GridPane.getColumnIndex(source);
+
+
+        Item temp = env.getHero().getInv().getIteminList(row*3+col);
+
+        if( temp != null){
+            Item switch2 = temp;
+            env.getHero().getInv().addItem(row*3+col,tempItemSouris);
+            tempItemSouris = switch2;
+        }
+        else{
+            env.getHero().getInv().addItem(row*3+col,tempItemSouris);
+        }
+
+        //inventaireGridPane.getChildren().get(row*3+col).setStyle("-fx-background-image: ");
+
+    }
+    @FXML
     public void clicSouris(MouseEvent mouseEvent) {
-        env.getHero().getActions().set(6, true);
+        //env.getHero().getActions().set(6, true);
     }
 
     @FXML
     public void plusClicSouris(){
-        env.getHero().getActions().set(6, false);
+        //env.getHero().getActions().set(6, false);
     }
 
     private void gererTouchePressee(KeyEvent event) {
