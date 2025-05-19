@@ -65,6 +65,7 @@ public abstract class Acteur {
     }
 
     public abstract void deplacement();
+    public abstract void attaque();
 
     public void updateVisualPosition() {
         x.set(posX);
@@ -148,22 +149,6 @@ public abstract class Acteur {
         return env;
     }
 
-    public DoubleProperty getXProperty() {
-        return x;
-    }
-
-    public DoubleProperty getYProperty() {
-        return y;
-    }
-
-    public double getX() {
-        return posX;
-    }
-
-    public double getY() {
-        return posY;
-    }
-
     public String getId() {
         return id;
     }
@@ -176,4 +161,23 @@ public abstract class Acteur {
         return vitesseX;
     }
 
+    public int getDegat() {
+        return degat;
+    }
+    //SETTER
+
+    public void setPv(int pv) {
+        this.pv = pv;
+    }
+
+    @Override
+    public String toString() {
+        return "Acteur{" +
+                ", pv=" + pv +
+                ", id='" + id + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", degat=" + degat +
+                '}';
+    }
 }

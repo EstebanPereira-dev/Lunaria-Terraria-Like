@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Hero extends Acteur {
     private InventaireJoueur inv;
     private ArrayList<Boolean> actions;
-    private boolean haut = false , bas = false, droite = false, gauche = false, inventaire = false, pause = false;
+    private boolean haut = false , bas = false, droite = false, gauche = false, inventaire = false, pause = false, attaque = false;
 
     public Hero(Environement env) {
         super(env);
@@ -25,6 +25,7 @@ public class Hero extends Acteur {
         actions.add(gauche);
         actions.add(inventaire);
         actions.add(pause);
+        actions.add(attaque);
     }
     @Override
     public void deplacement() {
@@ -45,6 +46,14 @@ public class Hero extends Acteur {
         if (gauche) deltaX -= getVitesseX();
         if (droite) deltaX += getVitesseX();
         deplacerHorizontalement(deltaX);
+        attaque();
+    }
+
+    @Override
+    public void attaque() {
+        attaque = actions.get(6);
+        if (attaque)
+            System.out.println("attaque");
     }
 
     public InventaireJoueur getInv() {

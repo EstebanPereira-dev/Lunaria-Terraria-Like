@@ -19,7 +19,7 @@ public class Environement {
     public Environement(int width, int height){
         this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
         this.hero = new Hero(this);
-        Acteur a1 = new Adepte(650,100,this);
+        Acteur a1 = new Adepte(650,1,10,this,hero,300,500);
         acteurs = new ArrayList<>();
         acteurs.add(a1);
         acteurs.add(hero);

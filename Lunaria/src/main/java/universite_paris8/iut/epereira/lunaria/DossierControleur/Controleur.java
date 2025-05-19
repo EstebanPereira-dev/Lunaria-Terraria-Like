@@ -79,8 +79,6 @@ public class Controleur implements Initializable {
             tabJeu.requestFocus();
             demarrer();
         });
-
-
     }
 
     private void configurerEvenements() {
@@ -91,10 +89,15 @@ public class Controleur implements Initializable {
 
     }
 
+
+
     private void gereInventaire(MouseEvent event) {
         System.out.println("rentrer");
     }
-
+    @FXML
+    public void clicSouris(MouseEvent mouseEvent) {
+        env.getHero().getActions().set(6, true);
+    }
     private void gererTouchePressee(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE, Z:
@@ -129,9 +132,6 @@ public class Controleur implements Initializable {
                         inventaireGridPane.setDisable(true);
                     }
                 }
-                break;
-            case K:
-                inventaireGridPane.getChildren().get(0).setStyle("-fx-background-color: Red");
                 break;
         }
     }
@@ -192,5 +192,4 @@ public class Controleur implements Initializable {
         sprites.put(acteur, sprite);
         tabJeu.getChildren().add(sprite);
     }
-
 }
