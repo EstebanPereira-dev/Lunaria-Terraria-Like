@@ -135,6 +135,7 @@ public class GestionnaireJeu {
             r.setFill(javafx.scene.paint.Color.LIGHTGOLDENRODYELLOW);
             r.setId("Hero");
         } else {
+
             r.setFill(javafx.scene.paint.Color.RED);
             r.setId("Ennemis");
         }
