@@ -78,7 +78,6 @@ public class Controleur implements Initializable {
     private double dernierePosY = -1;
 
 
-    @Override
 
 
     @Override //initialization
@@ -194,7 +193,7 @@ public class Controleur implements Initializable {
     //gestionaire de l'inventaire
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
-        env.getHero().getActions().set(6, true);
+        attaqueHero();
         dernierePosX = mouseEvent.getX();
         dernierePosY = mouseEvent.getY();
         System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
@@ -204,7 +203,9 @@ public class Controleur implements Initializable {
         //if (tuileX >= 0 && tuileX < env.getTerrain().getWidth() && tuileY >= 0 && tuileY < env.getTerrain().getHeight()) {
           //  env.getTerrain().changerTuile(0, tuileX, tuileY);
             this.env.getTerrain().changerTuile(0,tuileX,tuileY);
-            gestionMap.chargerTiles(this.env.getTerrain());
+            gestionMap.chargerTiles(env.getTerrain());
+
+        //gestionMap.chargerTiles(this.env.getTerrain());
             //this.gestionMap.RafraichirTuile(tuileX, tuileY);
        // } else {
          //   System.out.println("Clic hors des limites du terrain");
@@ -246,14 +247,6 @@ public class Controleur implements Initializable {
 
     }
 
-    @FXML//si la souris est cliquer attaquer
-    public void clicSouris() {
-        attaqueHero();
-    }
-
-    @FXML //rien
-    public void plusClicSouris() {
-    }
 
     //gere quand les touche sont appuyé, faire une action
     private void gererTouchePressee(KeyEvent event) {

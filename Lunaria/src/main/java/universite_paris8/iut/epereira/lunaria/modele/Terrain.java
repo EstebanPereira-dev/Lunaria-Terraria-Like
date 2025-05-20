@@ -177,4 +177,6 @@ public class Terrain {
     public void setTableau(int[][] tableau) {
         this.tableau = tableau;
     }
+
+
 }
