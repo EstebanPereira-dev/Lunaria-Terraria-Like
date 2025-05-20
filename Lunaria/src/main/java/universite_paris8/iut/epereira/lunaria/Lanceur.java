@@ -10,17 +10,17 @@ import java.io.IOException;
 
 public class Lanceur extends Application {
 
-        @Override
-        public void start(Stage stage) throws IOException {
-            FXMLLoader fxmlLoader = new FXMLLoader(Lanceur.class.getResource("/universite_paris8/iut/epereira/lunaria/DossierMap/Map.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
-            stage.setTitle("Lunaria");
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-        }
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Lanceur.class.getResource("/universite_paris8/iut/epereira/lunaria/DossierMap/Map.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
+        stage.setTitle("Lunaria");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
 
-        public static void main(String[] args) {
-            launch();
-        }
+    public static void main(String[] args) {
+        launch();
+    }
 }

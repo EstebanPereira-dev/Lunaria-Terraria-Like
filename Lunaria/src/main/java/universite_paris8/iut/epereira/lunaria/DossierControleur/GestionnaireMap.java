@@ -11,6 +11,7 @@ public class GestionnaireMap {
     private Terrain tableau;
     private TilePane panneauDeTuile;
     private Environement env;
+    private  ImageView[][] vueTuiles;
 
     // Préchargement des images (une seule fois)
     private Image imageVide;
@@ -31,6 +32,7 @@ public class GestionnaireMap {
         imageBuisson = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
         imageMur = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
         imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
+        this.vueTuiles= new ImageView[this.env.getWidth()][this.env.getHeight()];
     }
 
     public void chargerTiles(Terrain terrain) {
@@ -74,6 +76,27 @@ public class GestionnaireMap {
                 panneauDeTuile.getChildren().add(imageView);
             }
         }
+    }
+    private Image getImageTuile(int typeTuile){
+        if (typeTuile==0)
+            return imageVide;
+        else if (typeTuile==1)
+            return imageTerre;
+        else if (typeTuile ==2)
+            return imageHerbe;
+        else if (typeTuile==3)
+            return imageBuisson;
+        else if (typeTuile ==4)
+            return imageMur;
+        else
+            return imageBois;
+    }
+
+    public void RafraichirTuile(int x, int y){
+        int tuile= this.tableau.getTableau()[y][x];
+        Image sprite = getImageTuile(tuile);
+        vueTuiles[y][x].setImage(sprite);
+        chargerTiles(this.tableau);
     }
 
     public Terrain getTableau() {

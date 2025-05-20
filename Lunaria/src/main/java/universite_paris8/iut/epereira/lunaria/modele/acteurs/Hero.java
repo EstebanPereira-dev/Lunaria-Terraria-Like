@@ -62,4 +62,8 @@ public class Hero extends Acteur {
     public ArrayList<Boolean> getActions() {
         return actions;
     }
+
+   // public void casserBloc(){
+     //   this.getEnv().getTerrain().changerTuile(0,);
+    //}
 }

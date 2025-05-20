@@ -1,5 +1,11 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
+
+import javafx.beans.property.IntegerProperty;
+import javafx.scene.input.MouseEvent;
+import universite_paris8.iut.epereira.lunaria.DossierControleur.Controleur;
+import universite_paris8.iut.epereira.lunaria.DossierControleur.GestionnaireMap;
+
 public class Terrain {
     private int width;
     private int height;
@@ -18,7 +24,7 @@ public class Terrain {
     public void initTableau(int width, int height) {
         this.width = width;
         this.height = height;
-        this.tableau = new int[height][width];
+        this.tableau = new int [height][width];
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -152,5 +158,23 @@ public class Terrain {
 
     public int[][] getTableau() {
         return tableau;
+    }
+
+    public void changerTuile(int blocDeRemplacement, int x, int y) {
+            this.getTableau()[y][x] = blocDeRemplacement;
+            updateTangibilite();
+            System.out.println("Le bloc en x=" + x + " et en y=" + y + " est remplacé par un bloc de type " + blocDeRemplacement);
+
+            for (int i = 0; i < this.getTableau().length; i++) {
+                for (int j = 0; j < this.getTableau()[i].length; j++)
+                    System.out.print(this.getTableau()[i][j]);
+                System.out.println("");
+            }
+
+    }
+
+
+    public void setTableau(int[][] tableau) {
+        this.tableau = tableau;
     }
 }

@@ -25,7 +25,7 @@
                   <Image url="@Background.png" />
                </image>
             </ImageView>
-            <TilePane fx:id="tilePaneId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
+            <TilePane onMouseClicked="#position" fx:id="tilePaneId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
             <GridPane fx:id="inventaire" gridLinesVisible="true" opacity="0.33" prefHeight="288.0" prefWidth="288.0" style="-fx-background-color: grey; -fx-border-color: black;" visible="false">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

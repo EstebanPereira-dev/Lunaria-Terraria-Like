@@ -46,6 +46,10 @@ public class Controleur implements Initializable {
 
     private Timeline gameLoop;
 
+    private double dernierePosX = -1;
+    private double dernierePosY = -1;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN,ConfigurationJeu.HEIGHT_SCREEN);
@@ -82,7 +86,6 @@ public class Controleur implements Initializable {
     private void configurerEvenements() {
         tabJeu.setOnKeyPressed(this::gererTouchePressee);
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
-
     }
 
     private void gereInventaire(){
@@ -92,6 +95,22 @@ public class Controleur implements Initializable {
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
         env.getHero().getActions().set(6, true);
+        dernierePosX = mouseEvent.getX();
+        dernierePosY = mouseEvent.getY();
+        System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
+        int tuileX=(int)(dernierePosX/ConfigurationJeu.TAILLE_TUILE);
+        int tuileY=(int)(dernierePosY/ConfigurationJeu.TAILLE_TUILE);
+
+        //if (tuileX >= 0 && tuileX < env.getTerrain().getWidth() && tuileY >= 0 && tuileY < env.getTerrain().getHeight()) {
+          //  env.getTerrain().changerTuile(0, tuileX, tuileY);
+            this.env.getTerrain().changerTuile(0,tuileX,tuileY);
+            gestionMap.chargerTiles(this.env.getTerrain());
+            //this.gestionMap.RafraichirTuile(tuileX, tuileY);
+       // } else {
+         //   System.out.println("Clic hors des limites du terrain");
+        //}
+
+
     }
 
     @FXML
@@ -193,4 +212,9 @@ public class Controleur implements Initializable {
         sprites.put(acteur, sprite);
         tabJeu.getChildren().add(sprite);
     }
+    @FXML
+    public double[] position() {
+        return new double[]{dernierePosX, dernierePosY};
+    }
+
 }
