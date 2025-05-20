@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -38,7 +39,10 @@ public class Controleur implements Initializable {
 
     private Item tempItemSouris;
 
-    private final Map<Acteur, Circle> sprites = new HashMap<>();
+    private final Map<Acteur, ImageView> sprites = new HashMap<>();
+
+    private Image[] heroFrames;
+    private Image[] ennemiFrames;
 
     private Environement env;
     private GestionnaireMap gestionMap;
@@ -51,6 +55,7 @@ public class Controleur implements Initializable {
 
         tempItemSouris = null;
 
+        prechargerImages();
 
         tabJeu.setPrefWidth(ConfigurationJeu.WIDTH_SCREEN);
         tabJeu.setPrefHeight(ConfigurationJeu.HEIGHT_SCREEN);
@@ -80,7 +85,17 @@ public class Controleur implements Initializable {
             demarrer();
         });
     }
+    private void prechargerImages() {
+        // Préchargement des images du héros (2 frames comme dans vos images)
+        heroFrames = new Image[2];
+        heroFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idle1.png"));
+        heroFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idle2.png"));
 
+        // Préchargement des images d'ennemi (peut être changé selon vos sprites ennemis)
+        ennemiFrames = new Image[2];
+        ennemiFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Adepte/idle1.png"));
+        ennemiFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Adepte/idle1.png"));
+    }
     private void configurerEvenements() {
         tabJeu.setOnKeyPressed(this::gererTouchePressee);
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
@@ -235,26 +250,54 @@ public class Controleur implements Initializable {
             }
         }
     }
-    public void supprimerActeurVue(Acteur acteur) {
-        Circle sprite = sprites.get(acteur);
-        if (sprite != null) {
-            tabJeu.getChildren().remove(sprite);
-            sprites.remove(acteur);
-        }
-    }
 
-    public Circle creerSprite(Acteur a) {
-        Circle r = new Circle(8);
+    public ImageView creerSprite(Acteur a) {
+        ImageView imageView = new ImageView();
+
+        // Dimensions du sprite basées sur les images que vous avez partagées
+        // Ajustez ces valeurs en fonction de la taille réelle de vos sprites
+        imageView.setFitWidth(48);
+        imageView.setFitHeight(48);
+
+        // Animation différente selon le type d'acteur
         if (a instanceof Hero) {
-            r.setFill(javafx.scene.paint.Color.LIGHTGOLDENRODYELLOW);
-            r.setId("Hero");
+            // Définir l'image initiale
+            imageView.setImage(heroFrames[0]);
+            imageView.setId("Hero");
+
+            // Animation simple alternant entre les deux frames
+            final int[] frameIndex = {0};
+            Timeline animation = new Timeline(
+                    new KeyFrame(Duration.millis(300), e -> {
+                        frameIndex[0] = (frameIndex[0] + 1) % heroFrames.length;
+                        imageView.setImage(heroFrames[frameIndex[0]]);
+                    })
+            );
+            animation.setCycleCount(Animation.INDEFINITE);
+            animation.play();
         } else {
-            r.setFill(javafx.scene.paint.Color.RED);
-            r.setId("Ennemis");
+            // Pour les ennemis
+            imageView.setImage(ennemiFrames[0]);
+            imageView.setId("Ennemis");
+
+            // Animation simple alternant entre les deux frames
+            final int[] frameIndex = {0};
+            Timeline animation = new Timeline(
+                    new KeyFrame(Duration.millis(300), e -> {
+                        frameIndex[0] = (frameIndex[0] + 1) % ennemiFrames.length;
+                        imageView.setImage(ennemiFrames[frameIndex[0]]);
+                    })
+            );
+            animation.setCycleCount(Animation.INDEFINITE);
+            animation.play();
         }
-        r.translateXProperty().bind(a.x);
-        r.translateYProperty().bind(a.y);
-        return r;
+
+        // Lier les propriétés de position
+        // Centrer l'image sur les coordonnées de l'acteur
+        imageView.translateXProperty().bind(a.x.subtract(imageView.getFitWidth() / 2));
+        imageView.translateYProperty().bind(a.y.subtract(imageView.getFitHeight() / 2));
+
+        return imageView;
     }
 
     // Démarrage
@@ -267,9 +310,19 @@ public class Controleur implements Initializable {
         gameLoop.stop();
     }
 
+    public void supprimerActeurVue(Acteur acteur) {
+        ImageView sprite = sprites.get(acteur);
+        if (sprite != null) {
+            tabJeu.getChildren().remove(sprite);
+            sprites.remove(acteur);
+        }
+    }
+
+    // Modifiez la méthode ajouterActeurVue
     public void ajouterActeurVue(Acteur acteur) {
-        Circle sprite = creerSprite(acteur);
+        ImageView sprite = creerSprite(acteur);
         sprites.put(acteur, sprite);
         tabJeu.getChildren().add(sprite);
     }
+
 }
