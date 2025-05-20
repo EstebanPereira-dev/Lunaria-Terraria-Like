@@ -185,6 +185,9 @@ public abstract class Acteur {
         return range;
     }
 
+    public int getCooldownAttack() {
+        return cooldownAttack;
+    }
     //SETTER
 
     public void setPv(int pv) {

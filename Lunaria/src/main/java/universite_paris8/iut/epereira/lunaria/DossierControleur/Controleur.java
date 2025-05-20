@@ -46,15 +46,14 @@ public class Controleur implements Initializable {
 
     //contient l'item dans la souris
     private Item tempItemSouris;
-
+    private BarreDeVie barreDeVieHero;
     //lier acteur avec leur sprites et animation
     private final Map<Acteur, String> animationState = new HashMap<>();
     private final Map<Acteur, Timeline> animations = new HashMap<>();
-    private final Map<Acteur, Boolean> animationRunning = new HashMap<>();
     private final Map<Acteur, ImageView> sprites = new HashMap<>();
     private final Map<Acteur, Timeline> idleAnimations = new HashMap<>();
-    private final Map<Acteur, String> animationState = new HashMap<>();
     private final Map<Acteur, Timeline> jumpAnimations = new HashMap<>();
+    private final Map<Acteur, Timeline> attackAnimations = new HashMap<>();
 
     private Image[] heroJumpFrames;
 
@@ -62,6 +61,7 @@ public class Controleur implements Initializable {
     private Image[] heroFrames;
     private Image[] ennemiFrames;
     private Image[] heroIdleFrames;
+    private Image[] heroAttackFrames;
     private Environement env;
 
     //Controler la map
@@ -100,8 +100,16 @@ public class Controleur implements Initializable {
         //initialisation du gestionaire de la map
         gestionMap = new GestionnaireMap(tilePaneId, env);
 
+
+        barreDeVieHero = new BarreDeVie(env.getHero().getPv(), 200, 20);
+
+        // Placer la barre de vie en haut à droite de l'écran
+        barreDeVieHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN-230);
+        barreDeVieHero.setTranslateY(30);
+
+        // Ajouter la barre de vie au panneau de jeu
+        tabJeu.getChildren().add(barreDeVieHero);
         //ajouter tous les acteurs dans la vue
-        ajouterActeurVue(env.getHero());
         for (Acteur a : env.getActeurs()) {
             ajouterActeurVue(a);
         }
@@ -141,6 +149,15 @@ public class Controleur implements Initializable {
         heroJumpFrames[3] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/jump3.png"));
         heroJumpFrames[4] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/jump4.png"));
         heroJumpFrames[5] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/jump5.png"));
+
+        //Pré des images attack
+        heroAttackFrames = new Image[5];
+        heroAttackFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/attack0.png"));
+        heroAttackFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/attack1.png"));
+        heroAttackFrames[2] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/attack2.png"));
+        heroAttackFrames[3] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/attack3.png"));
+        heroAttackFrames[4] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/attack4.png"));
+
 
         // Préchargement des images d'ennemi
         ennemiFrames = new Image[2];
@@ -296,16 +313,33 @@ public class Controleur implements Initializable {
             if (a instanceof Ennemi)
                 attaqueEnnemis();
         }
-
-
+        barreDeVieHero.mettreAJour(env.getHero().getPv());
     }
 
     //à commenter
     public void attaqueHero() {
         if (!env.getHero().attackOnCooldown) {
+            // Activer l'action d'attaque qui sera détectée par mettreAJourAnimation
             env.getHero().getActions().set(6, true);
             env.getHero().attaque();
 
+            // Obtenir les références au héros et à son animation d'attaque
+            Hero hero = env.getHero();
+            Timeline attackAnimation = attackAnimations.get(hero);
+
+            // Jouer directement l'animation d'attaque
+            if (attackAnimation != null) {
+                // Arrêter les autres animations en cours
+                if (animations.get(hero) != null) animations.get(hero).stop();
+                if (idleAnimations.get(hero) != null) idleAnimations.get(hero).stop();
+                if (jumpAnimations.get(hero) != null) jumpAnimations.get(hero).stop();
+
+                // Jouer l'animation d'attaque
+                attackAnimation.play();
+                animationState.put(hero, "attack");
+            }
+
+            // Réinitialiser l'action d'attaque après un court délai
             Platform.runLater(() -> {
                 env.getHero().getActions().set(6, false);
             });
@@ -390,6 +424,27 @@ public class Controleur implements Initializable {
             );
             jumpAnimation.setCycleCount(Animation.INDEFINITE);
 
+            // Animation d'attaque - NOUVEL AJOUT
+            Timeline attackAnimation = new Timeline();
+            for (int i = 0; i < heroAttackFrames.length; i++) {
+                final int frameIndex = i;
+                KeyFrame keyFrame = new KeyFrame(
+                        Duration.millis(100 * i), // Timing séquentiel pour les frames d'attaque
+                        e -> imageView.setImage(heroAttackFrames[frameIndex])
+                );
+                attackAnimation.getKeyFrames().add(keyFrame);
+            }
+            // Ajouter un keyframe final pour revenir à l'animation précédente
+            attackAnimation.getKeyFrames().add(new KeyFrame(
+                    Duration.millis(100 * heroAttackFrames.length),
+                    e -> {
+                        // Revenir à l'animation idle à la fin de l'attaque
+                        idleAnimation.play();
+                        animationState.put(a, "idle");
+                    }
+            ));
+            attackAnimation.setCycleCount(1); // L'attaque ne joue qu'une seule fois
+
             // Démarrer l'animation d'idle par défaut
             idleAnimation.play();
             animationState.put(a, "idle");
@@ -398,8 +453,9 @@ public class Controleur implements Initializable {
             animations.put(a, walkAnimation);
             idleAnimations.put(a, idleAnimation);
             jumpAnimations.put(a, jumpAnimation);
+            attackAnimations.put(a, attackAnimation); // NOUVEL AJOUT
         } else {
-            // Pour les ennemis (animation simple)
+            // Pour les ennemis (animation simple) - inchangé
             imageView.setImage(ennemiFrames[0]);
             imageView.setId("Ennemis");
 
@@ -441,15 +497,31 @@ public class Controleur implements Initializable {
             Timeline walkAnimation = animations.get(acteur);
             Timeline idleAnimation = idleAnimations.get(acteur);
             Timeline jumpAnimation = jumpAnimations.get(acteur);
+            Timeline attackAnimation = attackAnimations.get(acteur);
             String currentState = animationState.getOrDefault(acteur, "idle");
 
             Hero hero = (Hero) acteur;
 
+            // Vérifier si le héros attaque - Priorité sur les autres animations
+            boolean isAttacking = hero.getActions().get(6);
+
             // Vérifier si le héros est en train de sauter
             boolean isJumping = !hero.auSol;
 
-            // Décider quelle animation jouer
-            if (isJumping) {
+            // Décider quelle animation jouer - En donnant priorité à l'attaque
+            if (isAttacking) {
+                // Si l'animation d'attaque n'est pas déjà en cours
+                if (!currentState.equals("attack")) {
+                    // Arrêter toutes les autres animations
+                    walkAnimation.stop();
+                    idleAnimation.stop();
+                    jumpAnimation.stop();
+
+                    // Jouer l'attaque
+                    attackAnimation.play();
+                    animationState.put(acteur, "attack");
+                }
+            } else if (isJumping) {
                 // Si le héros saute et n'est pas déjà en animation de saut
                 if (!currentState.equals("jump")) {
                     walkAnimation.stop();
@@ -484,6 +556,7 @@ public class Controleur implements Initializable {
         Timeline walkAnimation = animations.get(acteur);
         Timeline idleAnimation = idleAnimations.get(acteur);
         Timeline jumpAnimation = jumpAnimations.get(acteur);
+        Timeline attackAnimation = attackAnimations.get(acteur);
 
         if (sprite != null) {
             tabJeu.getChildren().remove(sprite);
@@ -505,8 +578,14 @@ public class Controleur implements Initializable {
             jumpAnimations.remove(acteur);
         }
 
+        if (attackAnimation != null) {
+            attackAnimation.stop();
+            attackAnimations.remove(acteur);
+        }
+
         animationState.remove(acteur);
     }
+
     // Démarrage
     public void demarrer() {
         gameLoop.play();
