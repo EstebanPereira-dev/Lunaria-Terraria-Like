@@ -15,6 +15,8 @@ public abstract class Acteur {
     public static int compteur=1;
     private String id;
 
+    protected int range;
+
     private double posX, posY;
 
     public DoubleProperty x;
@@ -28,7 +30,10 @@ public abstract class Acteur {
     public boolean auSol;
     public double SAUT = -5;
 
-    public Acteur(int pv, int v, int degat, Environement env, double x, double y) {
+    public boolean attackOnCooldown = false;
+    public int cooldownAttack;
+
+    public Acteur(int pv, int v, int degat, int range, Environement env, double x, double y) {
         this.pv = pv;
         this.vitesseX = v;
         this.degat = degat;
@@ -36,8 +41,12 @@ public abstract class Acteur {
         id = "A"+compteur;
         compteur++;
 
+        this.range = range;
+
         this.posX = x;
         this.posY = y;
+
+        cooldownAttack = 5;
 
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
@@ -52,6 +61,8 @@ public abstract class Acteur {
         pv = 100;
         this.vitesseX = 2;
 
+        this.range = 5;
+
         this.posX = 100;
         this.posY = 100;
 
@@ -65,6 +76,7 @@ public abstract class Acteur {
     }
 
     public abstract void deplacement();
+    public abstract void attaque();
 
     public void updateVisualPosition() {
         x.set(posX);
@@ -110,6 +122,11 @@ public abstract class Acteur {
         updateVisualPosition();
     }
 
+    public void estMort(){
+        env.retirer(this);
+        env.marquerPourSuppression(this);
+    }
+
     public void deplacerHorizontalement(double deltaX) {
         if (deltaX == 0) return;
 
@@ -148,22 +165,6 @@ public abstract class Acteur {
         return env;
     }
 
-    public DoubleProperty getXProperty() {
-        return x;
-    }
-
-    public DoubleProperty getYProperty() {
-        return y;
-    }
-
-    public double getX() {
-        return posX;
-    }
-
-    public double getY() {
-        return posY;
-    }
-
     public String getId() {
         return id;
     }
@@ -176,4 +177,28 @@ public abstract class Acteur {
         return vitesseX;
     }
 
+    public int getDegat() {
+        return degat;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    //SETTER
+
+    public void setPv(int pv) {
+        this.pv = pv;
+    }
+
+    @Override
+    public String toString() {
+        return "Acteur{" +
+                ", pv=" + pv +
+                ", id='" + id + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", degat=" + degat +
+                '}';
+    }
 }
