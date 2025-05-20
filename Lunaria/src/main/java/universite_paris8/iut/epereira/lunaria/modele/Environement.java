@@ -21,9 +21,18 @@ public class Environement {
     public Environement(int width, int height){
         this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
         this.hero = new Hero(this);
-        Acteur a1 = new Adepte(20,1,10,1,this,hero,300,500);
+
         acteurs = new ArrayList<>();
-        acteurs.add(a1);
+        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+
         acteurs.add(hero);
         this.height = height;
         this.width = width;
