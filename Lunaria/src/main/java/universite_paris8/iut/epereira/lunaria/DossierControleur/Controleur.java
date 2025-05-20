@@ -71,6 +71,9 @@ public class Controleur implements Initializable {
     //boolean popur savoir si l'inventaire est ouvert ou pas.
     private boolean inventaireBooleanOvert = true;
 
+    //garde quel slot de l'inventaire est selectioné
+    private int isSelectedInHand = 0;
+
     //game loop
     private Timeline gameLoop;
 
@@ -87,6 +90,7 @@ public class Controleur implements Initializable {
 
         //initialiser ce que contient la souris a null
         tempItemSouris = null;
+
 
         prechargerImages();
         //appelle de la methode serInvVisible
@@ -131,6 +135,11 @@ public class Controleur implements Initializable {
             demarrer();
         });
     }
+
+    private void chargerItemDansMain() {
+    }
+
+
     private void prechargerImages() {
         // Préchargement des images du héros pour la marche
         heroFrames = new Image[4];
@@ -175,7 +184,7 @@ public class Controleur implements Initializable {
     private void setInvVisible(Boolean bool) {
         inventaireGridPane.setVisible(bool);
         inventaireGridPane.setDisable(!bool);
-        for(int i = 0;i<9;i++){
+        for (int i = 0; i < 9; i++) {
             inventaireGridPane.getChildren().get(i).setVisible(bool);
         }
     }
@@ -186,9 +195,6 @@ public class Controleur implements Initializable {
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
     }
 
-    private void gereInventaire(){
-
-    }
 
     //gestionaire de l'inventaire
     @FXML
@@ -233,6 +239,7 @@ public class Controleur implements Initializable {
         } else {
             env.getHero().getInv().addItem(row * 3 + col, tempItemSouris);
         }
+        selectItem(row * 3 + col);
 
 
         //charger ce que contient la case par une image de l'item, vide si null
@@ -247,6 +254,18 @@ public class Controleur implements Initializable {
 
     }
 
+
+
+
+
+    @FXML//si la souris est cliquer attaquer
+    public void clicSouris() {
+        attaqueHero();
+    }
+
+    @FXML //rien
+    public void plusClicSouris() {
+    }
 
     //gere quand les touche sont appuyé, faire une action
     private void gererTouchePressee(KeyEvent event) {
@@ -275,19 +294,87 @@ public class Controleur implements Initializable {
 
                 } else {
                     env.getHero().getActions().set(4, !env.getHero().getActions().get(4));
-                    if(inventaireBooleanOvert){
+                    if (inventaireBooleanOvert) {
                         setInvVisible(true);
                         inventaireBooleanOvert = !inventaireBooleanOvert;
-                    }
-                    else{
+                    } else {
                         setInvVisible(false);
                         inventaireBooleanOvert = !inventaireBooleanOvert;
                     }
 
                 }
                 break;
+
+            case DIGIT1:
+                selectItem(0);
+                break;
+
+            case DIGIT2:
+                selectItem(1);
+                break;
+
+            case DIGIT3:
+                selectItem(2);
+                break;
+
+            case DIGIT4:
+                selectItem(3);
+                break;
+
+            case DIGIT5:
+                selectItem(4);
+                break;
+
+            case DIGIT6:
+                selectItem(5);
+                break;
+
+            case DIGIT7:
+                selectItem(6);
+                break;
+
+            case DIGIT8:
+                selectItem(7);
+                break;
+
+            case DIGIT9:
+                selectItem(8);
+                break;
+
         }
     }
+
+    public Item selectItem(int i) {
+
+        if (!inventaireBooleanOvert) {
+
+
+        //System.out.println(inventaireGridPane.getChildren().get(i).getStyle());
+
+        if (inventaireGridPane.getChildren().get(i).getStyle().equals("-fx-background-color: white")) {
+            //System.out.println("change en jaune");
+            inventaireGridPane.getChildren().get(i).setStyle("-fx-background-color: yellow");
+            //System.out.println(inventaireGridPane.getChildren().get(i).getStyle());
+        } else {
+            if (inventaireGridPane.getChildren().get(i).getStyle().toString().equals("-fx-background-color: yellow")) {
+                //System.out.println("change en blanc");
+                inventaireGridPane.getChildren().get(i).setStyle("-fx-background-color: white");
+                return null;
+                //System.out.println(inventaireGridPane.getChildren().get(i).getStyle());
+            }
+        }
+        if (isSelectedInHand != i) {
+            inventaireGridPane.getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
+        }
+        isSelectedInHand = i;
+        return env.getHero().getInv().getIteminList(i);
+        }
+        else{
+            return env.getHero().getInv().getIteminList(isSelectedInHand);
+        }
+
+    }
+
     //gere quand la touche est relacher
     private void gererToucheRelachee(KeyEvent event) {
         switch (event.getCode()) {
@@ -572,7 +659,6 @@ public class Controleur implements Initializable {
             }
         }
     }
-
 
 
     public void supprimerActeurVue(Acteur acteur) {
