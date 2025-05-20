@@ -33,7 +33,7 @@ public class Controleur implements Initializable {
     private TilePane tilePaneId; //tilePane pour poesr nos bloc et les casser
 
     @FXML //pouor afficher les item dans l'inventaire
-    private ImageView imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9;
+    private ImageView imageInv1, imageInv2, imageInv3, imageInv4, imageInv5, imageInv6, imageInv7, imageInv8, imageInv9;
 
     @FXML //Texte Pause quand on arrete le jeux
     private TextArea pauseID;
@@ -50,10 +50,8 @@ public class Controleur implements Initializable {
     //lier acteur avec leur sprites et animation
     private final Map<Acteur, String> animationState = new HashMap<>();
     private final Map<Acteur, Timeline> animations = new HashMap<>();
-    private final Map<Acteur, Boolean> animationRunning = new HashMap<>();
     private final Map<Acteur, ImageView> sprites = new HashMap<>();
     private final Map<Acteur, Timeline> idleAnimations = new HashMap<>();
-    private final Map<Acteur, String> animationState = new HashMap<>();
     private final Map<Acteur, Timeline> jumpAnimations = new HashMap<>();
 
     private Image[] heroJumpFrames;
@@ -70,9 +68,11 @@ public class Controleur implements Initializable {
     //boolean popur savoir si l'inventaire est ouvert ou pas.
     private boolean inventaireBooleanOvert = true;
 
+    //garde quel slot de l'inventaire est selectioné
+    private int isSelectedInHand = 0;
+
     //game loop
     private Timeline gameLoop;
-
 
 
     @Override //initialization
@@ -82,6 +82,7 @@ public class Controleur implements Initializable {
 
         //initialiser ce que contient la souris a null
         tempItemSouris = null;
+
 
         prechargerImages();
         //appelle de la methode serInvVisible
@@ -101,7 +102,6 @@ public class Controleur implements Initializable {
         gestionMap = new GestionnaireMap(tilePaneId, env);
 
         //ajouter tous les acteurs dans la vue
-        ajouterActeurVue(env.getHero());
         for (Acteur a : env.getActeurs()) {
             ajouterActeurVue(a);
         }
@@ -118,6 +118,11 @@ public class Controleur implements Initializable {
             demarrer();
         });
     }
+
+    private void chargerItemDansMain() {
+    }
+
+
     private void prechargerImages() {
         // Préchargement des images du héros pour la marche
         heroFrames = new Image[4];
@@ -153,7 +158,7 @@ public class Controleur implements Initializable {
     private void setInvVisible(Boolean bool) {
         inventaireGridPane.setVisible(bool);
         inventaireGridPane.setDisable(!bool);
-        for(int i = 0;i<9;i++){
+        for (int i = 0; i < 9; i++) {
             inventaireGridPane.getChildren().get(i).setVisible(bool);
         }
     }
@@ -162,6 +167,13 @@ public class Controleur implements Initializable {
     private void configurerEvenements() {
         tabJeu.setOnKeyPressed(this::gererTouchePressee);
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
+    }
+
+
+
+
+    public void dansLaMain(){
+
     }
 
     //gestionaire de l'inventaire
@@ -184,6 +196,8 @@ public class Controleur implements Initializable {
         } else {
             env.getHero().getInv().addItem(row * 3 + col, tempItemSouris);
         }
+
+        selectItem(row * 3 + col);
 
 
         //charger ce que contient la case par une image de l'item, vide si null
@@ -234,19 +248,87 @@ public class Controleur implements Initializable {
 
                 } else {
                     env.getHero().getActions().set(4, !env.getHero().getActions().get(4));
-                    if(inventaireBooleanOvert){
+                    if (inventaireBooleanOvert) {
                         setInvVisible(true);
                         inventaireBooleanOvert = !inventaireBooleanOvert;
-                    }
-                    else{
+                    } else {
                         setInvVisible(false);
                         inventaireBooleanOvert = !inventaireBooleanOvert;
                     }
 
                 }
                 break;
+
+            case DIGIT1:
+                selectItem(0);
+                break;
+
+            case DIGIT2:
+                selectItem(1);
+                break;
+
+            case DIGIT3:
+                selectItem(2);
+                break;
+
+            case DIGIT4:
+                selectItem(3);
+                break;
+
+            case DIGIT5:
+                selectItem(4);
+                break;
+
+            case DIGIT6:
+                selectItem(5);
+                break;
+
+            case DIGIT7:
+                selectItem(6);
+                break;
+
+            case DIGIT8:
+                selectItem(7);
+                break;
+
+            case DIGIT9:
+                selectItem(8);
+                break;
+
         }
     }
+
+    public Item selectItem(int i) {
+
+        if (!inventaireBooleanOvert) {
+
+
+        //System.out.println(inventaireGridPane.getChildren().get(i).getStyle());
+
+        if (inventaireGridPane.getChildren().get(i).getStyle().equals("-fx-background-color: white")) {
+            //System.out.println("change en jaune");
+            inventaireGridPane.getChildren().get(i).setStyle("-fx-background-color: yellow");
+            //System.out.println(inventaireGridPane.getChildren().get(i).getStyle());
+        } else {
+            if (inventaireGridPane.getChildren().get(i).getStyle().toString().equals("-fx-background-color: yellow")) {
+                //System.out.println("change en blanc");
+                inventaireGridPane.getChildren().get(i).setStyle("-fx-background-color: white");
+                return null;
+                //System.out.println(inventaireGridPane.getChildren().get(i).getStyle());
+            }
+        }
+        if (isSelectedInHand != i) {
+            inventaireGridPane.getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
+        }
+        isSelectedInHand = i;
+        return env.getHero().getInv().getIteminList(i);
+        }
+        else{
+            return env.getHero().getInv().getIteminList(isSelectedInHand);
+        }
+
+    }
+
     //gere quand la touche est relacher
     private void gererToucheRelachee(KeyEvent event) {
         switch (event.getCode()) {
@@ -478,7 +560,6 @@ public class Controleur implements Initializable {
     }
 
 
-
     public void supprimerActeurVue(Acteur acteur) {
         ImageView sprite = sprites.get(acteur);
         Timeline walkAnimation = animations.get(acteur);
@@ -507,6 +588,7 @@ public class Controleur implements Initializable {
 
         animationState.remove(acteur);
     }
+
     // Démarrage
     public void demarrer() {
         gameLoop.play();
