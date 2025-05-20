@@ -43,7 +43,9 @@ public class Controleur implements Initializable {
     private final Map<Acteur, ImageView> sprites = new HashMap<>();
     private final Map<Acteur, Timeline> idleAnimations = new HashMap<>();
     private final Map<Acteur, String> animationState = new HashMap<>();
+    private final Map<Acteur, Timeline> jumpAnimations = new HashMap<>();
 
+    private Image[] heroJumpFrames;
     private Image[] heroFrames;
     private Image[] ennemiFrames;
     private Image[] heroIdleFrames;
@@ -102,7 +104,16 @@ public class Controleur implements Initializable {
         heroIdleFrames[2] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idleb.png"));
         heroIdleFrames[3] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idlec.png"));
 
-        // Préchargement des images d'ennemi (peut être changé selon vos sprites ennemis)
+        // Préchargement des images du héros pour le saut
+        heroJumpFrames = new Image[6];
+        heroJumpFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/jump0.png"));
+        heroJumpFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/jump1.png"));
+        heroJumpFrames[2] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/jump2.png"));
+        heroJumpFrames[3] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/jump3.png"));
+        heroJumpFrames[4] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/jump4.png"));
+        heroJumpFrames[5] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/jump5.png"));
+
+        // Préchargement des images d'ennemi
         ennemiFrames = new Image[2];
         ennemiFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Adepte/idle1.png"));
         ennemiFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Adepte/idle1.png"));
@@ -305,6 +316,16 @@ public class Controleur implements Initializable {
             );
             idleAnimation.setCycleCount(Animation.INDEFINITE);
 
+            // Animation de saut
+            final int[] jumpFrameIndex = {0};
+            Timeline jumpAnimation = new Timeline(
+                    new KeyFrame(Duration.millis(200), e -> {
+                        jumpFrameIndex[0] = (jumpFrameIndex[0] + 1) % heroJumpFrames.length;
+                        imageView.setImage(heroJumpFrames[jumpFrameIndex[0]]);
+                    })
+            );
+            jumpAnimation.setCycleCount(Animation.INDEFINITE);
+
             // Démarrer l'animation d'idle par défaut
             idleAnimation.play();
             animationState.put(a, "idle");
@@ -312,6 +333,7 @@ public class Controleur implements Initializable {
             // Stocker les animations
             animations.put(a, walkAnimation);
             idleAnimations.put(a, idleAnimation);
+            jumpAnimations.put(a, jumpAnimation);
         } else {
             // Pour les ennemis (animation simple)
             imageView.setImage(ennemiFrames[0]);
@@ -350,15 +372,31 @@ public class Controleur implements Initializable {
             sprite.setScaleX(1);  // Droite
         }
 
-        // Pour le héros, gérer le basculement entre idle et marche
+        // Pour le héros seulement
         if (acteur instanceof Hero) {
             Timeline walkAnimation = animations.get(acteur);
             Timeline idleAnimation = idleAnimations.get(acteur);
+            Timeline jumpAnimation = jumpAnimations.get(acteur);
             String currentState = animationState.getOrDefault(acteur, "idle");
 
-            if (Math.abs(vitesseX) > 0) {
-                // Si le héros se déplace et n'est pas déjà en animation de marche
+            Hero hero = (Hero) acteur;
+
+            // Vérifier si le héros est en train de sauter
+            boolean isJumping = !hero.auSol;
+
+            // Décider quelle animation jouer
+            if (isJumping) {
+                // Si le héros saute et n'est pas déjà en animation de saut
+                if (!currentState.equals("jump")) {
+                    walkAnimation.stop();
+                    idleAnimation.stop();
+                    jumpAnimation.play();
+                    animationState.put(acteur, "jump");
+                }
+            } else if (Math.abs(vitesseX) > 0) {
+                // Si le héros marche et n'est pas déjà en animation de marche
                 if (!currentState.equals("walk")) {
+                    jumpAnimation.stop();
                     idleAnimation.stop();
                     walkAnimation.play();
                     animationState.put(acteur, "walk");
@@ -367,6 +405,7 @@ public class Controleur implements Initializable {
                 // Si le héros est immobile et n'est pas déjà en animation d'idle
                 if (!currentState.equals("idle")) {
                     walkAnimation.stop();
+                    jumpAnimation.stop();
                     idleAnimation.play();
                     animationState.put(acteur, "idle");
                 }
@@ -375,10 +414,12 @@ public class Controleur implements Initializable {
     }
 
 
+
     public void supprimerActeurVue(Acteur acteur) {
         ImageView sprite = sprites.get(acteur);
         Timeline walkAnimation = animations.get(acteur);
         Timeline idleAnimation = idleAnimations.get(acteur);
+        Timeline jumpAnimation = jumpAnimations.get(acteur);
 
         if (sprite != null) {
             tabJeu.getChildren().remove(sprite);
@@ -393,6 +434,11 @@ public class Controleur implements Initializable {
         if (idleAnimation != null) {
             idleAnimation.stop();
             idleAnimations.remove(acteur);
+        }
+
+        if (jumpAnimation != null) {
+            jumpAnimation.stop();
+            jumpAnimations.remove(acteur);
         }
 
         animationState.remove(acteur);

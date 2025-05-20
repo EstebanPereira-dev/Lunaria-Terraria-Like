@@ -104,7 +104,7 @@ public class Terrain {
     public boolean estAuSol(Acteur a) {
         double centreX = a.getPosX();
         double centreY = a.getPosY();
-        double rayon = 8;
+        double rayon = 20;
 
         double testY = centreY + rayon + 1;
 
