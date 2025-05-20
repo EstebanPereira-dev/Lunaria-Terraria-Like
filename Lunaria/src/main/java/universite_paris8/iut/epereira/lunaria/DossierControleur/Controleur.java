@@ -38,12 +38,15 @@ public class Controleur implements Initializable {
     private ImageView background;
 
     private Item tempItemSouris;
-
+    private final Map<Acteur, Timeline> animations = new HashMap<>();
+    private final Map<Acteur, Boolean> animationRunning = new HashMap<>();
     private final Map<Acteur, ImageView> sprites = new HashMap<>();
+    private final Map<Acteur, Timeline> idleAnimations = new HashMap<>();
+    private final Map<Acteur, String> animationState = new HashMap<>();
 
     private Image[] heroFrames;
     private Image[] ennemiFrames;
-
+    private Image[] heroIdleFrames;
     private Environement env;
     private GestionnaireMap gestionMap;
 
@@ -68,7 +71,6 @@ public class Controleur implements Initializable {
 
         gestionMap = new GestionnaireMap(tilePaneId, env);
 
-        ajouterActeurVue(env.getHero());
         for (Acteur a : env.getActeurs()) {
             ajouterActeurVue(a);
         }
@@ -86,16 +88,26 @@ public class Controleur implements Initializable {
         });
     }
     private void prechargerImages() {
-        // Préchargement des images du héros (2 frames comme dans vos images)
-        heroFrames = new Image[2];
-        heroFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idle1.png"));
-        heroFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idle2.png"));
+        // Préchargement des images du héros pour la marche
+        heroFrames = new Image[4];
+        heroFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/walk0.png"));
+        heroFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/walk1.png"));
+        heroFrames[2] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/walk2.png"));
+        heroFrames[3] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/walk3.png"));
+
+        // Préchargement des images du héros pour l'idle
+        heroIdleFrames = new Image[4];
+        heroIdleFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idle0.png"));
+        heroIdleFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idlea.png"));
+        heroIdleFrames[2] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idleb.png"));
+        heroIdleFrames[3] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Hero/idlec.png"));
 
         // Préchargement des images d'ennemi (peut être changé selon vos sprites ennemis)
         ennemiFrames = new Image[2];
         ennemiFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Adepte/idle1.png"));
         ennemiFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Adepte/idle1.png"));
     }
+
     private void configurerEvenements() {
         tabJeu.setOnKeyPressed(this::gererTouchePressee);
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
@@ -200,12 +212,21 @@ public class Controleur implements Initializable {
 
         env.supprimerActeursMarques();
         for (Acteur a : acteursCopie) {
+            // Stocker la position avant le déplacement
+            double oldX = a.getPosX();
+
+            // Appliquer le déplacement
             a.deplacement();
+
+            // Calculer la vitesse effective (changement de position)
+            double deltaX = a.getPosX() - oldX;
+
+            // Mettre à jour l'animation en fonction du mouvement
+            mettreAJourAnimation(a, deltaX);
+
             if (a instanceof Ennemi)
                 attaqueEnnemis();
         }
-
-
     }
     public void attaqueHero(){
         if (!env.getHero().attackOnCooldown) {
@@ -254,52 +275,128 @@ public class Controleur implements Initializable {
     public ImageView creerSprite(Acteur a) {
         ImageView imageView = new ImageView();
 
-        // Dimensions du sprite basées sur les images que vous avez partagées
-        // Ajustez ces valeurs en fonction de la taille réelle de vos sprites
+        // Dimensions du sprite
         imageView.setFitWidth(48);
         imageView.setFitHeight(48);
 
-        // Animation différente selon le type d'acteur
+        // Créer les animations selon le type d'acteur
         if (a instanceof Hero) {
-            // Définir l'image initiale
-            imageView.setImage(heroFrames[0]);
+            // Définir l'image initiale (frame idle)
+            imageView.setImage(heroIdleFrames[0]);
             imageView.setId("Hero");
 
-            // Animation simple alternant entre les deux frames
-            final int[] frameIndex = {0};
-            Timeline animation = new Timeline(
-                    new KeyFrame(Duration.millis(300), e -> {
-                        frameIndex[0] = (frameIndex[0] + 1) % heroFrames.length;
-                        imageView.setImage(heroFrames[frameIndex[0]]);
+            // Animation de marche
+            final int[] walkFrameIndex = {0};
+            Timeline walkAnimation = new Timeline(
+                    new KeyFrame(Duration.millis(150), e -> {
+                        walkFrameIndex[0] = (walkFrameIndex[0] + 1) % heroFrames.length;
+                        imageView.setImage(heroFrames[walkFrameIndex[0]]);
                     })
             );
-            animation.setCycleCount(Animation.INDEFINITE);
-            animation.play();
+            walkAnimation.setCycleCount(Animation.INDEFINITE);
+
+            // Animation d'idle
+            final int[] idleFrameIndex = {0};
+            Timeline idleAnimation = new Timeline(
+                    new KeyFrame(Duration.millis(250), e -> {
+                        idleFrameIndex[0] = (idleFrameIndex[0] + 1) % heroIdleFrames.length;
+                        imageView.setImage(heroIdleFrames[idleFrameIndex[0]]);
+                    })
+            );
+            idleAnimation.setCycleCount(Animation.INDEFINITE);
+
+            // Démarrer l'animation d'idle par défaut
+            idleAnimation.play();
+            animationState.put(a, "idle");
+
+            // Stocker les animations
+            animations.put(a, walkAnimation);
+            idleAnimations.put(a, idleAnimation);
         } else {
-            // Pour les ennemis
+            // Pour les ennemis (animation simple)
             imageView.setImage(ennemiFrames[0]);
             imageView.setId("Ennemis");
 
-            // Animation simple alternant entre les deux frames
             final int[] frameIndex = {0};
             Timeline animation = new Timeline(
-                    new KeyFrame(Duration.millis(300), e -> {
+                    new KeyFrame(Duration.millis(150), e -> {
                         frameIndex[0] = (frameIndex[0] + 1) % ennemiFrames.length;
                         imageView.setImage(ennemiFrames[frameIndex[0]]);
                     })
             );
             animation.setCycleCount(Animation.INDEFINITE);
             animation.play();
+
+            // Stocker l'animation
+            animations.put(a, animation);
         }
 
         // Lier les propriétés de position
-        // Centrer l'image sur les coordonnées de l'acteur
         imageView.translateXProperty().bind(a.x.subtract(imageView.getFitWidth() / 2));
         imageView.translateYProperty().bind(a.y.subtract(imageView.getFitHeight() / 2));
 
         return imageView;
     }
 
+    private void mettreAJourAnimation(Acteur acteur, double vitesseX) {
+        ImageView sprite = sprites.get(acteur);
+
+        if (sprite == null) return;
+
+        // Orienter le sprite selon la direction
+        if (vitesseX < 0) {
+            sprite.setScaleX(-1); // Gauche
+        } else if (vitesseX > 0) {
+            sprite.setScaleX(1);  // Droite
+        }
+
+        // Pour le héros, gérer le basculement entre idle et marche
+        if (acteur instanceof Hero) {
+            Timeline walkAnimation = animations.get(acteur);
+            Timeline idleAnimation = idleAnimations.get(acteur);
+            String currentState = animationState.getOrDefault(acteur, "idle");
+
+            if (Math.abs(vitesseX) > 0) {
+                // Si le héros se déplace et n'est pas déjà en animation de marche
+                if (!currentState.equals("walk")) {
+                    idleAnimation.stop();
+                    walkAnimation.play();
+                    animationState.put(acteur, "walk");
+                }
+            } else {
+                // Si le héros est immobile et n'est pas déjà en animation d'idle
+                if (!currentState.equals("idle")) {
+                    walkAnimation.stop();
+                    idleAnimation.play();
+                    animationState.put(acteur, "idle");
+                }
+            }
+        }
+    }
+
+
+    public void supprimerActeurVue(Acteur acteur) {
+        ImageView sprite = sprites.get(acteur);
+        Timeline walkAnimation = animations.get(acteur);
+        Timeline idleAnimation = idleAnimations.get(acteur);
+
+        if (sprite != null) {
+            tabJeu.getChildren().remove(sprite);
+            sprites.remove(acteur);
+        }
+
+        if (walkAnimation != null) {
+            walkAnimation.stop();
+            animations.remove(acteur);
+        }
+
+        if (idleAnimation != null) {
+            idleAnimation.stop();
+            idleAnimations.remove(acteur);
+        }
+
+        animationState.remove(acteur);
+    }
     // Démarrage
     public void demarrer() {
         gameLoop.play();
@@ -308,14 +405,6 @@ public class Controleur implements Initializable {
     // Pause
     public void arreter() {
         gameLoop.stop();
-    }
-
-    public void supprimerActeurVue(Acteur acteur) {
-        ImageView sprite = sprites.get(acteur);
-        if (sprite != null) {
-            tabJeu.getChildren().remove(sprite);
-            sprites.remove(acteur);
-        }
     }
 
     // Modifiez la méthode ajouterActeurVue
