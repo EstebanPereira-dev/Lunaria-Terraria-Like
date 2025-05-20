@@ -222,7 +222,7 @@ public class Controleur implements Initializable {
         } else {
             env.getHero().getInv().addItem(row * 3 + col, tempItemSouris);
         }
-
+        selectItem(row * 3 + col);
 
         //charger ce que contient la case par une image de l'item, vide si null
 
@@ -258,7 +258,7 @@ public class Controleur implements Initializable {
 
     }
 
-        selectItem(row * 3 + col);
+
 
     @FXML//si la souris est cliquer attaquer
     public void clicSouris() {
@@ -610,6 +610,7 @@ public class Controleur implements Initializable {
             Timeline walkAnimation = animations.get(acteur);
             Timeline idleAnimation = idleAnimations.get(acteur);
             Timeline jumpAnimation = jumpAnimations.get(acteur);
+            Timeline attackAnimation = attackAnimations.get(acteur);
             String currentState = animationState.getOrDefault(acteur, "idle");
 
             Hero hero = (Hero) acteur;
