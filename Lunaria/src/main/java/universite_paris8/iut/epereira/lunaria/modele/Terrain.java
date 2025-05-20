@@ -78,7 +78,7 @@ public class Terrain {
     public boolean estEnCollision(Acteur acteur) {
         double centreX = acteur.getPosX();
         double centreY = acteur.getPosY();
-        double rayon = 10;
+        double rayon = 20;
 
         // Calculer les limites de tuiles à vérifier
         int minTileX = Math.max(0, (int) ((centreX - rayon) / ConfigurationJeu.TAILLE_TUILE));
@@ -110,7 +110,7 @@ public class Terrain {
     public boolean estAuSol(Acteur a) {
         double centreX = a.getPosX();
         double centreY = a.getPosY();
-        double rayon = 8;
+        double rayon = 20;
 
         double testY = centreY + rayon + 1;
 

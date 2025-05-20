@@ -15,7 +15,7 @@ public abstract class Acteur {
     public static int compteur=1;
     private String id;
 
-    private int range;
+    protected int range;
 
     private double posX, posY;
 
@@ -30,6 +30,9 @@ public abstract class Acteur {
     public boolean auSol;
     public double SAUT = -5;
 
+    public boolean attackOnCooldown = false;
+    public int cooldownAttack;
+
     public Acteur(int pv, int v, int degat, int range, Environement env, double x, double y) {
         this.pv = pv;
         this.vitesseX = v;
@@ -43,6 +46,8 @@ public abstract class Acteur {
         this.posX = x;
         this.posY = y;
 
+        cooldownAttack = 5;
+
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
 
@@ -55,6 +60,8 @@ public abstract class Acteur {
         this.env = env;
         pv = 100;
         this.vitesseX = 2;
+
+        this.range = 5;
 
         this.posX = 100;
         this.posY = 100;
@@ -115,6 +122,11 @@ public abstract class Acteur {
         updateVisualPosition();
     }
 
+    public void estMort(){
+        env.retirer(this);
+        env.marquerPourSuppression(this);
+    }
+
     public void deplacerHorizontalement(double deltaX) {
         if (deltaX == 0) return;
 
@@ -168,6 +180,11 @@ public abstract class Acteur {
     public int getDegat() {
         return degat;
     }
+
+    public int getRange() {
+        return range;
+    }
+
     //SETTER
 
     public void setPv(int pv) {
