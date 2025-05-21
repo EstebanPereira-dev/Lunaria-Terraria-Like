@@ -1,5 +1,5 @@
 package universite_paris8.iut.epereira.lunaria.modele;
-import universite_paris8.iut.epereira.lunaria.modele.items.Item;
+import universite_paris8.iut.epereira.lunaria.modele.Item;
 
 import javafx.scene.layout.HBox;
 
