@@ -215,8 +215,15 @@ public class Controleur implements Initializable {
             int distanceY=Math.abs(tuileY-heroY);
 
             if (distanceX<=range && distanceY<=range) {
+                Item item = Item.getItemPourTuile(terrain[tuileY][tuileX]);
+                int posLibre = env.getHero().getInv().trouverPremiereCaseVide();
                 env.getTerrain().changerTuile(0, tuileX, tuileY);
                 gestionMap.chargerTiles(env.getTerrain());
+                if(posLibre !=-1 && item!= null){
+                    env.getHero().getInv().addItem(posLibre, item);
+                    System.out.println("+1 de " + item.getNom());
+                    System.out.println("inventaire: "+ env.getHero().getInv().toString());
+                }
             }
         } else {
             attaqueHero();
@@ -255,16 +262,6 @@ public class Controleur implements Initializable {
         //inventaireGridPane.getChildren().get(row * 3 + col).setStyle();
 
 
-    }
-
-
-
-
-
-
-
-    @FXML //rien
-    public void plusClicSouris() {
     }
 
     //gere quand les touche sont appuyé, faire une action

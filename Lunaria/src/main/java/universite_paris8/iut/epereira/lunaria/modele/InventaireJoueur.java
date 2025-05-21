@@ -8,10 +8,10 @@ public class InventaireJoueur {
     private int taille;
 
 
-    public InventaireJoueur(){
+    public InventaireJoueur() {
         taille = 9;
         listeditem = new Item[taille];
-        for(int i = 0; i < taille; i++){
+        for (int i = 0; i < taille; i++) {
             listeditem[i] = null;
         }
     }
@@ -25,10 +25,10 @@ public class InventaireJoueur {
     }
 
     //met un item dans l'inventaire, si l espace est occupé, on retourne l'item dans la position
-    public Item addItem(int pos, Item item){
+    public Item addItem(int pos, Item item) {
         Item retour = null;
 
-        if(listeditem[pos] != null){
+        if (listeditem[pos] != null) {
             retour = listeditem[pos];
         }
         listeditem[pos] = item;
@@ -36,7 +36,7 @@ public class InventaireJoueur {
     }
 
     //enlève l'item a l'emplacement
-    public void removeItem(int pos){
+    public void removeItem(int pos) {
         listeditem[pos] = null;
     }
 
@@ -45,8 +45,9 @@ public class InventaireJoueur {
     public Item[] getListeditem() {
         return listeditem;
     }
+
     //return un item dans l'inventaire
-    public Item getIteminList(int pos){
+    public Item getIteminList(int pos) {
         return listeditem[pos];
     }
 
@@ -54,3 +55,5 @@ public class InventaireJoueur {
         return taille;
     }
 }
+
+
