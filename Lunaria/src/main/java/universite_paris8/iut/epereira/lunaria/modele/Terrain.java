@@ -165,11 +165,13 @@ public class Terrain {
             updateTangibilite();
             System.out.println("Le bloc en x=" + x + " et en y=" + y + " est remplacé par un bloc de type " + blocDeRemplacement);
 
-            for (int i = 0; i < this.getTableau().length; i++) {
+            //test permettant d afficher le tableau
+          /*  for (int i = 0; i < this.getTableau().length; i++) {
                 for (int j = 0; j < this.getTableau()[i].length; j++)
                     System.out.print(this.getTableau()[i][j]);
                 System.out.println("");
-            }
+            }*/
+
 
     }
 

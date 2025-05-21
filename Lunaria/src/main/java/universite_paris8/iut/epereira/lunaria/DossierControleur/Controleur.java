@@ -195,29 +195,32 @@ public class Controleur implements Initializable {
         tabJeu.setOnKeyReleased(this::gererToucheRelachee);
     }
 
-
-    //gestionaire de l'inventaire
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
-        attaqueHero();
         dernierePosX = mouseEvent.getX();
         dernierePosY = mouseEvent.getY();
         System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
-        int tuileX=(int)(dernierePosX/ConfigurationJeu.TAILLE_TUILE);
-        int tuileY=(int)(dernierePosY/ConfigurationJeu.TAILLE_TUILE);
 
-        //if (tuileX >= 0 && tuileX < env.getTerrain().getWidth() && tuileY >= 0 && tuileY < env.getTerrain().getHeight()) {
-          //  env.getTerrain().changerTuile(0, tuileX, tuileY);
-            this.env.getTerrain().changerTuile(0,tuileX,tuileY);
-            gestionMap.chargerTiles(env.getTerrain());
+        int tuileX = (int) (dernierePosX/ConfigurationJeu.TAILLE_TUILE);
+        int tuileY = (int) (dernierePosY/ConfigurationJeu.TAILLE_TUILE);
 
-        //gestionMap.chargerTiles(this.env.getTerrain());
-            //this.gestionMap.RafraichirTuile(tuileX, tuileY);
-       // } else {
-         //   System.out.println("Clic hors des limites du terrain");
-        //}
+        int[][] terrain = env.getTerrain().getTableau();
 
+        if (terrain[tuileY][tuileX]!= 0) { // Si la case n'est pas vide
+            int heroX=(int) (env.getHero().getPosX()/ConfigurationJeu.TAILLE_TUILE);
+            int heroY=(int) (env.getHero().getPosY()/ConfigurationJeu.TAILLE_TUILE);
+            int range=env.getHero().getRange(); // en nombre de cases
 
+            int distanceX=Math.abs(tuileX-heroX);
+            int distanceY=Math.abs(tuileY-heroY);
+
+            if (distanceX<=range && distanceY<=range) {
+                env.getTerrain().changerTuile(0, tuileX, tuileY);
+                gestionMap.chargerTiles(env.getTerrain());
+            }
+        } else {
+            attaqueHero();
+        }
     }
 
     @FXML
@@ -252,15 +255,6 @@ public class Controleur implements Initializable {
         //inventaireGridPane.getChildren().get(row * 3 + col).setStyle();
 
 
-    }
-
-
-
-
-
-    @FXML//si la souris est cliquer attaquer
-    public void clicSouris() {
-        attaqueHero();
     }
 
     @FXML //rien
