@@ -15,15 +15,13 @@ public abstract class Acteur {
     public static int compteur=1;
     private String id;
 
-    protected int range;
-
     private double posX, posY;
 
     public DoubleProperty x;
     public DoubleProperty y;
 
     private Environement env;
-    private int degat;
+
     public double GRAVITE = 0.2;
 
     public boolean collision;
@@ -33,15 +31,12 @@ public abstract class Acteur {
     public boolean attackOnCooldown = false;
     public int cooldownAttack;
 
-    public Acteur(int pv, int v, int degat, int range, Environement env, double x, double y) {
+    public Acteur(int pv, int v, Environement env, double x, double y) {
         this.pv = pv;
         this.vitesseX = v;
-        this.degat = degat;
         this.env = env;
         id = "A"+compteur;
         compteur++;
-
-        this.range = range;
 
         this.posX = x;
         this.posY = y;
@@ -59,9 +54,7 @@ public abstract class Acteur {
     public Acteur(Environement env) {
         this.env = env;
         pv = 100;
-        this.vitesseX = 2;
-
-        this.range = 5;
+        this.vitesseX = 3;
 
         this.posX = 100;
         this.posY = 100;
@@ -69,15 +62,13 @@ public abstract class Acteur {
         this.x = new SimpleDoubleProperty(100);
         this.y = new SimpleDoubleProperty(100);
 
-        degat = 5;
         id = "A"+0;
         collision = env.getTerrain().estEnCollision(this);
         auSol = env.getTerrain().estAuSol(this);
     }
 
     public abstract void deplacement();
-    public abstract void attaque();
-
+    public abstract void agit();
     public void updateVisualPosition() {
         x.set(posX);
         y.set(posY);
@@ -118,7 +109,6 @@ public abstract class Acteur {
                 vitesseY = 0;
             }
         }
-
         updateVisualPosition();
     }
 
@@ -177,13 +167,6 @@ public abstract class Acteur {
         return vitesseX;
     }
 
-    public int getDegat() {
-        return degat;
-    }
-
-    public int getRange() {
-        return range;
-    }
 
     public int getCooldownAttack() {
         return cooldownAttack;
@@ -201,7 +184,6 @@ public abstract class Acteur {
                 ", id='" + id + '\'' +
                 ", x=" + x +
                 ", y=" + y +
-                ", degat=" + degat +
                 '}';
     }
 }

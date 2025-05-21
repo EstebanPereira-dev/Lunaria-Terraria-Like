@@ -19,13 +19,11 @@ public class BarreDeVie extends Pane {
         this.pvMax = pvMax;
         this.pvActuels = pvMax;
 
-        // Créer le fond de la barre (gris)
         barreFond = new Rectangle(largeur, hauteur);
         barreFond.setFill(Color.DARKGRAY);
         barreFond.setStroke(Color.BLACK);
         barreFond.setStrokeWidth(1);
 
-        // Créer la barre de vie (verte)
         barreHP = new Rectangle(largeur, hauteur);
         barreHP.setFill(Color.GREEN);
 
@@ -33,10 +31,6 @@ public class BarreDeVie extends Pane {
         setPrefSize(largeur, hauteur);
     }
 
-    /**
-     * Met à jour la barre de vie avec les PV actuels
-     * @param pv Les points de vie actuels
-     */
     public void mettreAJour(int pv) {
         // Stocker les anciens PV pour comparer
         int anciensPV = this.pvActuels;

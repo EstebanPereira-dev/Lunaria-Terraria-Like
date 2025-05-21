@@ -78,7 +78,7 @@ public class Terrain {
     public boolean estEnCollision(Acteur acteur) {
         double centreX = acteur.getPosX();
         double centreY = acteur.getPosY();
-        double rayon = 20;
+        double rayon = 17;
 
         // Calculer les limites de tuiles à vérifier
         int minTileX = Math.max(0, (int) ((centreX - rayon) / ConfigurationJeu.TAILLE_TUILE));
@@ -110,7 +110,7 @@ public class Terrain {
     public boolean estAuSol(Acteur a) {
         double centreX = a.getPosX();
         double centreY = a.getPosY();
-        double rayon = 20;
+        double rayon = 17;
 
         double testY = centreY + rayon + 1;
 
@@ -165,11 +165,13 @@ public class Terrain {
             updateTangibilite();
             System.out.println("Le bloc en x=" + x + " et en y=" + y + " est remplacé par un bloc de type " + blocDeRemplacement);
 
-            for (int i = 0; i < this.getTableau().length; i++) {
+            //test permettant d afficher le tableau
+          /*  for (int i = 0; i < this.getTableau().length; i++) {
                 for (int j = 0; j < this.getTableau()[i].length; j++)
                     System.out.print(this.getTableau()[i][j]);
                 System.out.println("");
-            }
+            }*/
+
 
     }
 
@@ -177,4 +179,6 @@ public class Terrain {
     public void setTableau(int[][] tableau) {
         this.tableau = tableau;
     }
+
+
 }

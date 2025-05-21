@@ -4,6 +4,8 @@ import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
+import static universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu.rdm;
+
 public class Adepte extends Ennemi {
 
     public Adepte(int pv, int v, int degat, int range, Environement env, Hero hero, double x, double y) {
@@ -22,9 +24,8 @@ public class Adepte extends Ennemi {
             vitesseY = SAUT;
         deplacerVerticalement();
     }
-
     @Override
-    public void attaque() {
+    public void agit() {
         double distanceX = Math.abs(getPosX() - hero.getPosX());
         double distanceY = Math.abs(getPosY() - hero.getPosY());
         double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);

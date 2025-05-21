@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +25,8 @@ public class Environement {
 
         acteurs = new ArrayList<>();
         acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+        acteurs.add( new Adepte(20,2,10,1,this,hero,200,500));
+        acteurs.add( new Mouton(20,1,this,200,600));
 
         acteurs.add(hero);
         this.height = height;
