@@ -6,6 +6,11 @@ import javafx.scene.layout.TilePane;
 import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Terrain;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+
 
 public class GestionnaireMap {
     private Terrain tableau;
@@ -37,8 +42,9 @@ public class GestionnaireMap {
 
     public void chargerTiles(Terrain terrain) {
         panneauDeTuile.getChildren().clear();
-
         int[][] mapData = terrain.getTableau();
+
+        panneauDeTuile.getChildren().setAll(genererTuilesDepuisMap(mapData, ConfigurationJeu.TAILLE_TUILE));
 
         System.out.println("Dimensions du terrain: " + terrain.getWidth() + "x" + terrain.getHeight());
 
@@ -92,14 +98,34 @@ public class GestionnaireMap {
             return imageBois;
     }
 
-    public void RafraichirTuile(int x, int y){
+    // Ancienne facon de rafraichir (avant observable liste) ==> inutile mais on sait jamais
+  /*  public void RafraichirTuile(int x, int y){
         int tuile= this.tableau.getTableau()[y][x];
         Image sprite = getImageTuile(tuile);
         vueTuiles[y][x].setImage(sprite);
         chargerTiles(this.tableau);
-    }
+    }*/
 
     public Terrain getTableau() {
         return tableau;
     }
+
+
+    public ObservableList<Node> genererTuilesDepuisMap(int[][] map, int tileSize) {
+        ObservableList<Node> liste = FXCollections.observableArrayList();
+
+        for (int y = 0; y < map.length; y++) {
+            for (int x = 0; x < map[y].length; x++) {
+                int type = map[y][x];
+                ImageView imageView = new ImageView(getImageTuile(type));
+                imageView.setFitWidth(tileSize);
+                imageView.setFitHeight(tileSize);
+                liste.add(imageView);
+            }
+        }
+
+        return liste;
+    }
+
+
 }

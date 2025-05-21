@@ -194,7 +194,35 @@ public class Controleur implements Initializable {
 
 
 
-    //gestionaire de l'inventaire
+
+    @FXML
+    public void clicSouris(MouseEvent mouseEvent) {
+        dernierePosX = mouseEvent.getX();
+        dernierePosY = mouseEvent.getY();
+        System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
+
+        int tuileX = (int) (dernierePosX/ConfigurationJeu.TAILLE_TUILE);
+        int tuileY = (int) (dernierePosY/ConfigurationJeu.TAILLE_TUILE);
+
+        int[][] terrain = env.getTerrain().getTableau();
+
+        if (terrain[tuileY][tuileX]!= 0) { // Si la case n'est pas vide
+            int heroX=(int) (env.getHero().getPosX()/ConfigurationJeu.TAILLE_TUILE);
+            int heroY=(int) (env.getHero().getPosY()/ConfigurationJeu.TAILLE_TUILE);
+            int range=env.getHero().getRange(); // en nombre de cases
+
+            int distanceX=Math.abs(tuileX-heroX);
+            int distanceY=Math.abs(tuileY-heroY);
+
+            if (distanceX<=range && distanceY<=range) {
+                env.getTerrain().changerTuile(0, tuileX, tuileY);
+                gestionMap.chargerTiles(env.getTerrain());
+            }
+        } else {
+            attaqueHero();
+        }
+    }
+
     @FXML
     public void inv(ActionEvent event) {
         Node source = (Node) event.getSource();
@@ -216,6 +244,7 @@ public class Controleur implements Initializable {
         }
         selectItem(row * 3 + col);
 
+
         //charger ce que contient la case par une image de l'item, vide si null
 
         //imageInv1.setImage(new Image("/universite_paris8/iut/epereira/lunaria/DossierMap/Background.png"));
@@ -229,26 +258,6 @@ public class Controleur implements Initializable {
     }
 
 
-    @FXML
-    public void clicSouris(MouseEvent mouseEvent) {
-        attaqueHero();
-        dernierePosX = mouseEvent.getX();
-        dernierePosY = mouseEvent.getY();
-        System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
-        int tuileX=(int)(dernierePosX/ConfigurationJeu.TAILLE_TUILE);
-        int tuileY=(int)(dernierePosY/ConfigurationJeu.TAILLE_TUILE);
-
-        //if (tuileX >= 0 && tuileX < env.getTerrain().getWidth() && tuileY >= 0 && tuileY < env.getTerrain().getHeight()) {
-        //  env.getTerrain().changerTuile(0, tuileX, tuileY);
-        this.env.getTerrain().changerTuile(0,tuileX,tuileY);
-        gestionMap.chargerTiles(this.env.getTerrain());
-        //this.gestionMap.RafraichirTuile(tuileX, tuileY);
-        // } else {
-        //   System.out.println("Clic hors des limites du terrain");
-        //}
-
-
-    }
 
 
 
@@ -492,7 +501,6 @@ public class Controleur implements Initializable {
 
         // Créer les animations selon le type d'acteur
         if (a instanceof Hero) {
-
             // Définir l'image initiale (frame idle)
             imageView.setImage(heroIdleFrames[0]);
             imageView.setId("Hero");
