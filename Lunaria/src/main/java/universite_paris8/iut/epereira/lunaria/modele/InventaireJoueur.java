@@ -4,10 +4,13 @@ import javafx.scene.layout.HBox;
 
 public class InventaireJoueur {
     private Item[] listeditem;
+    private int taille;
+
 
     public InventaireJoueur(){
-        listeditem = new Item[9];
-        for(int i = 0; i < 9; i++){
+        taille = 9;
+        listeditem = new Item[taille];
+        for(int i = 0; i < taille; i++){
             listeditem[i] = null;
         }
     }
@@ -26,14 +29,10 @@ public class InventaireJoueur {
     }
 
     //enlève l'item a l'emplacement
-    public Item removeItem(int pos){
-        if(listeditem[pos] == null){
-            return null;
-        }
-        else{
-            return listeditem[pos];
-        }
+    public void removeItem(int pos){
+        listeditem[pos] = null;
     }
+
 
     //retourne la liste des item
     public Item[] getListeditem() {
@@ -44,6 +43,7 @@ public class InventaireJoueur {
         return listeditem[pos];
     }
 
-
-
+    public int getTaille() {
+        return taille;
+    }
 }

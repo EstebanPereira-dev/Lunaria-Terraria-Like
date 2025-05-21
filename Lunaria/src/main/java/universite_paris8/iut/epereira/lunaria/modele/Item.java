@@ -29,6 +29,8 @@ public class Item {
         return quantite;
     }
 
+    public void setQuantite(int quantite) {this.quantite = quantite;}
+
     public void setCondition(boolean condition) {
         this.condition = condition;
     }

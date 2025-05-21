@@ -16,15 +16,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
-
-
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 public class Controleur implements Initializable {
     @FXML
@@ -32,9 +30,6 @@ public class Controleur implements Initializable {
 
     @FXML
     private TilePane tilePaneId; //tilePane pour poesr nos bloc et les casser
-
-    @FXML //pouor afficher les item dans l'inventaire
-    private ImageView imageInv1, imageInv2, imageInv3, imageInv4, imageInv5, imageInv6, imageInv7, imageInv8, imageInv9;
 
     @FXML //Texte Pause quand on arrete le jeux
     private TextArea pauseID;
@@ -198,9 +193,6 @@ public class Controleur implements Initializable {
 
 
 
-    public void dansLaMain(){
-
-    }
 
     //gestionaire de l'inventaire
     @FXML
@@ -239,7 +231,7 @@ public class Controleur implements Initializable {
 
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
-        env.getHero().getActions().set(6, true);
+        attaqueHero();
         dernierePosX = mouseEvent.getX();
         dernierePosY = mouseEvent.getY();
         System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
@@ -260,10 +252,7 @@ public class Controleur implements Initializable {
 
 
 
-    @FXML//si la souris est cliquer attaquer
-    public void clicSouris() {
-        attaqueHero();
-    }
+
 
     @FXML //rien
     public void plusClicSouris() {
@@ -503,6 +492,7 @@ public class Controleur implements Initializable {
 
         // Créer les animations selon le type d'acteur
         if (a instanceof Hero) {
+
             // Définir l'image initiale (frame idle)
             imageView.setImage(heroIdleFrames[0]);
             imageView.setId("Hero");
@@ -567,6 +557,9 @@ public class Controleur implements Initializable {
             idleAnimations.put(a, idleAnimation);
             jumpAnimations.put(a, jumpAnimation);
             attackAnimations.put(a, attackAnimation); // NOUVEL AJOUT
+
+
+
         } else {
             // Pour les ennemis (animation simple) - inchangé
             imageView.setImage(ennemiFrames[0]);
