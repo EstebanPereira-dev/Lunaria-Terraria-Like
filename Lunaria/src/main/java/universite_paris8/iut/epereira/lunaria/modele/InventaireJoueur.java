@@ -1,4 +1,5 @@
 package universite_paris8.iut.epereira.lunaria.modele;
+import universite_paris8.iut.epereira.lunaria.modele.items.Item;
 
 import javafx.scene.layout.HBox;
 
@@ -16,6 +17,12 @@ public class InventaireJoueur {
     }
 
 
+    public int trouverPremiereCaseVide() {
+        for (int i = 0; i < listeditem.length; i++) {
+            if (listeditem[i] == null) return i;
+        }
+        return -1; // inventaire plein
+    }
 
     //met un item dans l'inventaire, si l espace est occupé, on retourne l'item dans la position
     public Item addItem(int pos, Item item){
