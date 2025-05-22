@@ -13,7 +13,7 @@
    <children>
       <ImageView fitHeight="367.0" fitWidth="619.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Flux_Dev_Create_a_visually_captivating_and_immersive_welcome_s_1.jpg" />
+            <Image url="MenuImage.jpg" />
          </image>
       </ImageView>
 
