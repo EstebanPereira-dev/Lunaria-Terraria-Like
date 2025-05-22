@@ -1,4 +1,4 @@
-package universite_paris8.iut.epereira.lunaria.dossierController;
+package universite_paris8.iut.epereira.lunaria.DossierController.ossierControleur;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -197,7 +197,7 @@ public class Controleur implements Initializable {
 
 
 
-
+    
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
         dernierePosX = mouseEvent.getX();
@@ -228,11 +228,10 @@ public class Controleur implements Initializable {
                     System.out.println("inventaire: "+ env.getHero().getInv().toString());
                 }
             }
-        } else {
+        } else 
             attaqueHero();
         }
-    }
-
+        
     @FXML
     public void inv(ActionEvent event) {
         Node source = (Node) event.getSource();

@@ -1,5 +1,8 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Herbe;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Terre;
+
 public class Item {
     private String nom;
     private int quantite;
@@ -29,6 +32,8 @@ public class Item {
         return quantite;
     }
 
+    public void setQuantite(int quantite) {this.quantite = quantite;}
+
     public void setCondition(boolean condition) {
         this.condition = condition;
     }
@@ -37,8 +42,17 @@ public class Item {
         return condition;
     }
 
-
-
+    public static Item getItemPourTuile(int idTuile) {
+        switch (idTuile) {
+            case 1:
+                return new Terre();
+            case 2:
+                return new Herbe();
+            // Ajoute d'autres types si nécessaire
+            default:
+                return null;
+        }
+    }
 
 
     @Override
