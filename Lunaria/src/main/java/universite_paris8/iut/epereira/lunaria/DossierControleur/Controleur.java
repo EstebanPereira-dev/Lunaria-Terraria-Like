@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.*;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import java.net.URL;
@@ -401,7 +402,11 @@ public class Controleur implements Initializable {
     //gere ce qui se passe toute les tick
     private void miseAJourJeu() {
         List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
-
+        env.update();
+        for (Acteur acteur : env.getActeurs()) {
+            if (!sprites.containsKey(acteur))
+                ajouterActeurVue(acteur);
+        }
         List<Acteur> acteursASupprimer = env.getActeursASupprimer();
         for (Acteur acteur : acteursASupprimer) {
             supprimerActeurVue(acteur);
@@ -409,16 +414,12 @@ public class Controleur implements Initializable {
 
         env.supprimerActeursMarques();
         for (Acteur a : acteursCopie) {
-            // Stocker la position avant le déplacement
             double oldX = a.getPosX();
 
-            // Appliquer le déplacement
             a.deplacement();
 
-            // Calculer la vitesse effective (changement de position)
             double deltaX = a.getPosX() - oldX;
 
-            // Mettre à jour l'animation en fonction du mouvement
             mettreAJourAnimation(a, deltaX);
 
             if (a instanceof Ennemi)
