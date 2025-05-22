@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,28 +15,35 @@ public class Environement {
     private char cylceJourNuit;
     private int width;
     private int height;
-    //private final ObservableList<Acteur> acteurs = FXCollections.observableArrayList();
     private ArrayList<Acteur> acteurs;
     private List<Acteur> acteursASupprimer = new ArrayList<>();
+    // Spawner pour les ennemis
+    private Adepte spawnerAdepte;
 
     public Environement(int width, int height){
         this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
         this.hero = new Hero(this);
 
         acteurs = new ArrayList<>();
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
-        acteurs.add( new Adepte(20,1,10,1,this,hero,300,500));
+
+        acteurs.add(new Mouton(20, 1, this, 200, 600));
 
         acteurs.add(hero);
+
         this.height = height;
         this.width = width;
+
+        spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
+    }
+
+    /**
+     * Met à jour l'environnement et gère le spawn automatique
+     * À appeler dans votre boucle de jeu
+     */
+    public void update() {
+        spawnerAdepte.spawner();
+
+        supprimerActeursMarques();
     }
 
     public void marquerPourSuppression(Acteur acteur) {
@@ -53,6 +61,7 @@ public class Environement {
     public List<Acteur> getActeursASupprimer() {
         return new ArrayList<>(acteursASupprimer);
     }
+
     public int getHeight() {
         return height;
     }
@@ -60,6 +69,7 @@ public class Environement {
     public ArrayList<Acteur> getActeurs() {
         return acteurs;
     }
+
     public Acteur getActeur(String id) {
         for(Acteur a:this.acteurs){
             if(a.getId().equals(id)){
@@ -68,10 +78,15 @@ public class Environement {
         }
         return null;
     }
+
     public void ajouter(Acteur a){
         acteurs.add(a);
     }
-    public void retirer(Acteur a){ acteurs.remove(a);}
+
+    public void retirer(Acteur a){
+        acteurs.remove(a);
+    }
+
     public int getWidth() {
         return width;
     }
@@ -83,6 +98,7 @@ public class Environement {
     public Hero getHero() {
         return hero;
     }
+
     public Terrain getTerrain() {
         return terrain;
     }

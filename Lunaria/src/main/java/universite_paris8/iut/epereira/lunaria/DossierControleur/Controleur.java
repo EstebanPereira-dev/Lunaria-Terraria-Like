@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.*;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import java.net.URL;
@@ -50,10 +51,8 @@ public class Controleur implements Initializable {
     private final Map<Acteur, Timeline> idleAnimations = new HashMap<>();
     private final Map<Acteur, Timeline> jumpAnimations = new HashMap<>();
     private final Map<Acteur, Timeline> attackAnimations = new HashMap<>();
-
     private Image[] heroJumpFrames;
-
-    //Environement modele
+    private Image[] moutonFrames;
     private Image[] heroFrames;
     private Image[] ennemiFrames;
     private Image[] heroIdleFrames;
@@ -170,6 +169,11 @@ public class Controleur implements Initializable {
         ennemiFrames = new Image[2];
         ennemiFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Adepte/idle1.png"));
         ennemiFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Adepte/idle1.png"));
+
+        // Préchargement des images d'ennemi
+        moutonFrames = new Image[2];
+        moutonFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Mouton.png"));
+        moutonFrames[1] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Mouton.png"));
     }
 
 
@@ -364,7 +368,11 @@ public class Controleur implements Initializable {
     //gere ce qui se passe toute les tick
     private void miseAJourJeu() {
         List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
-
+        env.update();
+        for (Acteur acteur : env.getActeurs()) {
+            if (!sprites.containsKey(acteur))
+                ajouterActeurVue(acteur);
+        }
         List<Acteur> acteursASupprimer = env.getActeursASupprimer();
         for (Acteur acteur : acteursASupprimer) {
             supprimerActeurVue(acteur);
@@ -372,16 +380,12 @@ public class Controleur implements Initializable {
 
         env.supprimerActeursMarques();
         for (Acteur a : acteursCopie) {
-            // Stocker la position avant le déplacement
             double oldX = a.getPosX();
 
-            // Appliquer le déplacement
             a.deplacement();
 
-            // Calculer la vitesse effective (changement de position)
             double deltaX = a.getPosX() - oldX;
 
-            // Mettre à jour l'animation en fonction du mouvement
             mettreAJourAnimation(a, deltaX);
 
             if (a instanceof Ennemi)
@@ -395,7 +399,7 @@ public class Controleur implements Initializable {
         if (!env.getHero().attackOnCooldown) {
             // Activer l'action d'attaque qui sera détectée par mettreAJourAnimation
             env.getHero().getActions().set(6, true);
-            env.getHero().attaque();
+            env.getHero().agit();
 
             // Obtenir les références au héros et à son animation d'attaque
             Hero hero = env.getHero();
@@ -438,7 +442,7 @@ public class Controleur implements Initializable {
     public void attaqueEnnemis() {
         for (Acteur acteur : env.getActeurs()) {
             if (acteur instanceof Ennemi && !acteur.attackOnCooldown) {
-                acteur.attaque();
+                acteur.agit();
                 acteur.attackOnCooldown = true;
 
                 final Acteur finalActeur = acteur;
@@ -531,7 +535,7 @@ public class Controleur implements Initializable {
 
 
 
-        } else {
+        } else if (a instanceof Ennemi){
             // Pour les ennemis (animation simple) - inchangé
             imageView.setImage(ennemiFrames[0]);
             imageView.setId("Ennemis");
@@ -541,6 +545,23 @@ public class Controleur implements Initializable {
                     new KeyFrame(Duration.millis(150), e -> {
                         frameIndex[0] = (frameIndex[0] + 1) % ennemiFrames.length;
                         imageView.setImage(ennemiFrames[frameIndex[0]]);
+                    })
+            );
+            animation.setCycleCount(Animation.INDEFINITE);
+            animation.play();
+
+            // Stocker l'animation
+            animations.put(a, animation);
+        }
+        else {
+            imageView.setImage(moutonFrames[0]);
+            imageView.setId("Ennemis");
+
+            final int[] frameIndex = {0};
+            Timeline animation = new Timeline(
+                    new KeyFrame(Duration.millis(150), e -> {
+                        frameIndex[0] = (frameIndex[0] + 1) % moutonFrames.length;
+                        imageView.setImage(moutonFrames[frameIndex[0]]);
                     })
             );
             animation.setCycleCount(Animation.INDEFINITE);
