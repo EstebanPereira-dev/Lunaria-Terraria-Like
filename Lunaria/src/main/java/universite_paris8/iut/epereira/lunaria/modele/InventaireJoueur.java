@@ -54,6 +54,41 @@ public class InventaireJoueur {
     public int getTaille() {
         return taille;
     }
+
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Inventaire:\n");
+        for (Item item : listeditem) {
+            if (item != null) {  // Ajout de cette vérification
+                sb.append("- ").append(item.getNom()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+/*public int getItemEquipe (){
+        int i=0;
+        while (!listeditem[i].estEquipe()){
+
+        }
+}*/
+
+    public void equiperItem(int pos) {
+        if (pos >= 0 && pos < taille && listeditem[pos] != null) {
+            for (int i=0; i< listeditem.length;i++){
+                if (listeditem[i].estEquipe())
+                    desequiperItem(i);
+            }
+            listeditem[pos].setEquipe(true);
+        }
+    }
+    public void desequiperItem(int pos) {
+        if (pos >= 0 && pos < taille && listeditem[pos] != null) {
+            listeditem[pos].setEquipe(false);
+        }
+    }
+
 }
+
 
 
