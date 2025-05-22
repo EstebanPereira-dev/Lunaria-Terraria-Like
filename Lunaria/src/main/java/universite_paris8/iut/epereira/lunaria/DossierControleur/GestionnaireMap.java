@@ -1,4 +1,4 @@
-package universite_paris8.iut.epereira.lunaria.dossierController;
+package universite_paris8.iut.epereira.lunaria.DossierControleur;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,7 +9,6 @@ import universite_paris8.iut.epereira.lunaria.modele.Terrain;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 
 
 public class GestionnaireMap {

@@ -1,4 +1,4 @@
-package universite_paris8.iut.epereira.lunaria.DossierController.ossierControleur;
+package universite_paris8.iut.epereira.lunaria.DossierControleur;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -432,7 +432,7 @@ public class Controleur implements Initializable {
         if (!env.getHero().attackOnCooldown) {
             // Activer l'action d'attaque qui sera détectée par mettreAJourAnimation
             env.getHero().getActions().set(6, true);
-            env.getHero().attaque();
+            env.getHero().agit();
 
             // Obtenir les références au héros et à son animation d'attaque
             Hero hero = env.getHero();

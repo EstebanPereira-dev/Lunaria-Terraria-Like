@@ -5,7 +5,7 @@ import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Terre;
 
 public class Item {
     private String nom;
-    private int quantite;
+
     private String description;
     public static int item_ID = 1;
     private String id;
@@ -13,10 +13,9 @@ public class Item {
     private boolean equipe=false;
     public int type; //1=bloc 2=outil 3=arme 4=ressource
 
-    public Item(String nom, int quantite, String description, int type){
+    public Item(String nom, String description, int type){
         this.description = description;
         this.nom = nom;
-        this.quantite = quantite;
         id = "I"+item_ID;
         item_ID++;
         condition = false;
@@ -30,12 +29,6 @@ public class Item {
     public String getDescription() {
         return description;
     }
-
-    public int getQuantite() {
-        return quantite;
-    }
-
-    public void setQuantite(int quantite) {this.quantite = quantite;}
 
     public void setCondition(boolean condition) {
         this.condition = condition;
