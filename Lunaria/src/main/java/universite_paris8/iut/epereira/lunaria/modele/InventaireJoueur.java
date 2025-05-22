@@ -66,12 +66,14 @@ public class InventaireJoueur {
         return sb.toString();
     }
 
-/*public int getItemEquipe (){
-        int i=0;
-        while (!listeditem[i].estEquipe()){
-
+    public int getItemEquipe() {
+        for (int i = 0; i < listeditem.length; i++) {
+            if (listeditem[i] != null && listeditem[i].estEquipe()) {
+                return i;
+            }
         }
-}*/
+        return -1; // Aucun item équipé
+    }
 
     public void equiperItem(int pos) {
         if (pos >= 0 && pos < taille && listeditem[pos] != null) {
@@ -87,7 +89,6 @@ public class InventaireJoueur {
             listeditem[pos].setEquipe(false);
         }
     }
-
 }
 
 

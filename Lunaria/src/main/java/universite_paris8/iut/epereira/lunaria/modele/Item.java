@@ -7,21 +7,19 @@ public class Item {
     private String nom;
     private int quantite;
     private String description;
-    public static int item_ID = 1;
-    private String id;
+    public int id;
     private boolean condition;
     private boolean equipe=false;
-    public int type; //1=bloc 2=outil 3=arme 4=ressource
+    private boolean peutEtrePlace;
 
-    public Item(String nom, int quantite, String description, int type){
+    public Item(String nom, int quantite, String description, boolean peutEtrePlace,int id){
         this.description = description;
         this.nom = nom;
         this.quantite = quantite;
-        id = "I"+item_ID;
-        item_ID++;
+        id = id;
         condition = false;
-        this.type=type;
-    }
+        this.peutEtrePlace=peutEtrePlace;
+        }
 
     public String getNom() {
         return nom;
@@ -64,11 +62,23 @@ public class Item {
     public void setEquipe(boolean equipe) {
         this.equipe = equipe;
     }
+    public boolean getPeutEtrePlace(){
+        return peutEtrePlace;
+    }
+
+    public void setPeutEtrePlace(boolean peutEtrePlace) {
+        this.peutEtrePlace = peutEtrePlace;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     @Override
     public String toString() {
         return nom + "\n" + description + "\n";
     }
+
 
 
 }

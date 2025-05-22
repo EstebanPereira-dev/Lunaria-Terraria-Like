@@ -61,7 +61,7 @@ public class Controleur implements Initializable {
     private Environement env;
 
     //Controler la map
-    private GestionnaireMap gestionMap;
+    public GestionnaireMap gestionMap;
 
     //boolean popur savoir si l'inventaire est ouvert ou pas.
     private boolean inventaireBooleanOvert = true;
@@ -72,10 +72,10 @@ public class Controleur implements Initializable {
     //game loop
     private Timeline gameLoop;
 
-    private double dernierePosX = -1;
-    private double dernierePosY = -1;
+    public double dernierePosX = -1;
+    public double dernierePosY = -1;
 
-
+    //gestionnaire de souris
 
 
     @Override //initialization
@@ -85,8 +85,6 @@ public class Controleur implements Initializable {
 
         //initialiser ce que contient la souris a null
         tempItemSouris = null;
-
-
         prechargerImages();
         //appelle de la methode serInvVisible
         setInvVisible(false);
@@ -108,7 +106,7 @@ public class Controleur implements Initializable {
         barreDeVieHero = new BarreDeVie(env.getHero().getPv(), 200, 20);
 
         // Placer la barre de vie en haut à droite de l'écran
-        barreDeVieHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN-230);
+        barreDeVieHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
         barreDeVieHero.setTranslateY(30);
 
         // Ajouter la barre de vie au panneau de jeu
@@ -191,43 +189,10 @@ public class Controleur implements Initializable {
     }
 
 
-
-
-
-
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
-        dernierePosX = mouseEvent.getX();
-        dernierePosY = mouseEvent.getY();
-        System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
-
-        int tuileX = (int) (dernierePosX/ConfigurationJeu.TAILLE_TUILE);
-        int tuileY = (int) (dernierePosY/ConfigurationJeu.TAILLE_TUILE);
-
-        int[][] terrain = env.getTerrain().getTableau();
-
-        if (terrain[tuileY][tuileX]!= 0) { // Si la case n'est pas vide
-            int heroX=(int) (env.getHero().getPosX()/ConfigurationJeu.TAILLE_TUILE);
-            int heroY=(int) (env.getHero().getPosY()/ConfigurationJeu.TAILLE_TUILE);
-            int range=env.getHero().getRange(); // en nombre de cases
-
-            int distanceX=Math.abs(tuileX-heroX);
-            int distanceY=Math.abs(tuileY-heroY);
-
-            if (distanceX<=range && distanceY<=range) {
-                Item item = Item.getItemPourTuile(terrain[tuileY][tuileX]);
-                int posLibre = env.getHero().getInv().trouverPremiereCaseVide();
-                env.getTerrain().changerTuile(0, tuileX, tuileY);
-                gestionMap.chargerTiles(env.getTerrain());
-                if(posLibre !=-1 && item!= null){
-                    env.getHero().getInv().addItem(posLibre, item);
-                    System.out.println("+1 de " + item.getNom());
-                    System.out.println(env.getHero().getInv().toString());
-                }
-            }
-        } else {
-           // attaqueHero();
-        }
+        GestionSouris gestionSouris=new GestionSouris(env, this,mouseEvent);
+        gestionSouris.clicDeSouris();
     }
 
     @FXML
@@ -304,6 +269,7 @@ public class Controleur implements Initializable {
 
             case DIGIT1:
                 selectItem(0);
+                env.getHero().getInv().equiperItem(0);
                 break;
 
             case DIGIT2:
@@ -713,9 +679,6 @@ public class Controleur implements Initializable {
         sprites.put(acteur, sprite);
         tabJeu.getChildren().add(sprite);
     }
-    @FXML
-    public double[] position() {
-        return new double[]{dernierePosX, dernierePosY};
-    }
+
 
 }

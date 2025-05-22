@@ -1,22 +1,93 @@
-/*package universite_paris8.iut.epereira.lunaria.DossierControleur;
-
-import javafx.event.EventType;
+package universite_paris8.iut.epereira.lunaria.DossierControleur;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.PickResult;
+import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
+import universite_paris8.iut.epereira.lunaria.modele.Item;
 
-public class GestionSouris extends MouseEvent {
+public class GestionSouris {
     private Environement env;
-    public GestionSouris(EventType<? extends MouseEvent> eventType, double v, double v1, double v2, double v3, MouseButton mouseButton, int i, boolean b, boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6, boolean b7, boolean b8, boolean b9, PickResult pickResult,Environement env) {
-        super(eventType, v, v1, v2, v3, mouseButton, i, b, b1, b2, b3, b4, b5, b6, b7, b8, b9, pickResult);
-        this.env=env;
+    private Controleur controleur;
+    MouseEvent mouseEvent;
 
+    public GestionSouris(Environement env, Controleur controleur, MouseEvent mouseEvent) {
+        this.env = env;
+        this.controleur = controleur;
+        this.mouseEvent = mouseEvent;
     }
 
-    public void placerBloc(){
-        if(env.getHero().getInv().getListeditem().)
-        env.getTerrain().changerTuile();
+    public void clicDeSouris() {
+        controleur.dernierePosX = mouseEvent.getX();
+        controleur.dernierePosY = mouseEvent.getY();
+
+        int tuileX = (int) (controleur.dernierePosX / ConfigurationJeu.TAILLE_TUILE);
+        int tuileY = (int) (controleur.dernierePosY / ConfigurationJeu.TAILLE_TUILE);
+
+        int[][] terrain = env.getTerrain().getTableau();
+
+        if (mouseEvent.getButton() == MouseButton.PRIMARY){
+            System.out.println("Clic à : X = " + controleur.dernierePosX + " | Y = " + controleur.dernierePosY);
+
+        if (terrain[tuileY][tuileX] != 0) { // Si la case n'est pas vide
+            int heroX = (int) (env.getHero().getPosX() / ConfigurationJeu.TAILLE_TUILE);
+            int heroY = (int) (env.getHero().getPosY() / ConfigurationJeu.TAILLE_TUILE);
+            int range = env.getHero().getRange(); // en nombre de cases
+
+            int distanceX = Math.abs(tuileX - heroX);
+            int distanceY = Math.abs(tuileY - heroY);
+
+            if (distanceX <= range && distanceY <= range) {
+                Item item = Item.getItemPourTuile(terrain[tuileY][tuileX]);
+                int posLibre = env.getHero().getInv().trouverPremiereCaseVide();
+                env.getTerrain().changerTuile(0, tuileX, tuileY);
+                controleur.gestionMap.chargerTiles(env.getTerrain());
+                if (posLibre != -1 && item != null) {
+                    env.getHero().getInv().addItem(posLibre, item);
+                    System.out.println("+1 de " + item.getNom());
+                    System.out.println(env.getHero().getInv().toString());
+                    //Test pour voir si l'item est équipé
+                    System.out.println(""+env.getHero().getInv().getListeditem()[env.getHero().getInv().getItemEquipe()].getNom()+""+env.getHero().getInv().getListeditem()[env.getHero().getInv().getItemEquipe()].estEquipe());
+                }
+            }
+        } else {
+            controleur.attaqueHero();
+        }
+        }
+        if (mouseEvent.getButton() == MouseButton.SECONDARY){
+
+            System.out.println("Clic droit à : X = " + controleur.dernierePosX + " | Y = " + controleur.dernierePosY);
+
+            if (terrain[tuileY][tuileX] != 0) { // Si la case n'est pas vide
+
+                int heroX = (int) (env.getHero().getPosX() / ConfigurationJeu.TAILLE_TUILE);
+                int heroY = (int) (env.getHero().getPosY() / ConfigurationJeu.TAILLE_TUILE);
+                int range = env.getHero().getRange(); // en nombre de cases
+
+                int distanceX = Math.abs(tuileX - heroX);
+                int distanceY = Math.abs(tuileY - heroY);
+
+                if (distanceX <= range && distanceY <= range) {
+                    int i = env.getHero().getInv().getItemEquipe();
+                    if (i != -1) {
+                        Item itemEquipe = env.getHero().getInv().getListeditem()[i];
+                        if (itemEquipe.getPeutEtrePlace()) {
+                            env.getTerrain().changerTuile(itemEquipe.getId(), tuileX, tuileY);
+                            controleur.gestionMap.chargerTiles(env.getTerrain());
+                            env.getHero().getInv().removeItem(i);
+                        }
+                    }
+                }
+            }
+
     }
+    //}
+
+    //public void placerBloc(){
+
+  //  }
+
+    //public void casserBloc(){
+
+  //  }
 }
-*/
+}

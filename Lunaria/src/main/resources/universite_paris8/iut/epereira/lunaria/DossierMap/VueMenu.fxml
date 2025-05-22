@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.DossierControleur.VueMenuControleur">
+
+   <children>
+      <ImageView fitHeight="367.0" fitWidth="619.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Flux_Dev_Create_a_visually_captivating_and_immersive_welcome_s_1.jpg" />
+         </image>
+      </ImageView>
+
+      <Button layoutX="272.0" layoutY="297.0" mnemonicParsing="false" onAction="#lancerJeu" opacity="0.0" prefHeight="32.0" prefWidth="69.0" rotate="1.0" style="-fx-font-size: 16px; -fx-background-color: #4a6baf; -fx-text-fill: white;" text="Jouer" />
+   </children>
+</Pane>
