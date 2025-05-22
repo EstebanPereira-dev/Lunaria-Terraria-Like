@@ -36,10 +36,6 @@ public class Environement {
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
     }
 
-    /**
-     * Met à jour l'environnement et gère le spawn automatique
-     * À appeler dans votre boucle de jeu
-     */
     public void update() {
         spawnerAdepte.spawner();
 

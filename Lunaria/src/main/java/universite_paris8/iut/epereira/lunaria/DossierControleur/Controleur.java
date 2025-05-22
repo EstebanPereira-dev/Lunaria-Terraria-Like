@@ -401,30 +401,33 @@ public class Controleur implements Initializable {
 
     //gere ce qui se passe toute les tick
     private void miseAJourJeu() {
-        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
-        env.update();
-        for (Acteur acteur : env.getActeurs()) {
-            if (!sprites.containsKey(acteur))
-                ajouterActeurVue(acteur);
-        }
+        // Supprimer les acteurs morts de la vue
         List<Acteur> acteursASupprimer = env.getActeursASupprimer();
         for (Acteur acteur : acteursASupprimer) {
             supprimerActeurVue(acteur);
         }
-
         env.supprimerActeursMarques();
+
+        env.update();
+
+        // Ajouter les nouveaux acteurs à la vue
+        for (Acteur acteur : env.getActeurs()) {
+            if (!sprites.containsKey(acteur))
+                ajouterActeurVue(acteur);
+        }
+
+        // Faire les déplacements sur la vraie liste (copie juste pour l'itération)
+        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
         for (Acteur a : acteursCopie) {
             double oldX = a.getPosX();
-
             a.deplacement();
-
             double deltaX = a.getPosX() - oldX;
-
             mettreAJourAnimation(a, deltaX);
 
             if (a instanceof Ennemi)
                 attaqueEnnemis();
         }
+
         barreDeVieHero.mettreAJour(env.getHero().getPv());
     }
 
@@ -459,7 +462,7 @@ public class Controleur implements Initializable {
             env.getHero().attackOnCooldown = true;
 
             Timeline attackCooldownTimer = new Timeline(
-                    new KeyFrame(Duration.seconds(3), e -> {
+                    new KeyFrame(Duration.seconds(1), e -> {
                         env.getHero().attackOnCooldown = false;
                         System.out.println("Attaque dispo");
                     })
@@ -474,7 +477,10 @@ public class Controleur implements Initializable {
 
     //à commenter
     public void attaqueEnnemis() {
-        for (Acteur acteur : env.getActeurs()) {
+        // UTILISER UNE COPIE pour éviter ConcurrentModificationException
+        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
+
+        for (Acteur acteur : acteursCopie) {
             if (acteur instanceof Ennemi && !acteur.attackOnCooldown) {
                 acteur.agit();
                 acteur.attackOnCooldown = true;
