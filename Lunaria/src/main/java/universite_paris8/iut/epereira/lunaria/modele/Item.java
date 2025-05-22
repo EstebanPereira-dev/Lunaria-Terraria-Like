@@ -10,14 +10,17 @@ public class Item {
     public static int item_ID = 1;
     private String id;
     private boolean condition;
+    private boolean equipe=false;
+    public int type; //1=bloc 2=outil 3=arme 4=ressource
 
-    public Item(String nom, int quantite, String description){
+    public Item(String nom, int quantite, String description, int type){
         this.description = description;
         this.nom = nom;
         this.quantite = quantite;
         id = "I"+item_ID;
         item_ID++;
         condition = false;
+        this.type=type;
     }
 
     public String getNom() {
@@ -54,6 +57,13 @@ public class Item {
         }
     }
 
+    public boolean estEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(boolean equipe) {
+        this.equipe = equipe;
+    }
 
     @Override
     public String toString() {

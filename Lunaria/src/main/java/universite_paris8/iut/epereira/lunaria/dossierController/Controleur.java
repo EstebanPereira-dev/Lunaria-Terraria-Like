@@ -197,7 +197,7 @@ public class Controleur implements Initializable {
 
 
 
-    
+
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
         dernierePosX = mouseEvent.getX();
@@ -225,13 +225,14 @@ public class Controleur implements Initializable {
                 if(posLibre !=-1 && item!= null){
                     env.getHero().getInv().addItem(posLibre, item);
                     System.out.println("+1 de " + item.getNom());
-                    System.out.println("inventaire: "+ env.getHero().getInv().toString());
+                    System.out.println(env.getHero().getInv().toString());
                 }
             }
-        } else 
+        } else {
             attaqueHero();
         }
-        
+    }
+
     @FXML
     public void inv(ActionEvent event) {
         Node source = (Node) event.getSource();
