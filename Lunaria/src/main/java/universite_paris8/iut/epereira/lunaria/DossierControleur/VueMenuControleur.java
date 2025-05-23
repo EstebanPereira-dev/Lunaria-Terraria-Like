@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 
-import java.io.IOException;
-
 public class VueMenuControleur {
 
     @FXML

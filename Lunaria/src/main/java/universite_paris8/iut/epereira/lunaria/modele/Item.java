@@ -15,7 +15,7 @@ public class Item {
     public Item(String nom, String description, boolean peutEtrePlace,int id){
         this.description = description;
         this.nom = nom;
-        id = id;
+        this.id = id;
         condition = false;
         this.peutEtrePlace=peutEtrePlace;
         }

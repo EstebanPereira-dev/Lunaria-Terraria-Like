@@ -45,8 +45,15 @@ public class GestionSouris {
                     env.getHero().getInv().addItem(posLibre, item);
                     System.out.println("+1 de " + item.getNom());
                     System.out.println(env.getHero().getInv().toString());
-                    //Test pour voir si l'item est équipé
-                    System.out.println(""+env.getHero().getInv().getListeditem()[env.getHero().getInv().getItemEquipe()].getNom()+""+env.getHero().getInv().getListeditem()[env.getHero().getInv().getItemEquipe()].estEquipe());
+
+                    //afficher si un item est équipé ou non
+                    int i = env.getHero().getInv().getItemEquipe();
+                    if (i != -1) {
+                        Item itemEquipe = env.getHero().getInv().getListeditem()[i];
+                        System.out.println(itemEquipe.getNom() + " " + itemEquipe.estEquipe());
+                    } else {
+                        System.out.println("Aucun item équipé.");
+                    }
                 }
             }
         } else {

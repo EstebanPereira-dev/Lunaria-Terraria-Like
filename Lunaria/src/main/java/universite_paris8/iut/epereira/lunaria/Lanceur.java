@@ -47,8 +47,10 @@ public class Lanceur extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        System.out.println(getClass().getResource("/universite_paris8/iut/epereira/lunaria/DossierMap/Menu/MenuImage.jpg"));
+
         // Chargement avec le chemin absolu en utilisant getResource
-        URL fxmlUrl = getClass().getResource("/universite_paris8/iut/epereira/lunaria/DossierMap/VueMenu.fxml");
+        URL fxmlUrl = getClass().getResource("/universite_paris8/iut/epereira/lunaria/DossierMap/Menu/VueMenu.fxml");
         if (fxmlUrl == null) {
             System.err.println("Fichier FXML introuvable ! Vérifiez le chemin.");
             System.exit(-1);

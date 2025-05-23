@@ -5,8 +5,8 @@ import universite_paris8.iut.epereira.lunaria.modele.Item;
 public class Projectile extends Item {
     protected int quantite;
     protected int degat;
-    public Projectile(String nom, int quantite, String description, int type) {
-        super(nom, description, type);
+    public Projectile(String nom, int quantite, String description, int id) {
+        super(nom, description, false,id);
         this.quantite = quantite;
     }
 
