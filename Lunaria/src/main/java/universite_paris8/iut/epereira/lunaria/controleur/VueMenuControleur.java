@@ -1,4 +1,4 @@
-package universite_paris8.iut.epereira.lunaria.DossierControleur;
+package universite_paris8.iut.epereira.lunaria.controleur;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -1,11 +1,6 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
 
-import javafx.beans.property.IntegerProperty;
-import javafx.scene.input.MouseEvent;
-import universite_paris8.iut.epereira.lunaria.DossierControleur.Controleur;
-import universite_paris8.iut.epereira.lunaria.DossierControleur.GestionnaireMap;
-
 public class Terrain {
     private int width;
     private int height;

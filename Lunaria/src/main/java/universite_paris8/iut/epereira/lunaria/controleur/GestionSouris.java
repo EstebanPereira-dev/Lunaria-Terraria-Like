@@ -1,4 +1,4 @@
-package universite_paris8.iut.epereira.lunaria.DossierControleur;
+package universite_paris8.iut.epereira.lunaria.controleur;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
@@ -8,15 +8,14 @@ import universite_paris8.iut.epereira.lunaria.modele.Item;
 public class GestionSouris {
     private Environement env;
     private Controleur controleur;
-    MouseEvent mouseEvent;
 
-    public GestionSouris(Environement env, Controleur controleur, MouseEvent mouseEvent) {
+
+    public GestionSouris(Environement env, Controleur controleur) {
         this.env = env;
         this.controleur = controleur;
-        this.mouseEvent = mouseEvent;
     }
 
-    public void clicDeSouris() {
+    public void clicDeSouris(MouseEvent mouseEvent) {
         controleur.dernierePosX = mouseEvent.getX();
         controleur.dernierePosY = mouseEvent.getY();
 
@@ -40,7 +39,7 @@ public class GestionSouris {
                 Item item = Item.getItemPourTuile(terrain[tuileY][tuileX]);
                 int posLibre = env.getHero().getInv().trouverPremiereCaseVide();
                 env.getTerrain().changerTuile(0, tuileX, tuileY);
-                controleur.gestionMap.chargerTiles(env.getTerrain());
+                controleur.getGestionMap().chargerTiles(env.getTerrain());
                 if (posLibre != -1 && item != null) {
                     env.getHero().getInv().addItem(posLibre, item);
                     System.out.println("+1 de " + item.getNom());
@@ -57,7 +56,7 @@ public class GestionSouris {
                 }
             }
         } else {
-            controleur.attaqueHero();
+            controleur.getVueActeur(env.getHero()).attaqueHero();
         }
         }
         if (mouseEvent.getButton() == MouseButton.SECONDARY){
@@ -79,7 +78,7 @@ public class GestionSouris {
                         Item itemEquipe = env.getHero().getInv().getListeditem()[i];
                         if (itemEquipe.getPeutEtrePlace()) {
                             env.getTerrain().changerTuile(itemEquipe.getId(), tuileX, tuileY);
-                            controleur.gestionMap.chargerTiles(env.getTerrain());
+                            controleur.getGestionMap().chargerTiles(env.getTerrain());
                             env.getHero().getInv().removeItem(i);
                         }
                     }

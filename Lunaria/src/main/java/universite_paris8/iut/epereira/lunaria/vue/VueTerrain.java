@@ -1,4 +1,4 @@
-package universite_paris8.iut.epereira.lunaria.DossierControleur;
+package universite_paris8.iut.epereira.lunaria.vue;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,13 +11,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
 
-public class GestionnaireMap {
+public class VueTerrain {
     private Terrain tableau;
     private TilePane panneauDeTuile;
     private Environement env;
     private  ImageView[][] vueTuiles;
 
-    // Préchargement des images (une seule fois)
     private Image imageVide;
     private Image imageTerre;
     private Image imageHerbe;
@@ -25,7 +24,7 @@ public class GestionnaireMap {
     private Image imageMur;
     private Image imageBois;
 
-    public GestionnaireMap(TilePane panneauDeTuile, Environement env) {
+    public VueTerrain(TilePane panneauDeTuile, Environement env) {
         this.env = env;
         tableau = env.getTerrain();
         this.panneauDeTuile = panneauDeTuile;
