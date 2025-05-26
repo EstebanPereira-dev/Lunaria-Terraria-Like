@@ -31,4 +31,8 @@ public abstract class Ennemi extends Acteur {
     public Hero getHero() {
         return hero;
     }
+
+    public int getRange() {
+        return range;
+    }
 }

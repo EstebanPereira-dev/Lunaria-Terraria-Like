@@ -19,6 +19,7 @@ import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeur;
+import universite_paris8.iut.epereira.lunaria.vue.VueActeurFactory;
 import universite_paris8.iut.epereira.lunaria.vue.VueTerrain;
 
 import java.net.URL;
@@ -91,7 +92,7 @@ public class Controleur implements Initializable {
         tabJeu.getChildren().add(barreDeVieHero);
         //ajouter tous les acteurs dans la vue
         for (Acteur a : env.getActeurs()) {
-            VueActeur vue = new VueActeur(a, this);
+            VueActeur vue = VueActeurFactory.creerVue(a, this);
             vuesActeurs.add(vue);
         }
         //démarage du jeux

@@ -167,7 +167,6 @@ public abstract class Acteur {
         return vitesseX;
     }
 
-
     public int getCooldownAttack() {
         return cooldownAttack;
     }
