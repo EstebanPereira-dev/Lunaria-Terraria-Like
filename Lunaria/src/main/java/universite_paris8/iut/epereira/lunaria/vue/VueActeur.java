@@ -131,7 +131,4 @@ public abstract class VueActeur {
         return acteur;
     }
 
-    public void attaqueHero() {
-
-    }
 }

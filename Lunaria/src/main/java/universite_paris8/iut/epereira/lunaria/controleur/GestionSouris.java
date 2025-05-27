@@ -6,6 +6,9 @@ import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.vue.VueActeur;
+import universite_paris8.iut.epereira.lunaria.vue.VueHero;
+
 
 public class GestionSouris {
     private Environement env;
@@ -44,9 +47,10 @@ public class GestionSouris {
                 casserBloc(terrain, tuileX, tuileY);
             }
         } else {
-            controleur.getVueActeur(env.getHero()).attaqueHero();
+            VueActeur vueHero= controleur.getVueActeur(env.getHero());
+            if(vueHero instanceof VueHero)
+                ((VueHero) vueHero).attaquer();
         }
-
         // Afficher l'inventaire après chaque action
         env.getHero().getInv().afficherInventaire();
     }
