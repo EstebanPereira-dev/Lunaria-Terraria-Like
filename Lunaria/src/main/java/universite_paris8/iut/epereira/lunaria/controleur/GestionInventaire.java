@@ -99,8 +99,6 @@ public class GestionInventaire {
         }
     }
 
-
-
     public void setInventaireBooleanOvert(boolean inventaireBooleanOvert) {
         this.inventaireBooleanOvert = inventaireBooleanOvert;
     }

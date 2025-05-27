@@ -42,7 +42,6 @@ public class Controleur implements Initializable {
     @FXML //Afficher le fond
     private ImageView background;
 
-
     private BarreDeVie barreDeVieHero;
     //lier acteur avec leur sprites et animation
 
@@ -56,9 +55,6 @@ public class Controleur implements Initializable {
     private GestionBoucle gestionBoucle;
     private List<VueActeur> vuesActeurs = new ArrayList<>();
 
-    //game loop
-    private Timeline gameLoop;
-
     public double dernierePosX = -1;
     public double dernierePosY = -1;
 
@@ -69,17 +65,9 @@ public class Controleur implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Création de l'environement de la taille de l'écren
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
-        //régler les taille des different Pane
-        tabJeu.setPrefWidth(ConfigurationJeu.WIDTH_SCREEN);
-        tabJeu.setPrefHeight(ConfigurationJeu.HEIGHT_SCREEN);
-        tilePaneId.setPrefWidth(ConfigurationJeu.WIDTH_SCREEN);
-        tilePaneId.setPrefHeight(ConfigurationJeu.HEIGHT_TILES);
-
-        background.setFitWidth(ConfigurationJeu.WIDTH_SCREEN);
-        background.setFitHeight(ConfigurationJeu.HEIGHT_SCREEN);
 
         //initialisation du gestionaire de la map
-        gestionMap = new VueTerrain(tilePaneId, env);
+        gestionMap = new VueTerrain(env, this);
         gestionTouches= new GestionTouches(env,this);
         gestionSouris = new GestionSouris(env,this);
         gestionInventaire = new GestionInventaire(env,this);
@@ -97,14 +85,14 @@ public class Controleur implements Initializable {
         }
         //démarage du jeux
         configurerEvenements();
-        creerBoucleDeJeu();
+        gestionBoucle.creerBoucleDeJeu();
         Platform.runLater(() -> {
             gestionMap.chargerTiles(env.getTerrain());
         });
 
         Platform.runLater(() -> {
             tabJeu.requestFocus();
-            demarrer();
+            gestionBoucle.demarrer();
         });
     }
 
@@ -124,24 +112,6 @@ public class Controleur implements Initializable {
     public void inv(ActionEvent event) {
     gestionInventaire.inv(event);
    }
-
-    //création de la boucle de jeux
-    private void creerBoucleDeJeu() {
-        gameLoop = new Timeline(
-                new KeyFrame(Duration.millis(15), e -> gestionBoucle.miseAJourJeu())
-        );
-        gameLoop.setCycleCount(Animation.INDEFINITE);
-    }
-
-    // Démarrage
-    public void demarrer() {
-        gameLoop.play();
-    }
-
-    // Pause
-    public void arreter() {
-        gameLoop.stop();
-    }
 
     public TextArea getPauseID() {
         return pauseID;
@@ -176,8 +146,20 @@ public class Controleur implements Initializable {
         return null;
     }
 
+    public TilePane getTilePaneId() {
+        return tilePaneId;
+    }
+
+    public ImageView getBackground() {
+        return background;
+    }
+
     public List<VueActeur> getVuesActeurs() {
         return vuesActeurs;
+    }
+
+    public GestionBoucle getGestionBoucle() {
+        return gestionBoucle;
     }
 
     public Pane getTabJeu() {

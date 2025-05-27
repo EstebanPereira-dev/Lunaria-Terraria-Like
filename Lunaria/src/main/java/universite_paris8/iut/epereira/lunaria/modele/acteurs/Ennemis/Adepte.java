@@ -48,7 +48,7 @@ public class Adepte extends Ennemi {
     @Override
     public boolean conditionApparation() {
         long maintenant = System.currentTimeMillis();
-        return (maintenant - dernierSpawn) > 10000 &&
+        return (maintenant - dernierSpawn) > 90000 &&
                 rdm.nextInt(100) < 30; // 30% de chance
     }
 
