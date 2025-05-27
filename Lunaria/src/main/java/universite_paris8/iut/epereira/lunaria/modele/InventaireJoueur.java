@@ -27,11 +27,11 @@ public class InventaireJoueur {
         for (int i = 0; i < listeditem.length; i++) {
             if (listeditem[i] != null && listeditem[i].getId()==(item.getId()) &&
                     quantite[i] < item.getStackMax()) {
-                System.out.println("i");
+                //System.out.println("i");
                 return i;
             }
         }
-        System.out.println("-1");
+        //System.out.println("-1");
         //-1 si l'item n'est pas dans l'inventaire
         return -1;
     }
@@ -44,11 +44,11 @@ public class InventaireJoueur {
             if (item.isEstStackable()) {
                 int caseItem = trouverCaseItem(item);
                 if (caseItem != -1) { //Si l'item est présent dans l'inv
-                    System.out.println("entré ici");
+                    //System.out.println("entré ici");
                     this.quantite[caseItem] += quantite;
                 } else {
                     int caseLibre = trouverPremiereCaseVide();
-                    System.out.println("ne pas entrer ici svp");
+                    //System.out.println("ne pas entrer ici svp");
                     if (caseLibre != -1) {
                         listeditem[caseLibre] = item;
                         this.quantite[caseLibre] = quantite;
@@ -62,6 +62,10 @@ public class InventaireJoueur {
                 }
             }
         }
+    }
+
+    public void ajouterItem(Item item){
+        ajouterItem(item,1);
     }
 
     //enlève une quantité d'items à l'emplacement demandé
