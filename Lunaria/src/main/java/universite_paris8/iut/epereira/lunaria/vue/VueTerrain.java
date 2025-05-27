@@ -3,6 +3,7 @@ package universite_paris8.iut.epereira.lunaria.vue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
+import universite_paris8.iut.epereira.lunaria.controleur.Controleur;
 import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Terrain;
@@ -10,12 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
+import javax.sound.sampled.Control;
+
 
 public class VueTerrain {
     private Terrain tableau;
-    private TilePane panneauDeTuile;
     private Environement env;
-    private  ImageView[][] vueTuiles;
+    private Controleur controleur;
 
     private Image imageVide;
     private Image imageTerre;
@@ -24,10 +26,18 @@ public class VueTerrain {
     private Image imageMur;
     private Image imageBois;
 
-    public VueTerrain(TilePane panneauDeTuile, Environement env) {
+    public VueTerrain(Environement env, Controleur controleur) {
+        this.controleur = controleur;
         this.env = env;
+        controleur.getTabJeu().setPrefWidth(ConfigurationJeu.WIDTH_SCREEN);
+        controleur.getTabJeu().setPrefHeight(ConfigurationJeu.HEIGHT_SCREEN);
+        controleur.getTilePaneId().setPrefWidth(ConfigurationJeu.WIDTH_SCREEN);
+        controleur.getTilePaneId().setPrefHeight(ConfigurationJeu.HEIGHT_TILES);
+
+        controleur.getBackground().setFitWidth(ConfigurationJeu.WIDTH_SCREEN);
+        controleur.getBackground().setFitHeight(ConfigurationJeu.HEIGHT_SCREEN);
+
         tableau = env.getTerrain();
-        this.panneauDeTuile = panneauDeTuile;
 
         imageVide = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png"));
         imageTerre = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Terre.png"));
@@ -35,14 +45,13 @@ public class VueTerrain {
         imageBuisson = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
         imageMur = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
         imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
-        this.vueTuiles= new ImageView[this.env.getWidth()][this.env.getHeight()];
     }
 
     public void chargerTiles(Terrain terrain) {
-        panneauDeTuile.getChildren().clear();
+        controleur.getTilePaneId().getChildren().clear();
         int[][] mapData = terrain.getTableau();
 
-        panneauDeTuile.getChildren().setAll(genererTuilesDepuisMap(mapData, ConfigurationJeu.TAILLE_TUILE));
+        controleur.getTilePaneId().getChildren().setAll(genererTuilesDepuisMap(mapData, ConfigurationJeu.TAILLE_TUILE));
 
         System.out.println("Dimensions du terrain: " + terrain.getWidth() + "x" + terrain.getHeight());
 
@@ -77,7 +86,7 @@ public class VueTerrain {
                 imageView.setFitHeight(ConfigurationJeu.TAILLE_TUILE);
                 imageView.setFitWidth(ConfigurationJeu.TAILLE_TUILE);
 
-                panneauDeTuile.getChildren().add(imageView);
+                controleur.getTilePaneId().getChildren().add(imageView);
             }
         }
     }
@@ -95,14 +104,6 @@ public class VueTerrain {
         else
             return imageBois;
     }
-
-    // Ancienne facon de rafraichir (avant observable liste) ==> inutile mais on sait jamais
-  /*  public void RafraichirTuile(int x, int y){
-        int tuile= this.tableau.getTableau()[y][x];
-        Image sprite = getImageTuile(tuile);
-        vueTuiles[y][x].setImage(sprite);
-        chargerTiles(this.tableau);
-    }*/
 
     public Terrain getTableau() {
         return tableau;

@@ -1,5 +1,6 @@
 package universite_paris8.iut.epereira.lunaria.controleur;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -16,14 +17,21 @@ import java.util.List;
 public class GestionBoucle {
     private Environement env;
     private Controleur controleur;
+    //game loop
+    private Timeline gameLoop;
 
     public GestionBoucle(Environement env, Controleur controleur){
         this.env = env;
         this.controleur = controleur;
     }
-
+    //création de la boucle de jeux
+    public void creerBoucleDeJeu() {
+        gameLoop = new Timeline(
+                new KeyFrame(Duration.millis(15), e -> miseAJourJeu())
+        );
+        gameLoop.setCycleCount(Animation.INDEFINITE);
+    }
     public void miseAJourJeu() {
-        // ✅ Supprimer les acteurs morts de la vue
         List<Acteur> acteursASupprimer = env.getActeursASupprimer();
         for (Acteur acteur : acteursASupprimer) {
             VueActeur vueActeur = controleur.getVueActeur(acteur);
@@ -35,16 +43,14 @@ public class GestionBoucle {
 
         env.update();
 
-        // ✅ Ajouter les nouveaux acteurs à la vue avec la factory (initialisation automatique)
         for (Acteur acteur : env.getActeurs()) {
             VueActeur vueActeurExistante = controleur.getVueActeur(acteur);
             if (vueActeurExistante == null) {
-                VueActeur nouvelleVue = VueActeurFactory.creerVue(acteur, controleur); // ✅ Initialisation automatique
+                VueActeur nouvelleVue = VueActeurFactory.creerVue(acteur, controleur);
                 controleur.getVuesActeurs().add(nouvelleVue);
             }
         }
 
-        // ✅ Déplacements et animations
         List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
         for (Acteur a : acteursCopie) {
             double oldX = a.getPosX();
@@ -55,8 +61,6 @@ public class GestionBoucle {
             if (vueActeur != null) {
                 vueActeur.mettreAJourAnimation(a, deltaX);
             }
-
-            // ✅ Attaque des ennemis avec méthode spécialisée
             if (a instanceof Ennemi) {
                 VueActeur vueEnnemi = controleur.getVueActeur(a);
                 if (vueEnnemi instanceof VueEnnemi) {
@@ -66,5 +70,14 @@ public class GestionBoucle {
         }
 
         controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv());
+    }
+    // Démarrage
+    public void demarrer() {
+        gameLoop.play();
+    }
+
+    // Pause
+    public void arreter() {
+        gameLoop.stop();
     }
 }

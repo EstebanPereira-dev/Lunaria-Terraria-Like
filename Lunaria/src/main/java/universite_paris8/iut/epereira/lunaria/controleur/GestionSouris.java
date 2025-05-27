@@ -17,6 +17,7 @@ public class GestionSouris {
     }
 
     public void clicDeSouris(MouseEvent mouseEvent) {
+        if(env.getHero().getPv() > 0) {
         controleur.dernierePosX = mouseEvent.getX();
         controleur.dernierePosY = mouseEvent.getY();
 
@@ -31,6 +32,7 @@ public class GestionSouris {
 
         if (mouseEvent.getButton() == MouseButton.SECONDARY) {
             gererClicDroit(terrain, tuileX, tuileY);
+        }
         }
     }
 
@@ -137,7 +139,7 @@ public class GestionSouris {
                 }
             }
         }
-            return false;
+        return false;
     }
 
 }

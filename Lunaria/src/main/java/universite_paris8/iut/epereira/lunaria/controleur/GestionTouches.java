@@ -30,9 +30,9 @@ public class GestionTouches {
                 env.getHero().getActions().set(5, !env.getHero().getActions().get(5));
                 if (env.getHero().getActions().get(5)) {
                     controleur.getPauseID().setVisible(true);
-                    controleur.arreter();
+                    controleur.getGestionBoucle().arreter();
                 } else {
-                    controleur.demarrer();
+                    controleur.getGestionBoucle().demarrer();
                     controleur.getPauseID().setVisible(false);
                 }
                 break;
