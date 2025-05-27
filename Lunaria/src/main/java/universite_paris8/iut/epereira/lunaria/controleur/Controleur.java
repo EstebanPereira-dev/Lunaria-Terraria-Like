@@ -42,9 +42,10 @@ public class Controleur implements Initializable {
     @FXML //Afficher le fond
     private ImageView background;
 
+    //Barrre de vie du hero
     private BarreDeVie barreDeVieHero;
-    //lier acteur avec leur sprites et animation
 
+    //lier acteur avec leur sprites et animation
     private Environement env;
 
     //Controler la map
@@ -55,8 +56,10 @@ public class Controleur implements Initializable {
     private GestionBoucle gestionBoucle;
     private List<VueActeur> vuesActeurs = new ArrayList<>();
 
-    public double dernierePosX = -1;
-    public double dernierePosY = -1;
+    //game loop
+    private Timeline gameLoop;
+
+
 
     //gestionnaire de souris
 
@@ -73,27 +76,29 @@ public class Controleur implements Initializable {
         gestionInventaire = new GestionInventaire(env,this);
         gestionBoucle = new GestionBoucle(env,this);
 
+        //initialisation de la barre de vie du hero
         barreDeVieHero = new BarreDeVie(env.getHero().getPv(), 200, 20);
-
         barreDeVieHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
         barreDeVieHero.setTranslateY(30);
         tabJeu.getChildren().add(barreDeVieHero);
+
         //ajouter tous les acteurs dans la vue
         for (Acteur a : env.getActeurs()) {
             VueActeur vue = VueActeurFactory.creerVue(a, this);
             vuesActeurs.add(vue);
         }
+
         //démarage du jeux
         configurerEvenements();
         gestionBoucle.creerBoucleDeJeu();
         Platform.runLater(() -> {
             gestionMap.chargerTiles(env.getTerrain());
         });
-
         Platform.runLater(() -> {
             tabJeu.requestFocus();
             gestionBoucle.demarrer();
         });
+
     }
 
     private void chargerItemDansMain() {
@@ -104,11 +109,14 @@ public class Controleur implements Initializable {
         tabJeu.setOnKeyPressed(event -> gestionTouches.gererTouchePressee(event));
         tabJeu.setOnKeyReleased(event -> gestionTouches.gererToucheRelachee(event));
     }
+    //chaque click de souris
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
         gestionSouris.clicDeSouris(mouseEvent);
     }
-   @FXML
+
+    //pour chaque action dans inventaire
+    @FXML
     public void inv(ActionEvent event) {
     gestionInventaire.inv(event);
    }

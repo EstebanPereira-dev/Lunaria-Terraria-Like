@@ -13,6 +13,8 @@ import universite_paris8.iut.epereira.lunaria.vue.VueHero;
 public class GestionSouris {
     private Environement env;
     private Controleur controleur;
+    public double dernierePosX = -1;
+    public double dernierePosY = -1;
 
     public GestionSouris(Environement env, Controleur controleur) {
         this.env = env;
@@ -21,11 +23,11 @@ public class GestionSouris {
 
     public void clicDeSouris(MouseEvent mouseEvent) {
         if(env.getHero().getPv() > 0) {
-        controleur.dernierePosX = mouseEvent.getX();
-        controleur.dernierePosY = mouseEvent.getY();
+        dernierePosX = mouseEvent.getX();
+        dernierePosY = mouseEvent.getY();
 
-        int tuileX = (int) (controleur.dernierePosX / ConfigurationJeu.TAILLE_TUILE);
-        int tuileY = (int) (controleur.dernierePosY / ConfigurationJeu.TAILLE_TUILE);
+        int tuileX = (int) (dernierePosX / ConfigurationJeu.TAILLE_TUILE);
+        int tuileY = (int) (dernierePosY / ConfigurationJeu.TAILLE_TUILE);
 
         int[][] terrain = env.getTerrain().getTableau();
 
@@ -40,7 +42,7 @@ public class GestionSouris {
     }
 
     private void gererClicGauche(int[][] terrain, int tuileX, int tuileY) {
-        System.out.println("Clic à : X = " + controleur.dernierePosX + " | Y = " + controleur.dernierePosY);
+        System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
         if (terrain[tuileY][tuileX] != 0) { // Si la case n'est pas vide
             if (estDansRange(tuileX, tuileY)) {
@@ -56,7 +58,7 @@ public class GestionSouris {
     }
 
     private void gererClicDroit(int[][] terrain, int tuileX, int tuileY) {
-        System.out.println("Clic droit à : X = " + controleur.dernierePosX + " | Y = " + controleur.dernierePosY);
+        System.out.println("Clic droit à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
         if (terrain[tuileY][tuileX] == 0) { // Si la case est vide
             if (estDansRange(tuileX, tuileY)) {

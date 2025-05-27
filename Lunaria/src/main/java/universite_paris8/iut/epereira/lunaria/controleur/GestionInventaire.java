@@ -9,10 +9,13 @@ import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
 
 public class GestionInventaire {
+
     private Environement env;
     private Controleur controleur;
+
     //garde quel slot de l'inventaire est selectioné
     private int isSelectedInHand;
+
     //contient l'item dans la souris
     private Item tempItemSouris;
 
@@ -25,6 +28,7 @@ public class GestionInventaire {
         isSelectedInHand = 0;
     }
 
+    //selectionne l'item en appuyant dans l'inventaire ou sur les touche 1-9
     public Item selectItem(int i) {
         if (!inventaireBooleanOvert) {
             // Vérifier si la case contient un item avant d'essayer de l'équiper
@@ -64,6 +68,8 @@ public class GestionInventaire {
     }
 
 
+
+    //place les item de la souris a l'inventaire
     public void inv(ActionEvent event) {
         Node source = (Node) event.getSource();
         Integer row = GridPane.getRowIndex(source);
