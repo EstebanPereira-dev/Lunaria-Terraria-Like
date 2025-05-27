@@ -28,14 +28,18 @@ public class Terrain {
         }
 
 
-        int profondeurTerre = 10;
+        int profondeurTerre = 15;
         int hauteurHerbe = 1;
+        int profondeurPierre=6;
 
         for (int y = height - profondeurTerre; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (y == height - profondeurTerre) {
                     tableau[y][x] = 2;
-                } else {
+                } else if(y > height - profondeurPierre) {
+                    tableau[y][x] = 4;
+                }
+                else {
                     tableau[y][x] = 1;
                 }
             }
