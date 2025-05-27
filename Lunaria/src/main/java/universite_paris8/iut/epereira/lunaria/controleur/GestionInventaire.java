@@ -26,35 +26,43 @@ public class GestionInventaire {
     }
 
     public Item selectItem(int i) {
-
         if (!inventaireBooleanOvert) {
-
-
-            //System.out.println(inventaireGridPane.getChildren().get(i).getStyle());
-
-            if (controleur.getInventaireGridPane().getChildren().get(i).getStyle().equals("-fx-background-color: white")) {
-                //System.out.println("change en jaune");
-                controleur.getInventaireGridPane().getChildren().get(i).setStyle("-fx-background-color: yellow");
-                //System.out.println(inventaireGridPane.getChildren().get(i).getStyle());
-            } else {
-                if (controleur.getInventaireGridPane().getChildren().get(i).getStyle().toString().equals("-fx-background-color: yellow")) {
-                    //System.out.println("change en blanc");
-                    controleur.getInventaireGridPane().getChildren().get(i).setStyle("-fx-background-color: white");
-                    return null;
-                    //System.out.println(inventaireGridPane.getChildren().get(i).getStyle());
+            // Vérifier si la case contient un item avant d'essayer de l'équiper
+            if (env.getHero().getInv().getListeditem()[i] != null) {
+                // Gérer la sélection visuelle
+                if (controleur.getInventaireGridPane().getChildren().get(i).getStyle().equals("-fx-background-color: white")) {
+                    controleur.getInventaireGridPane().getChildren().get(i).setStyle("-fx-background-color: yellow");
+                } else {
+                    if (controleur.getInventaireGridPane().getChildren().get(i).getStyle().toString().equals("-fx-background-color: yellow")) {
+                        controleur.getInventaireGridPane().getChildren().get(i).setStyle("-fx-background-color: white");
+                        return null;
+                    }
                 }
-            }
-            if (isSelectedInHand != i) {
-                controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
-            }
-            isSelectedInHand = i;
-            return env.getHero().getInv().getIteminList(i);
-        }
-        else{
-            return env.getHero().getInv().getIteminList(isSelectedInHand);
-        }
 
+                // Déselectionner l'ancien item si différent
+                if (isSelectedInHand != i) {
+                    controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
+                }
+
+                isSelectedInHand = i;
+                env.getHero().getInv().equiperItem(i);
+                return env.getHero().getInv().getListeditem()[i];
+            } else {
+                // Si la case est vide, déselectionner tout
+                controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
+                System.out.println("Case vide, aucun item à sélectionner");
+                return null;
+            }
+        } else {
+            // Mode inventaire ouvert
+            if (env.getHero().getInv().getListeditem()[isSelectedInHand] != null) {
+                env.getHero().getInv().equiperItem(isSelectedInHand);
+                return env.getHero().getInv().getListeditem()[isSelectedInHand];
+            }
+            return null;
+        }
     }
+
 
     public void inv(ActionEvent event) {
         Node source = (Node) event.getSource();
@@ -62,18 +70,18 @@ public class GestionInventaire {
         Integer col = GridPane.getColumnIndex(source);
 
 
-        Item temp = env.getHero().getInv().getIteminList(row * 3 + col);
+        //Item temp = env.getHero().getInv().getIteminList(row * 3 + col);
 
         //vérifie si l'emplacement sur le quel on click est occupé
         //si occupé, echangé ce que contient la souris avec le contenue de l'emplacement
         //sinon, juste placer ce que contient la souris dans l'emplacement
-        if (temp != null) {
-            Item switch2 = temp;
-            env.getHero().getInv().addItem(row * 3 + col, tempItemSouris);
-            tempItemSouris = switch2;
-        } else {
-            env.getHero().getInv().addItem(row * 3 + col, tempItemSouris);
-        }
+        //if (temp != null) {
+        //  Item switch2 = temp;
+        //env.getHero().getInv().addItem(row * 3 + col, tempItemSouris);
+        //tempItemSouris = switch2;
+        // } else {
+        //   env.getHero().getInv().addItem(row * 3 + col, tempItemSouris);
+        // }
         selectItem(row * 3 + col);
 
 
@@ -105,5 +113,19 @@ public class GestionInventaire {
 
     public Boolean getInventaireBooleanOvert(){
         return inventaireBooleanOvert;
+    }
+    public void mettreAJourAffichage() {
+        // Vérifier si l'item actuellement sélectionné existe encore
+        if (env.getHero().getInv().getListeditem()[isSelectedInHand] == null) {
+            // Déselectionner visuellement
+            controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
+
+            // Chercher le prochain item équipé (s'il y en a un)
+            int nouvelItemEquipe = env.getHero().getInv().getItemEquipe();
+            if (nouvelItemEquipe != -1) {
+                isSelectedInHand = nouvelItemEquipe;
+                controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: yellow");
+            }
+        }
     }
 }

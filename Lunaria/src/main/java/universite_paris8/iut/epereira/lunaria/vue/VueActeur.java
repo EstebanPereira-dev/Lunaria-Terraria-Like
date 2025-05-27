@@ -130,4 +130,5 @@ public abstract class VueActeur {
     public Acteur getActeur() {
         return acteur;
     }
+
 }

@@ -11,13 +11,18 @@ public class Item {
     private boolean condition;
     private boolean equipe=false;
     private boolean peutEtrePlace;
+    private boolean estStackable;
+    private int stackMax;
 
-    public Item(String nom, String description, boolean peutEtrePlace,int id){
+    public Item(String nom, String description, boolean peutEtrePlace,int id, boolean estStackable){
         this.description = description;
         this.nom = nom;
         this.id = id;
         condition = false;
         this.peutEtrePlace=peutEtrePlace;
+        this.estStackable=estStackable;
+        if (this.estStackable)
+            stackMax=999;
         }
 
     public String getNom() {
@@ -72,6 +77,19 @@ public class Item {
         return nom + "\n" + description + "\n";
     }
 
+    public boolean isEquipe() {
+        return equipe;
+    }
 
+    public boolean isEstStackable() {
+        return estStackable;
+    }
 
+    public boolean isPeutEtrePlace() {
+        return peutEtrePlace;
+    }
+
+    public int getStackMax() {
+        return stackMax;
+    }
 }
