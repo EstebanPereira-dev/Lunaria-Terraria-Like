@@ -3,12 +3,12 @@ package universite_paris8.iut.epereira.lunaria.modele;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.*;
 
 public class Item {
-    private String nom;
 
+    private String nom;
     private String description;
     public int id;
     private boolean condition;
-    private boolean equipe=false;
+    private boolean equipe;
     private boolean peutEtrePlace;
     private boolean estStackable;
     private int stackMax;
@@ -17,12 +17,13 @@ public class Item {
         this.description = description;
         this.nom = nom;
         this.id = id;
-        condition = false;
         this.peutEtrePlace=peutEtrePlace;
         this.estStackable=estStackable;
         if (this.estStackable)
             stackMax=999;
-        }
+        condition = false;
+        equipe = false;
+    }
 
     public String getNom() {
         return nom;
@@ -64,6 +65,7 @@ public class Item {
     public void setEquipe(boolean equipe) {
         this.equipe = equipe;
     }
+
     public boolean getPeutEtrePlace(){
         return peutEtrePlace;
     }
