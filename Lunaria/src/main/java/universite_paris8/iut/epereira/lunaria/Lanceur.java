@@ -39,6 +39,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,7 +58,7 @@ public class Lanceur extends Application {
         }
 
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
-        Scene scene = new Scene(fxmlLoader.load(), 613, 349);
+        Scene scene = new Scene(fxmlLoader.load(), ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
         stage.setTitle("Lunaria - Menu Principal");
         stage.setResizable(false);
         stage.setScene(scene);
