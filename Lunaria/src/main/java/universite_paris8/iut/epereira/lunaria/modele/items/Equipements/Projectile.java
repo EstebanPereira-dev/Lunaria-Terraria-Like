@@ -6,7 +6,7 @@ public class Projectile extends Item {
     protected int quantite;
     protected int degat;
     public Projectile(String nom, int quantite, String description, int id) {
-        super(nom, description, false,id);
+        super(nom, description, false,id,true);
         this.quantite = quantite;
     }
 
