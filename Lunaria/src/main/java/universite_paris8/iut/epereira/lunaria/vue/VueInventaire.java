@@ -11,7 +11,11 @@ public class VueInventaire {
     public VueInventaire(Environement env){
         this.env = env;
 
-
     }
+
+
+
+
+
 
 }

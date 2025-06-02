@@ -90,6 +90,7 @@ public class VueTerrain {
             }
         }
     }
+
     private Image getImageTuile(int typeTuile){
         if (typeTuile==0)
             return imageVide;

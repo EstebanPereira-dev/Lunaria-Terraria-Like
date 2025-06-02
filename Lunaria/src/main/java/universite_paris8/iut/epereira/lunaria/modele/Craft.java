@@ -31,8 +31,8 @@ public class Craft {
 
             for(int i = 0; i < env.getHero().getInv().getTaille(); i++){
                 //System.out.println((env.getHero().getInv().getListeditem()[i]));
-                if(env.getHero().getInv().getListeditem()[i] != null){
-                    if(env.getHero().getInv().getListeditem()[i].getId() == recette.get(j).getId()){
+                if(env.getHero().getInv().getListeditem().get(i) != null){
+                    if(env.getHero().getInv().getListeditem().get(i).getId() == recette.get(j).getId()){
                         quantiteNecessaire -= env.getHero().getInv().getQuantite()[i];
                     }
                 }
@@ -54,10 +54,10 @@ public class Craft {
                 int quantiteAPrendre = quantite.get(j);
                 //parcours de la liste d item dans l inventaire
                 for (int i = 0;i < env.getHero().getInv().getTaille() && quantiteAPrendre > 0;i++){
-                    if(env.getHero().getInv().getListeditem()[i] != null){
+                    if(env.getHero().getInv().getListeditem().get(i) != null){
 
                         //recherche la meme id de ressource dans l inventaire
-                        if(env.getHero().getInv().getListeditem()[i].getId() == recette.get(j).getId()){
+                        if(env.getHero().getInv().getListeditem().get(i).getId() == recette.get(j).getId()){
                             //si la quantité dans l inventaire est supérieur a la quantite demander
                             //alors enlever la quantite a l inventaire
                             if(quantiteAPrendre < env.getHero().getInv().getQuantite()[i]){
@@ -71,12 +71,10 @@ public class Craft {
                             if(env.getHero().getInv().getQuantite()[i] <= quantiteAPrendre){
                                 quantiteAPrendre -= env.getHero().getInv().getQuantite()[i];
                                 env.getHero().getInv().getQuantite()[i] = 0;
-                                env.getHero().getInv().getListeditem()[i] = null;
+                                env.getHero().getInv().getListeditem().add(i,null);
                             }
                         }
-
                     }
-
                 }
             }
         }

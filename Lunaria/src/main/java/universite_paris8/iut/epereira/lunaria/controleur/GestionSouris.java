@@ -101,7 +101,7 @@ public class GestionSouris {
             int positionEquipe = env.getHero().getInv().getItemEquipe();
 
             if (positionEquipe != -1) {
-                Item item = env.getHero().getInv().getListeditem()[positionEquipe];
+                Item item = env.getHero().getInv().getListeditem().get(positionEquipe);
 
                 // Vérification que l'item existe et peut être placé
                 if (item != null && item.getPeutEtrePlace()) {

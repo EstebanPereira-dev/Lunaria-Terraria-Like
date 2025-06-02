@@ -32,7 +32,7 @@ public class GestionInventaire {
     public Item selectItem(int i) {
         if (!inventaireBooleanOvert) {
             // Vérifier si la case contient un item avant d'essayer de l'équiper
-            if (env.getHero().getInv().getListeditem()[i] != null) {
+            if (env.getHero().getInv().getListeditem().get(i) != null) {
                 // Gérer la sélection visuelle
                 if (controleur.getInventaireGridPane().getChildren().get(i).getStyle().equals("-fx-background-color: white")) {
                     controleur.getInventaireGridPane().getChildren().get(i).setStyle("-fx-background-color: yellow");
@@ -50,7 +50,7 @@ public class GestionInventaire {
 
                 isSelectedInHand = i;
                 env.getHero().getInv().equiperItem(i);
-                return env.getHero().getInv().getListeditem()[i];
+                return env.getHero().getInv().getListeditem().get(i);
             } else {
                 // Si la case est vide, déselectionner tout
                 controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
@@ -59,9 +59,9 @@ public class GestionInventaire {
             }
         } else {
             // Mode inventaire ouvert
-            if (env.getHero().getInv().getListeditem()[isSelectedInHand] != null) {
+            if (env.getHero().getInv().getListeditem().get(isSelectedInHand) != null) {
                 env.getHero().getInv().equiperItem(isSelectedInHand);
-                return env.getHero().getInv().getListeditem()[isSelectedInHand];
+                return env.getHero().getInv().getListeditem().get(isSelectedInHand);
             }
             return null;
         }
@@ -122,7 +122,7 @@ public class GestionInventaire {
     }
     public void mettreAJourAffichage() {
         // Vérifier si l'item actuellement sélectionné existe encore
-        if (env.getHero().getInv().getListeditem()[isSelectedInHand] == null) {
+        if (env.getHero().getInv().getListeditem().get(isSelectedInHand) == null) {
             // Déselectionner visuellement
             controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
 
