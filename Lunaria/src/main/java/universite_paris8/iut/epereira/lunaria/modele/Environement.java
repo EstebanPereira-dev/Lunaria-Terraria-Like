@@ -26,7 +26,7 @@ public class Environement {
 
         acteurs = new ArrayList<>();
 
-        acteurs.add(new Mouton(20, 1, this, 200, 600));
+        acteurs.add(new Mouton(20, 1, this, 200, 400));
 
         acteurs.add(hero);
 

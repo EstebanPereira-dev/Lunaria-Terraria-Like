@@ -7,7 +7,7 @@ public class Terrain {
     private int[][] tableau;
     private boolean[][] tangibilite;
 
-    private static final int[] TUILES_NON_TANGIBLES = {0, 3, 5};
+    private static final int[] TUILES_NON_TANGIBLES = {0,3,5};
 
     public Terrain(int width, int height) {
         this.width = width;
@@ -50,9 +50,17 @@ public class Terrain {
                 tableau[height - profondeurTerre - 1][x] = 3; //3 = BUISSON
             }
         }
+        creerArbre(34,39);
 
 
         initTangibilite();
+    }
+
+    public void creerArbre(int x,int y){
+        tableau[x][y]=5;
+        tableau[x-1][y]=5;
+        tableau[x-2][y]=5;
+        tableau[x-3][y]=5;
     }
 
     private void initTangibilite() {
@@ -172,6 +180,15 @@ public class Terrain {
             }*/
 
 
+    }
+    public int compterArbreAuDessus(int x, int y){ //compte le nombre de buches de bois en haut de la tuile selectionnée
+        int compteur=1;
+        for (int i= 1; i<3; i++){            //3=taille max d un arbre
+            if (getTableau()[y-i][x]==5){
+                compteur++;
+            }
+        }
+        return compteur;
     }
 
 

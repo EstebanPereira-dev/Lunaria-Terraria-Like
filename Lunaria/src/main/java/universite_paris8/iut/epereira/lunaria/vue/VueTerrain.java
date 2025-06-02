@@ -44,7 +44,8 @@ public class VueTerrain {
         imageHerbe = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Herbe.png"));
         imageBuisson = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
         imageMur = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
-        imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
+        imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Bois.png"));
+        imagePlanche = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Planche.png);
     }
 
     public void chargerTiles(Terrain terrain) {
@@ -77,9 +78,11 @@ public class VueTerrain {
                     case 4:
                         sprite = imageMur;
                         break;
-                    default:
+                    case 5:
                         sprite = imageBois;
                         break;
+                    default:
+                        sprite = imagePlanche;
                 }
 
                 ImageView imageView = new ImageView(sprite);
