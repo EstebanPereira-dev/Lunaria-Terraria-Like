@@ -85,7 +85,7 @@ public class GestionSouris {
         if(terrain[tuileY][tuileX]==5){
             casserArbre(env.getTerrain().compterArbreAuDessus(tuileX,tuileY),tuileX,tuileY);
             }
-        else {
+        else if (terrain[tuileY-1][tuileX]!=5) {
             env.getHero().getInv().ajouterItem(item, 1);
             // Supprimer la tuile du terrain
             env.getTerrain().changerTuile(0, tuileX, tuileY);
