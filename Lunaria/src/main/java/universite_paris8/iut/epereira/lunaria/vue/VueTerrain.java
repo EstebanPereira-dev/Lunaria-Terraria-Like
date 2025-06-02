@@ -80,10 +80,14 @@ public class VueTerrain {
                         sprite = imageMur;
                         break;
                     case 5:
-                        sprite = imageBois;
+                        sprite =imageBois;
+                        break;
+                    case 6:
+                        sprite = imagePlanche;
                         break;
                     default:
-                        sprite = imagePlanche;
+                        sprite = imageVide;
+                        break;
                 }
 
                 ImageView imageView = new ImageView(sprite);
@@ -105,9 +109,13 @@ public class VueTerrain {
             return imageBuisson;
         else if (typeTuile ==4)
             return imageMur;
-        else
+        else if (typeTuile==5)
             return imageBois;
-    }
+        else if (typeTuile==6)
+            return imagePlanche;
+        else
+            return null;
+        }
 
     public Terrain getTableau() {
         return tableau;

@@ -53,6 +53,8 @@ public class Item {
                 return new Pierre();
             case 5:
                 return new Buche();
+            case 6:
+                return new Planche();
             default:
                 return null;
         }

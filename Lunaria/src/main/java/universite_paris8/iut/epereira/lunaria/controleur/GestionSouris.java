@@ -95,8 +95,6 @@ public class GestionSouris {
             int totalItem = env.getHero().getInv().compterItem(item.getNom());
             System.out.println("Total " + item.getNom() + " : " + totalItem);
         }
-
-
         controleur.getGestionMap().chargerTiles(env.getTerrain());
 
 
@@ -158,7 +156,7 @@ public class GestionSouris {
     }
 
     public void casserArbre(int nbreBuches,int x, int y) {
-        Planche planche = new Planche();
+        Item planche = new Planche();
         for (int i = 0; i < nbreBuches; i++) {
             env.getHero().getInv().ajouterItem(planche, 1);
             // Supprimer la tuile du terrain
