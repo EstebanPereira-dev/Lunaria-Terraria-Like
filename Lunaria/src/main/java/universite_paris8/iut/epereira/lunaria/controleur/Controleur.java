@@ -129,7 +129,6 @@ public class Controleur implements Initializable {
         return gestionInventaire;
     }
 
-
     public BarreDeVie getBarreDeVieHero() {
         return barreDeVieHero;
     }

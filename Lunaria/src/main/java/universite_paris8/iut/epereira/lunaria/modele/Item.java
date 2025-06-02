@@ -1,7 +1,6 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
-import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Herbe;
-import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Terre;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.*;
 
 public class Item {
 
@@ -48,7 +47,12 @@ public class Item {
                 return new Terre();
             case 2:
                 return new Herbe();
-            // Ajoute d'autres types si nécessaire
+            case 3:
+                return new Buisson();
+            case 4:
+                return new Pierre();
+            case 5:
+                return new Bois();
             default:
                 return null;
         }
