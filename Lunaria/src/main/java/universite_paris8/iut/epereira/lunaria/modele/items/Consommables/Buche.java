@@ -4,6 +4,6 @@ import universite_paris8.iut.epereira.lunaria.modele.Item;
 
 public class Buche extends Item {
     public Buche() {
-        super("Buche", "Bloc de bois non transformé",true,5,true);
+        super("Buche", "Bloc de bois non transformé",false,5,true);
     }
 }
