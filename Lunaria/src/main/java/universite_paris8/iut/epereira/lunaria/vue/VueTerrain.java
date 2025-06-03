@@ -25,6 +25,7 @@ public class VueTerrain {
     private Image imageBuisson;
     private Image imageMur;
     private Image imageBois;
+    private Image imagePlanche;
 
     public VueTerrain(Environement env, Controleur controleur) {
         this.controleur = controleur;
@@ -44,7 +45,8 @@ public class VueTerrain {
         imageHerbe = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Herbe.png"));
         imageBuisson = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
         imageMur = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
-        imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
+        imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buche.png"));
+        imagePlanche = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Planche.png"));
     }
 
     public void chargerTiles(Terrain terrain) {
@@ -77,8 +79,14 @@ public class VueTerrain {
                     case 4:
                         sprite = imageMur;
                         break;
+                    case 5:
+                        sprite =imageBois;
+                        break;
+                    case 6:
+                        sprite = imagePlanche;
+                        break;
                     default:
-                        sprite = imageBois;
+                        sprite = imageVide;
                         break;
                 }
 
@@ -102,9 +110,13 @@ public class VueTerrain {
             return imageBuisson;
         else if (typeTuile ==4)
             return imageMur;
-        else
+        else if (typeTuile==5)
             return imageBois;
-    }
+        else if (typeTuile==6)
+            return imagePlanche;
+        else
+            return null;
+        }
 
     public Terrain getTableau() {
         return tableau;

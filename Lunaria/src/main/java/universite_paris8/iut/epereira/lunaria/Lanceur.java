@@ -52,10 +52,6 @@ public class Lanceur extends Application {
 
         // Chargement avec le chemin absolu en utilisant getResource
         URL fxmlUrl = getClass().getResource("/universite_paris8/iut/epereira/lunaria/DossierMap/Menu/VueMenu.fxml");
-        if (fxmlUrl == null) {
-            System.err.println("Fichier FXML introuvable ! Vérifiez le chemin.");
-            System.exit(-1);
-        }
 
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
         Scene scene = new Scene(fxmlLoader.load(), ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);

@@ -6,6 +6,7 @@ import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeur;
 import universite_paris8.iut.epereira.lunaria.vue.VueHero;
 
@@ -81,16 +82,22 @@ public class GestionSouris {
     private void casserBloc(int[][] terrain, int tuileX, int tuileY) {
         Item item = Item.getItemPourTuile(terrain[tuileY][tuileX]);
 
-        env.getHero().getInv().ajouterItem(item, 1);
-        // Supprimer la tuile du terrain
-        env.getTerrain().changerTuile(0, tuileX, tuileY);
+        if(terrain[tuileY][tuileX]==5){
+            casserArbre(env.getTerrain().compterArbreAuDessus(tuileX,tuileY),tuileX,tuileY);
+            }
+        else if (terrain[tuileY-1][tuileX]!=5) {
+            env.getHero().getInv().ajouterItem(item, 1);
+            // Supprimer la tuile du terrain
+            env.getTerrain().changerTuile(0, tuileX, tuileY);
+            //optionnel, juste pour voir l'avancé
+            System.out.println("+1 " + item.getNom());
+            // Afficher le total de cet item dans l'inventaire
+            int totalItem = env.getHero().getInv().compterItem(item.getNom());
+            System.out.println("Total " + item.getNom() + " : " + totalItem);
+        }
         controleur.getGestionMap().chargerTiles(env.getTerrain());
 
-        //optionnel, juste pour voir l'avancé
-        System.out.println("+1 " + item.getNom());
-        // Afficher le total de cet item dans l'inventaire
-        int totalItem = env.getHero().getInv().compterItem(item.getNom());
-        System.out.println("Total " + item.getNom() + " : " + totalItem);
+
 
     }
 
@@ -146,6 +153,20 @@ public class GestionSouris {
             }
         }
         return false;
+    }
+
+    public void casserArbre(int nbreBuches,int x, int y) {
+        Item planche = new Planche();
+        for (int i = 0; i < nbreBuches; i++) {
+            env.getHero().getInv().ajouterItem(planche, 1);
+            // Supprimer la tuile du terrain
+            env.getTerrain().changerTuile(0, x, y - i);
+            //optionnel, juste pour voir l'avancé
+            System.out.println("+1 " + planche.getNom());
+        }
+        // Afficher le total de cet item dans l'inventaire
+        int totalItem = env.getHero().getInv().compterItem(planche.getNom());
+        System.out.println("Total " + planche.getNom() + " : " + totalItem);
     }
 
 }

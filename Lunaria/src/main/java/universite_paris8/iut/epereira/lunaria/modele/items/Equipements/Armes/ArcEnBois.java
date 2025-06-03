@@ -5,7 +5,7 @@ import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Projectil
 
 public class ArcEnBois extends Arme {
     public ArcEnBois(String nom, String description) {
-        super("Arc en bois", "Un arc tout ce qu'il y'a de plus banal",6);
+        super("Arc en bois", "Un arc tout ce qu'il y'a de plus banal",20);
         degat = 3;
     }
 }

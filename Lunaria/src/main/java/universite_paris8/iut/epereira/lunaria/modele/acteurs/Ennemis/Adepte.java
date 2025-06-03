@@ -331,14 +331,14 @@ public class Adepte extends Ennemi {
         this.dernierChangementMode = System.currentTimeMillis();
 
         if (nouveauMode == MODE_AGGRESSIF) {
-            this.chemin.clear(); // Vider le chemin actuel
+            this.chemin.clear();
         }
     }
 
     @Override
     public void agit() {
         if (mode == MODE_INACTIF) {
-            return; // Ne pas attaquer en mode inactif
+            return;
         }
 
         double distanceX = Math.abs(getPosX() - hero.getPosX());
@@ -348,7 +348,6 @@ public class Adepte extends Ennemi {
         if (distance <= range) {
             int degatsInfliges = getDegat();
 
-            // Bonus de dégâts en mode agressif
             if (mode == MODE_AGGRESSIF) {
                 degatsInfliges = (int) (degatsInfliges * 1.2);
             }
@@ -400,7 +399,7 @@ public class Adepte extends Ennemi {
         return getEnv().getHeight();
     }
 
-    // Getters et setters pour les modes
+    // Getters et setters
     public int getMode() {
         return mode;
     }
