@@ -22,10 +22,9 @@
                   <Image url="@Background.png" />
                </image>
             </ImageView>
-            <TilePane fx:id="tilePaneId" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
-            <GridPane fx:id="inventaireGridPane" gridLinesVisible="true" maxHeight="288.0" maxWidth="288.0" minHeight="288.0" opacity="0.33" prefHeight="288.0" prefWidth="288.0" style="-fx-background-color: grey; -fx-border-color: black;">
+            <GridPane fx:id="inventaireGridPane" gridLinesVisible="true" maxHeight="288.0" maxWidth="288.0" minHeight="288.0" opacity="0.33" prefHeight="288.0" prefWidth="288.0">
              <children>
-                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                      <graphic>
                         <ImageView fx:id="imageInv1" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <viewport>
@@ -33,42 +32,53 @@
                            </viewport>
                         </ImageView>
                      </graphic></Button>
-                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                      <graphic>
                         <ImageView fx:id="imageInv2" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic></Button>
-                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
                      <graphic>
                         <ImageView fx:id="imageInv3" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic></Button>
 
-                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                      <graphic>
                         <ImageView fx:id="imageInv4" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic></Button>
-                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <graphic>
                         <ImageView fx:id="imageInv5" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic></Button>
-                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <graphic>
                         <ImageView fx:id="imageInv6" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic></Button>
 
-                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
                      <graphic>
                         <ImageView fx:id="imageInv7" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic></Button>
-                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <graphic>
                         <ImageView fx:id="imageInv8" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic></Button>
-                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                 <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <graphic>
                         <ImageView fx:id="imageInv9" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic></Button>
              </children>
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
             </GridPane>
+            <TilePane fx:id="tilePaneId" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
          </children>
       </Pane>
       <TextArea fx:id="pauseID" editable="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="55.0" prefWidth="128.0" text="PAUSE" visible="false">

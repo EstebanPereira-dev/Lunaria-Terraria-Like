@@ -39,6 +39,12 @@ public class Controleur implements Initializable {
     @FXML //le Pane qui contient tout
     private Pane tabJeu;
 
+    @FXML
+    private ImageView imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9;
+
+    //listener de l'inventaire
+    private ObsInventaire obsInventaire;
+
     @FXML //Afficher le fond
     private ImageView background;
 
@@ -61,7 +67,6 @@ public class Controleur implements Initializable {
 
 
 
-    //gestionnaire de souris
 
 
     @Override //initialization
@@ -99,10 +104,15 @@ public class Controleur implements Initializable {
             gestionBoucle.demarrer();
         });
 
+        obsInventaire = new ObsInventaire(imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9);
+        env.getHero().getInv().getListeditem().addListener(obsInventaire);
+
+
+
+
+
     }
 
-    private void chargerItemDansMain() {
-    }
 
     //pour chaque entré de touche
     private void configurerEvenements(){

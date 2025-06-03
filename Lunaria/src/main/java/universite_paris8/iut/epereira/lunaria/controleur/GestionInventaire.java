@@ -76,6 +76,8 @@ public class GestionInventaire {
         Integer col = GridPane.getColumnIndex(source);
 
 
+
+
         //Item temp = env.getHero().getInv().getIteminList(row * 3 + col);
 
         //vérifie si l'emplacement sur le quel on click est occupé
