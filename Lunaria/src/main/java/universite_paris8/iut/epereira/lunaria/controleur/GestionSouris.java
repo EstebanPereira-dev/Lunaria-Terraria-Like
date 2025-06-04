@@ -1,10 +1,8 @@
 package universite_paris8.iut.epereira.lunaria.controleur;
+import javafx.collections.ObservableList;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import universite_paris8.iut.epereira.lunaria.modele.Acteur;
-import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
-import universite_paris8.iut.epereira.lunaria.modele.Environement;
-import universite_paris8.iut.epereira.lunaria.modele.Item;
+import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeur;
@@ -30,22 +28,22 @@ public class GestionSouris {
         int tuileX = (int) (dernierePosX / ConfigurationJeu.TAILLE_TUILE);
         int tuileY = (int) (dernierePosY / ConfigurationJeu.TAILLE_TUILE);
 
-        int[][] terrain = env.getTerrain().getTableau();
+//        ObservableList<Integer> terrain = env.getTerrain().getTableau();
 
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            gererClicGauche(terrain, tuileX, tuileY);
+            gererClicGauche(env.getTerrain().getTableau(), tuileX, tuileY);
         }
 
         if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-            gererClicDroit(terrain, tuileX, tuileY);
+            gererClicDroit(env.getTerrain().getTableau(), tuileX, tuileY);
         }
         }
     }
 
-    private void gererClicGauche(int[][] terrain, int tuileX, int tuileY) {
+    private void gererClicGauche(ObservableList<Integer> terrain, int tuileX, int tuileY) { // faire plutot un appel a agir
         System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
-        if (terrain[tuileY][tuileX] != 0) { // Si la case n'est pas vide
+        if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) != 0) { // Si la case n'est pas vide
             if (estDansRange(tuileX, tuileY)) {
                 casserBloc(terrain, tuileX, tuileY);
             }
@@ -58,10 +56,10 @@ public class GestionSouris {
         env.getHero().getInv().afficherInventaire();
     }
 
-    private void gererClicDroit(int[][] terrain, int tuileX, int tuileY) {
+    private void gererClicDroit(ObservableList<Integer> terrain, int tuileX, int tuileY) {
         System.out.println("Clic droit à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
-        if (terrain[tuileY][tuileX] == 0) { // Si la case est vide
+        if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) == 0) { // Si la case est vide
             if (estDansRange(tuileX, tuileY)) {
                 placerBloc(tuileX, tuileY);
             }
@@ -79,13 +77,13 @@ public class GestionSouris {
         return distanceX <= range && distanceY <= range;
     }
 
-    private void casserBloc(int[][] terrain, int tuileX, int tuileY) {
-        Item item = Item.getItemPourTuile(terrain[tuileY][tuileX]);
+    private void casserBloc(ObservableList<Integer> terrain, int tuileX, int tuileY) {
+        Item item = Item.getItemPourTuile(env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)));
 
-        if(terrain[tuileY][tuileX]==5){
+        if(env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY))==5){
             casserArbre(env.getTerrain().compterArbreAuDessus(tuileX,tuileY),tuileX,tuileY);
             }
-        else if (terrain[tuileY-1][tuileX]!=5) {
+        else if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY))!=5) {
             env.getHero().getInv().ajouterItem(item, 1);
             // Supprimer la tuile du terrain
             env.getTerrain().changerTuile(0, tuileX, tuileY);
@@ -95,13 +93,13 @@ public class GestionSouris {
             int totalItem = env.getHero().getInv().compterItem(item.getNom());
             System.out.println("Total " + item.getNom() + " : " + totalItem);
         }
-        controleur.getGestionMap().chargerTiles(env.getTerrain());
+       //controleur.getGestionMap().chargerTiles(env.getTerrain());
 
 
 
     }
 
-    private void placerBloc(int tuileX, int tuileY) {
+    private void placerBloc(int tuileX, int tuileY) { //deplacer dans terrain
         if (estPositionOccupeeParActeur(tuileX, tuileY)) {
             System.out.println("Impossible de placer un bloc sur un acteur !");
         } else {
@@ -114,7 +112,7 @@ public class GestionSouris {
                 if (item != null && item.getPeutEtrePlace()) {
                     // Placer le bloc sur le terrain
                     env.getTerrain().changerTuile(item.getId(), tuileX, tuileY);
-                    controleur.getGestionMap().chargerTiles(env.getTerrain());
+                   // controleur.getGestionMap().chargerTiles(env.getTerrain());
 
                     // Retirer un item de l'inventaire
                     env.getHero().getInv().retirerItem(positionEquipe, 1);
@@ -134,7 +132,7 @@ public class GestionSouris {
         }
     }
 
-    private boolean estPositionOccupeeParActeur(int tuileX, int tuileY) {
+    private boolean estPositionOccupeeParActeur(int tuileX, int tuileY) { // a deplacer dans env
         for (Acteur acteur : env.getActeurs()) {
             if (acteur instanceof Hero) {
                 int heroX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
@@ -155,7 +153,7 @@ public class GestionSouris {
         return false;
     }
 
-    public void casserArbre(int nbreBuches,int x, int y) {
+    public void casserArbre(int nbreBuches,int x, int y) { //deplacer dans terrain
         Item planche = new Planche();
         for (int i = 0; i < nbreBuches; i++) {
             env.getHero().getInv().ajouterItem(planche, 1);

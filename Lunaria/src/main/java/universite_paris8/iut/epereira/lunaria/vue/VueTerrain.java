@@ -49,17 +49,16 @@ public class VueTerrain {
         imagePlanche = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Planche.png"));
     }
 
-    public void chargerTiles(Terrain terrain) {
+   /*public void chargerTiles(Terrain terrain) {
         controleur.getTilePaneId().getChildren().clear();
-        int[][] mapData = terrain.getTableau();
 
-        controleur.getTilePaneId().getChildren().setAll(genererTuilesDepuisMap(mapData, ConfigurationJeu.TAILLE_TUILE));
+        controleur.getTilePaneId().getChildren().setAll(genererTuilesDepuisMap(terrain.getTableau(), ConfigurationJeu.TAILLE_TUILE));
 
         System.out.println("Dimensions du terrain: " + terrain.getWidth() + "x" + terrain.getHeight());
 
         for (int i = 0; i < terrain.getHeight(); i++) {
             for (int j = 0; j < terrain.getWidth(); j++) {
-                int tile = mapData[i][j];
+                int tile = terrain.getTableau().get(terrain.getPos(i,j));
                 Image sprite;
 
                 // Utilisation des images préchargées
@@ -97,7 +96,7 @@ public class VueTerrain {
                 controleur.getTilePaneId().getChildren().add(imageView);
             }
         }
-    }
+    }*/
 
     private Image getImageTuile(int typeTuile){
         if (typeTuile==0)
@@ -123,12 +122,12 @@ public class VueTerrain {
     }
 
 
-    public ObservableList<Node> genererTuilesDepuisMap(int[][] map, int tileSize) {
+   /* public ObservableList<Node> genererTuilesDepuisMap(ObservableList<Integer> map, int tileSize) {
         ObservableList<Node> liste = FXCollections.observableArrayList();
 
-        for (int y = 0; y < map.length; y++) {
-            for (int x = 0; x < map[y].length; x++) {
-                int type = map[y][x];
+        for (int y = 0; y < map.size(); y++) {
+            for (int x = 0; x < map.size(); x++) {
+                int type = map.get(getTableau().getPos(x,y));
                 ImageView imageView = new ImageView(getImageTuile(type));
                 imageView.setFitWidth(tileSize);
                 imageView.setFitHeight(tileSize);
@@ -137,7 +136,7 @@ public class VueTerrain {
         }
 
         return liste;
-    }
+    }*/
 
 
 }
