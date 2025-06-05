@@ -61,14 +61,14 @@ public class InventaireJoueur {
                     int caseLibre = trouverPremiereCaseVide();
                     //System.out.println("ne pas entrer ici svp");
                     if (caseLibre != -1) {
-                        listeditem.add(caseLibre,item);
+                        listeditem.set(caseLibre,item);
                         this.quantite[caseLibre] = quantite;
                     }
                 }
             } else { // si c'est pas stackable
                 int caseLibre = trouverPremiereCaseVide();
                 if (caseLibre != -1) {
-                    listeditem.add(caseLibre,item);
+                    listeditem.set(caseLibre,item);
                     this.quantite[caseLibre] = 1;
                 }
             }
@@ -98,7 +98,7 @@ public class InventaireJoueur {
 
     public void supprimmerItem(int pos) {
         if (pos >= 0 && pos < taille) {
-            listeditem.add(pos,null);
+            listeditem.set(pos,null);
             quantite[pos] = 0;
         }
     }
