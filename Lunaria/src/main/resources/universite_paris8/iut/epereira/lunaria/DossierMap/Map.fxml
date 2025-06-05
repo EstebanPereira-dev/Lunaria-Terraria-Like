@@ -22,6 +22,7 @@
                   <Image url="@Background.png" />
                </image>
             </ImageView>
+             <GridPane fx:id="terrainGrid" layoutX="0" layoutY="0" pickOnBounds="false" />
             <GridPane fx:id="inventaireGridPane" gridLinesVisible="true" maxHeight="288.0" maxWidth="288.0" minHeight="288.0" opacity="0.33" prefHeight="288.0" prefWidth="288.0" style="-fx-background-color: white; -fx-border-color: black;">
              <children>
                  <Button focusTraversable="false" onMouseClicked="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="0" GridPane.rowIndex="0">
