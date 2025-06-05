@@ -46,7 +46,7 @@ public class GestionSouris {
 
         if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) != 0) { // Si la case n'est pas vide
             if (estDansRange(tuileX, tuileY)) {
-                casserBloc(terrain, tuileX, tuileY);
+               // env.casserBloc(terrain, tuileX, tuileY);
             }
         } else {
             boolean attaqueLancee = env.getHero().executerAttaque();
@@ -80,36 +80,4 @@ public class GestionSouris {
 
         return distanceX <= range && distanceY <= range;
     }
-
-    private void casserBloc(ObservableList<Integer> terrain, int tuileX, int tuileY) {
-        Item item = Item.getItemPourTuile(env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)));
-
-        if(env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY))==5){
-            casserArbre(env.getTerrain().compterArbreAuDessus(tuileX,tuileY),tuileX,tuileY);
-            }
-        else if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY))!=5) {
-            env.getHero().getInv().ajouterItem(item, 1);
-            // Supprimer la tuile du terrain
-            env.getTerrain().changerTuile(0, tuileX, tuileY);
-            //optionnel, juste pour voir l'avancé
-            System.out.println("+1 " + item.getNom());
-            // Afficher le total de cet item dans l'inventaire
-            int totalItem = env.getHero().getInv().compterItem(item.getNom());
-            System.out.println("Total " + item.getNom() + " : " + totalItem);
-        }
-    }
-    public void casserArbre(int nbreBuches,int x, int y) {
-        Item planche = new Planche();
-        for (int i = 0; i < nbreBuches; i++) {
-            env.getHero().getInv().ajouterItem(planche, 1);
-            // Supprimer la tuile du terrain
-            env.getTerrain().changerTuile(0, x, y - i);
-            //optionnel, juste pour voir l'avancé
-            System.out.println("+1 " + planche.getNom());
-        }
-        // Afficher le total de cet item dans l'inventaire
-        int totalItem = env.getHero().getInv().compterItem(planche.getNom());
-        System.out.println("Total " + planche.getNom() + " : " + totalItem);
-    }
-
 }

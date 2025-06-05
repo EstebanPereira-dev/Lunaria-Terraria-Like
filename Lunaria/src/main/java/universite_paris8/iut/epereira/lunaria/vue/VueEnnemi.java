@@ -54,37 +54,4 @@ public class VueEnnemi extends VueActeur {
         orienterSprite(sprite, vitesseX);
 
     }
-
-    public void attaquer() { // Modele
-        Ennemi ennemi = (Ennemi) acteur;
-
-        if (!ennemi.attackOnCooldown) {
-            Hero hero = controleur.getEnv().getHero();
-            double distanceAuHero = calculerDistance(ennemi, hero);
-            double porteeAttaque = ((Ennemi) acteur).getRange();
-
-            if (distanceAuHero <= porteeAttaque) {
-                ennemi.agit();
-                ennemi.attackOnCooldown = true;
-
-                // Timer de cooldown
-                final Acteur finalActeur = ennemi;
-                Timeline attackCooldownTimerEnnemi = new Timeline(
-                        new KeyFrame(Duration.seconds(5), e -> {
-                            if (!controleur.getEnv().getActeursASupprimer().contains(finalActeur)) {
-                                finalActeur.attackOnCooldown = false;
-                            }
-                        })
-                );
-                attackCooldownTimerEnnemi.setCycleCount(1);
-                attackCooldownTimerEnnemi.play();
-            }
-        }
-    }
-
-    private double calculerDistance(Acteur acteur1, Acteur acteur2) {
-        double deltaX = acteur1.getPosX() - acteur2.getPosX();
-        double deltaY = acteur1.getPosY() - acteur2.getPosY();
-        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    }
 }

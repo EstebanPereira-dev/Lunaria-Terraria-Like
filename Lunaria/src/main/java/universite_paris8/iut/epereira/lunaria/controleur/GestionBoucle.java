@@ -62,10 +62,7 @@ public class GestionBoucle {
                 vueActeur.mettreAJourAnimation(a, deltaX);
             }
             if (a instanceof Ennemi) {
-                VueActeur vueEnnemi = controleur.getVueActeur(a);
-                if (vueEnnemi instanceof VueEnnemi) {
-                    ((VueEnnemi) vueEnnemi).attaquer();
-                }
+                a.agit();
             }
         }
 
