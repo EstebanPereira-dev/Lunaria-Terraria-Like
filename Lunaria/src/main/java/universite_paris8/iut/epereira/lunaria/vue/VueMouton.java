@@ -32,7 +32,6 @@ public class VueMouton extends VueActeur {
 
     @Override
     protected ImageView creerSprite() {
-        // ✅ EXACTEMENT le même code que VueEnnemi !
         ImageView imageView = creerImageViewBase(moutonFrames[0]);
         Timeline animation = creerAnimationCyclique(imageView, moutonFrames, 150);
         animation.play();

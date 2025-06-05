@@ -55,11 +55,10 @@ public class VueEnnemi extends VueActeur {
 
     }
 
-    public void attaquer() {
+    public void attaquer() { // Modele
         Ennemi ennemi = (Ennemi) acteur;
 
         if (!ennemi.attackOnCooldown) {
-            // ✅ VÉRIFICATION DE DISTANCE
             Hero hero = controleur.getEnv().getHero();
             double distanceAuHero = calculerDistance(ennemi, hero);
             double porteeAttaque = ((Ennemi) acteur).getRange();

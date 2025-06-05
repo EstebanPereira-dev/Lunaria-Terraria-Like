@@ -1,4 +1,5 @@
 package universite_paris8.iut.epereira.lunaria.controleur;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -48,11 +49,12 @@ public class GestionSouris {
                 casserBloc(terrain, tuileX, tuileY);
             }
         } else {
-            VueActeur vueHero= controleur.getVueActeur(env.getHero());
-            if(vueHero instanceof VueHero)
-                ((VueHero) vueHero).attaquer();
+            boolean attaqueLancee = env.getHero().executerAttaque();
+
+            if (attaqueLancee) {
+                controleur.getV().jouerAnimationAttaque();
+            }
         }
-        // Afficher l'inventaire après chaque action
         env.getHero().getInv().afficherInventaire();
     }
 
