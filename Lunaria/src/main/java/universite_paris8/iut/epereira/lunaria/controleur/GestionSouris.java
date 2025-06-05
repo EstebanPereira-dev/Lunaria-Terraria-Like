@@ -63,7 +63,9 @@ public class GestionSouris {
 
         if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) == 0) { // Si la case est vide
             if (estDansRange(tuileX, tuileY)) {
-                placerBloc(tuileX, tuileY);
+                env.placerBloc(tuileX, tuileY);
+                // Mettre à jour l'affichage de l'inventaire
+                controleur.getGestionInventaire().mettreAJourAffichage();
             }
         }
     }
@@ -95,67 +97,8 @@ public class GestionSouris {
             int totalItem = env.getHero().getInv().compterItem(item.getNom());
             System.out.println("Total " + item.getNom() + " : " + totalItem);
         }
-       //controleur.getGestionMap().chargerTiles(env.getTerrain());
-
-
-
     }
-
-    private void placerBloc(int tuileX, int tuileY) { //deplacer dans terrain
-        if (estPositionOccupeeParActeur(tuileX, tuileY)) {
-            System.out.println("Impossible de placer un bloc sur un acteur !");
-        } else {
-            int positionEquipe = env.getHero().getInv().getItemEquipe();
-
-            if (positionEquipe != -1) {
-                Item item = env.getHero().getInv().getListeditem().get(positionEquipe);
-
-                // Vérification que l'item existe et peut être placé
-                if (item != null && item.getPeutEtrePlace()) {
-                    // Placer le bloc sur le terrain
-                    env.getTerrain().changerTuile(item.getId(), tuileX, tuileY);
-                   // controleur.getGestionMap().chargerTiles(env.getTerrain());
-
-                    // Retirer un item de l'inventaire
-                    env.getHero().getInv().retirerItem(positionEquipe, 1);
-
-                    // Mettre à jour l'affichage de l'inventaire
-                    controleur.getGestionInventaire().mettreAJourAffichage();
-
-                    System.out.println("Bloc placé : " + item.getNom());
-                } else if (item == null) {
-                    System.out.println("Erreur : item équipé est null");
-                } else {
-                    System.out.println("Cet item ne peut pas être placé");
-                }
-            } else {
-                System.out.println("Aucun item équipé pour placer");
-            }
-        }
-    }
-
-    private boolean estPositionOccupeeParActeur(int tuileX, int tuileY) { // a deplacer dans env
-        for (Acteur acteur : env.getActeurs()) {
-            if (acteur instanceof Hero) {
-                int heroX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
-                int heroY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
-
-                if ((tuileX == heroX - 1 || tuileX == heroX || tuileX == heroX + 1) && (tuileY == heroY - 1 || tuileY == heroY || tuileY == heroY + 1)) {
-                    return true;
-                } else {
-                    int acteurX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
-                    int acteurY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
-
-                    if (tuileX == acteurX && tuileY == acteurY) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public void casserArbre(int nbreBuches,int x, int y) { //deplacer dans terrain
+    public void casserArbre(int nbreBuches,int x, int y) {
         Item planche = new Planche();
         for (int i = 0; i < nbreBuches; i++) {
             env.getHero().getInv().ajouterItem(planche, 1);

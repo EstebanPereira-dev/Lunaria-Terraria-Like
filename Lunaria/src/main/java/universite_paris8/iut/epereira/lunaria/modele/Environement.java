@@ -2,9 +2,11 @@ package universite_paris8.iut.epereira.lunaria.modele;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.epereira.lunaria.controleur.GestionInventaire;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,5 +99,62 @@ public class Environement {
 
     public Terrain getTerrain() {
         return terrain;
+    }
+
+    public void placerBloc(int tuileX, int tuileY) {
+        if (estPositionOccupeeParActeur(tuileX, tuileY)) {
+            System.out.println("Impossible de placer un bloc sur un acteur !");
+        } else {
+            int positionEquipe = getHero().getInv().getItemEquipe();
+
+            if (positionEquipe != -1) {
+                Item item = getHero().getInv().getListeditem().get(positionEquipe);
+
+                // Vérification que l'item existe et peut être placé
+                if (item != null && item.getPeutEtrePlace()) {
+                    // Placer le bloc sur le terrain
+                    getTerrain().changerTuile(item.getId(), tuileX, tuileY);
+                    // controleur.getGestionMap().chargerTiles(env.getTerrain());
+
+                    // Retirer un item de l'inventaire
+                    getHero().getInv().retirerItem(positionEquipe, 1);
+
+                }
+            }
+        }
+    }
+
+    private boolean estPositionOccupeeParActeur(int tuileX, int tuileY) {
+        for (Acteur acteur : getActeurs()) {
+            if (acteur instanceof Hero) {
+                int heroX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
+                int heroY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
+
+                if ((tuileX == heroX - 1 || tuileX == heroX || tuileX == heroX + 1) && (tuileY == heroY - 1 || tuileY == heroY || tuileY == heroY + 1)) {
+                    return true;
+                } else {
+                    int acteurX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
+                    int acteurY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
+
+                    if (tuileX == acteurX && tuileY == acteurY) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public void casserArbre(int nbreBuches,int x, int y) {
+        Item planche = new Planche();
+        for (int i = 0; i < nbreBuches; i++) {
+            getHero().getInv().ajouterItem(planche, 1);
+            // Supprimer la tuile du terrain
+            getTerrain().changerTuile(0, x, y - i);
+            //optionnel, juste pour voir l'avancé
+            System.out.println("+1 " + planche.getNom());
+        }
+        // Afficher le total de cet item dans l'inventaire
+        int totalItem = getHero().getInv().compterItem(planche.getNom());
+        System.out.println("Total " + planche.getNom() + " : " + totalItem);
     }
 }
