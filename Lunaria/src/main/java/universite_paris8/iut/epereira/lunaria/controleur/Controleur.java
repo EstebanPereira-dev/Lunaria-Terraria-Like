@@ -120,6 +120,7 @@ public class Controleur implements Initializable {
             gestionBoucle.demarrer();
         });
 
+        //ajout du listener sur l'observable liste de l'inventaire
         obsInventaire = new ObsInventaire(imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9);
         env.getHero().getInv().getListeditem().addListener(obsInventaire);
 

@@ -123,6 +123,9 @@ public class GestionInventaire {
         return inventaireBooleanOvert;
     }
 
+
+
+
     public void mettreAJourAffichage() {
         // Vérifier si l'item actuellement sélectionné existe encore
         if (env.getHero().getInv().getListeditem().get(isSelectedInHand) == null) {
@@ -134,6 +137,15 @@ public class GestionInventaire {
             if (nouvelItemEquipe != -1) {
                 isSelectedInHand = nouvelItemEquipe;
                 controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: yellow");
+            }
+        }
+
+        for(int i = 0; i < env.getHero().getInv().getTaille(); i++){
+            if(env.getHero().getInv().getQuantite()[i] == 0 && env.getHero().getInv().getListeditem().get(i) != null){
+                env.getHero().getInv().getListeditem().set(i,null);
+            }
+            if(env.getHero().getInv().getQuantite()[i] < 0 && env.getHero().getInv().getListeditem().get(i) != null){
+                System.out.println("\n\n\n\n QUANTITE IMPOSSIBLE\nQUANTITE NEGATIF\nQUANTITE IMPOSSIBLE\nQUANTITE NEGATIF\n\n\n\n");
             }
         }
     }

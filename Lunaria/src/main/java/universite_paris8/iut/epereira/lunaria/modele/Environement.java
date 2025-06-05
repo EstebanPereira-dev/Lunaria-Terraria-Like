@@ -101,30 +101,9 @@ public class Environement {
         return terrain;
     }
 
-    public void placerBloc(int tuileX, int tuileY) {
-        if (estPositionOccupeeParActeur(tuileX, tuileY)) {
-            System.out.println("Impossible de placer un bloc sur un acteur !");
-        } else {
-            int positionEquipe = getHero().getInv().getItemEquipe();
 
-            if (positionEquipe != -1) {
-                Item item = getHero().getInv().getListeditem().get(positionEquipe);
 
-                // Vérification que l'item existe et peut être placé
-                if (item != null && item.getPeutEtrePlace()) {
-                    // Placer le bloc sur le terrain
-                    getTerrain().changerTuile(item.getId(), tuileX, tuileY);
-                    // controleur.getGestionMap().chargerTiles(env.getTerrain());
-
-                    // Retirer un item de l'inventaire
-                    getHero().getInv().retirerItem(positionEquipe, 1);
-
-                }
-            }
-        }
-    }
-
-    private boolean estPositionOccupeeParActeur(int tuileX, int tuileY) {
+    public boolean estPositionOccupeeParActeur(int tuileX, int tuileY) {
         for (Acteur acteur : getActeurs()) {
             if (acteur instanceof Hero) {
                 int heroX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
@@ -144,43 +123,6 @@ public class Environement {
         }
         return false;
     }
-    public void casserArbre(int nbreBuches,int x, int y) {
-        Item planche = new Planche();
-        for (int i = 0; i < nbreBuches; i++) {
-            getHero().getInv().ajouterItem(planche, 1);
-            // Supprimer la tuile du terrain
-            getTerrain().changerTuile(0, x, y - i);
-            //optionnel, juste pour voir l'avancé
-            System.out.println("+1 " + planche.getNom());
-        }
-        // Afficher le total de cet item dans l'inventaire
-        int totalItem = getHero().getInv().compterItem(planche.getNom());
-        System.out.println("Total " + planche.getNom() + " : " + totalItem);
-    }
-    public void casserBloc(ObservableList<Integer> terrain, int tuileX, int tuileY) {
-        Item item = Item.getItemPourTuile(getTerrain().getTableau().get(getTerrain().getPos(tuileX, tuileY)));
 
-        if (getTerrain().getTableau().get(getTerrain().getPos(tuileX, tuileY)) == 5) {
-            casserArbre(getTerrain().compterArbreAuDessus(tuileX, tuileY), tuileX, tuileY);
-        } else if (getTerrain().getTableau().get(getTerrain().getPos(tuileX, tuileY)) != 5) {
-            getHero().getInv().ajouterItem(item, 1);
-            // Supprimer la tuile du terrain
-            getTerrain().changerTuile(0, tuileX, tuileY);
-            //optionnel, juste pour voir l'avancé
-            System.out.println("+1 " + item.getNom());
-            // Afficher le total de cet item dans l'inventaire
-            int totalItem = getHero().getInv().compterItem(item.getNom());
-            System.out.println("Total " + item.getNom() + " : " + totalItem);
-        }
-    }
-    public boolean estDansRange(int tuileX, int tuileY) {
-        int heroX = (int) (getHero().getPosX() / ConfigurationJeu.TAILLE_TUILE);
-        int heroY = (int) (getHero().getPosY() / ConfigurationJeu.TAILLE_TUILE);
-        int range = getHero().getRange(); // en nombre de cases
 
-        int distanceX = Math.abs(tuileX - heroX);
-        int distanceY = Math.abs(tuileY - heroY);
-
-        return distanceX <= range && distanceY <= range;
-    }
 }

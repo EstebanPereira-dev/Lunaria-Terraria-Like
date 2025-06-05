@@ -1,4 +1,7 @@
-package universite_paris8.iut.epereira.lunaria.modele;
+package universite_paris8.iut.epereira.lunaria.modele.Craft;
+
+import universite_paris8.iut.epereira.lunaria.modele.Environement;
+import universite_paris8.iut.epereira.lunaria.modele.Item;
 
 import java.util.ArrayList;
 
@@ -64,14 +67,14 @@ public class Craft {
                                 env.getHero().getInv().getQuantite()[i] -= quantiteAPrendre;
                                 quantiteAPrendre = 0;
                             }
-                            //si la quandtite est moindre ou égal
+                            //si la quantite est moindre ou égal
                             //alors supprimer de l'inventaire,
                             //réduit la quantite necessaire apres avoir 'pris' ce qu'il y as dans l'inventaire
                             // et continuer la recherche
                             if(env.getHero().getInv().getQuantite()[i] <= quantiteAPrendre){
                                 quantiteAPrendre -= env.getHero().getInv().getQuantite()[i];
                                 env.getHero().getInv().getQuantite()[i] = 0;
-                                env.getHero().getInv().getListeditem().add(i,null);
+                                env.getHero().getInv().getListeditem().set(i,null);
                             }
                         }
                     }
