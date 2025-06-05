@@ -23,21 +23,21 @@ public class GestionSouris {
 
     public void clicDeSouris(MouseEvent mouseEvent) {
         if(env.getHero().getPv() > 0) {
-        dernierePosX = mouseEvent.getX();
-        dernierePosY = mouseEvent.getY();
+            dernierePosX = mouseEvent.getX();
+            dernierePosY = mouseEvent.getY();
 
-        int tuileX = (int) (dernierePosX / ConfigurationJeu.TAILLE_TUILE);
-        int tuileY = (int) (dernierePosY / ConfigurationJeu.TAILLE_TUILE);
+            int tuileX = (int) (dernierePosX / ConfigurationJeu.TAILLE_TUILE);
+            int tuileY = (int) (dernierePosY / ConfigurationJeu.TAILLE_TUILE);
 
 //        ObservableList<Integer> terrain = env.getTerrain().getTableau();
 
-        if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            gererClicGauche(env.getTerrain().getTableau(), tuileX, tuileY);
-        }
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                gererClicGauche(env.getTerrain().getTableau(), tuileX, tuileY);
+            }
 
-        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-            gererClicDroit(env.getTerrain().getTableau(), tuileX, tuileY);
-        }
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                gererClicDroit(env.getTerrain().getTableau(), tuileX, tuileY);
+            }
         }
     }
 
@@ -45,8 +45,8 @@ public class GestionSouris {
         System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
         if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) != 0) { // Si la case n'est pas vide
-            if (estDansRange(tuileX, tuileY)) {
-               // env.casserBloc(terrain, tuileX, tuileY);
+            if (env.estDansRange(tuileX, tuileY)) {
+                env.casserBloc(terrain, tuileX, tuileY);
             }
         } else {
             boolean attaqueLancee = env.getHero().executerAttaque();
@@ -62,7 +62,7 @@ public class GestionSouris {
         System.out.println("Clic droit à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
         if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) == 0) { // Si la case est vide
-            if (estDansRange(tuileX, tuileY)) {
+            if (env.estDansRange(tuileX, tuileY)) {
                 env.placerBloc(tuileX, tuileY);
                 // Mettre à jour l'affichage de l'inventaire
                 controleur.getGestionInventaire().mettreAJourAffichage();
@@ -70,14 +70,5 @@ public class GestionSouris {
         }
     }
 
-    private boolean estDansRange(int tuileX, int tuileY) {
-        int heroX = (int) (env.getHero().getPosX() / ConfigurationJeu.TAILLE_TUILE);
-        int heroY = (int) (env.getHero().getPosY() / ConfigurationJeu.TAILLE_TUILE);
-        int range = env.getHero().getRange(); // en nombre de cases
 
-        int distanceX = Math.abs(tuileX - heroX);
-        int distanceY = Math.abs(tuileY - heroY);
-
-        return distanceX <= range && distanceY <= range;
-    }
 }
