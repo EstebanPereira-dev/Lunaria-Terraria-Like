@@ -18,9 +18,11 @@ import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.vue.ObsTerrain;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeur;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeurFactory;
 import universite_paris8.iut.epereira.lunaria.vue.VueTerrain;
+
 
 import java.net.URL;
 import java.util.*;
@@ -48,6 +50,9 @@ public class Controleur implements Initializable {
     @FXML //Afficher le fond
     private ImageView background;
 
+    @FXML
+    private GridPane terrainGrid;
+
     //Barrre de vie du hero
     private BarreDeVie barreDeVieHero;
 
@@ -74,6 +79,19 @@ public class Controleur implements Initializable {
         //Création de l'environement de la taille de l'écren
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
 
+        // Récupération du terrain
+        Terrain terrain = env.getTerrain();
+        // Création de l'observateur avec la grille d'affichage et la largeur du terrain
+        ObsTerrain obsTerrain = new ObsTerrain(terrainGrid, terrain.getWidth());
+        // Lier l'observateur à la liste observable
+        terrain.getTableau().addListener(obsTerrain);
+        // Affichage initial des tuiles dans la grille
+        for (int i = 0; i < terrain.getTableau().size(); i++) {
+            obsTerrain.updateTuile(i, terrain.getTableau().get(i));
+        }
+
+
+
         //initialisation du gestionaire de la map
         gestionMap = new VueTerrain(env, this);
         gestionTouches= new GestionTouches(env,this);
@@ -97,7 +115,7 @@ public class Controleur implements Initializable {
         configurerEvenements();
         gestionBoucle.creerBoucleDeJeu();
         Platform.runLater(() -> {
-            gestionMap.chargerTiles(env.getTerrain());
+            //gestionMap.chargerTiles(env.getTerrain());
         });
         Platform.runLater(() -> {
             tabJeu.requestFocus();
@@ -107,10 +125,6 @@ public class Controleur implements Initializable {
         //ajout du listener sur l'observable liste de l'inventaire
         obsInventaire = new ObsInventaire(imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9);
         env.getHero().getInv().getListeditem().addListener(obsInventaire);
-
-
-
-
 
     }
 

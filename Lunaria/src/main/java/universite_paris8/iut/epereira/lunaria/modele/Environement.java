@@ -36,7 +36,7 @@ public class Environement {
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
     }
 
-    public void update() {
+    public void update() { //faire agir tout le monde et supprimer les morts
         spawnerAdepte.spawner();
 
         supprimerActeursMarques();

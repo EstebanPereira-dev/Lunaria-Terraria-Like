@@ -1,79 +1,114 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Terrain {
     private int width;
     private int height;
-    private int[][] tableau;
+    //private int[][] tableau;
+    private ObservableList<Integer> tableau;
     private boolean[][] tangibilite;
 
     private static final int[] TUILES_NON_TANGIBLES = {0,3,5};
 
+    /*
+    formules:
+    passer tableau => liste:
+    (y * longueur) + x = posListe
+
+    passer Liste => Tableau:
+    y = Math.floor(posListe/longueur)
+    x = posListe%longueur
+
+     */
+
     public Terrain(int width, int height) {
         this.width = width;
         this.height = height;
+        tableau = FXCollections.observableArrayList();
         initTableau(ConfigurationJeu.WIDTH_TILES,ConfigurationJeu.HEIGHT_TILES);
 
         initTangibilite();
     }
+
+
+
+
     public void initTableau(int width, int height) {
         this.width = width;
         this.height = height;
-        this.tableau = new int [height][width];
+        //this.tableau = new int [height][width];
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                tableau[y][x] = 0;
-            }
-        }
+//        for (int y = 0; y < height*width; y++) {
+//            //tableau[y][x] = 0;
+//            tableau.add(0);
+//        }
 
 
         int profondeurTerre = 15;
         int hauteurHerbe = 1;
         int profondeurPierre=6;
+        int profondeurCiel=ConfigurationJeu.HEIGHT_TILES-profondeurTerre-hauteurHerbe-profondeurPierre;
 
-        for (int y = height - profondeurTerre; y < height; y++) {
+        for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (y == height - profondeurTerre) {
-                    tableau[y][x] = 2;
-                } else if(y > height - profondeurPierre) {
-                    tableau[y][x] = 4;
-                }
-                else {
-                    tableau[y][x] = 1;
+
+                if (y < profondeurCiel) {
+                    tableau.add(0);// ciel
+                } else if (y < profondeurCiel + hauteurHerbe) {
+                    tableau.add(2); // herbe
+                } else if (y < profondeurCiel + hauteurHerbe + profondeurTerre) {
+                    tableau.add(1); // terre
+                } else {
+                    tableau.add(4); // pierre
                 }
             }
         }
+
+
 
         for (int x = 0; x < width; x += 5) { // TOUS LES 5 BLOCS
             if (Math.random() < 0.5) { // 50% de chance d'avoir un buisson
-                tableau[height - profondeurTerre - 1][x] = 3; //3 = BUISSON
+                tableau.set(getPos(x,height-hauteurHerbe-profondeurTerre-profondeurPierre - 1),3); //3 = BUISSON
             }
         }
-        creerArbre(34,39);
+        creerArbre(20,27);
 
 
         initTangibilite();
     }
 
-    public void creerArbre(int x,int y){
-        tableau[x][y]=5;
-        tableau[x-1][y]=5;
-        tableau[x-2][y]=5;
-        tableau[x-3][y]=5;
-        tableau[x-4][y]=5;
-        tableau[x-5][y]=5;
-        tableau[x-6][y]=5;
-        tableau[x-7][y]=5;
-
+    public int tabY(int pos){
+        return (int)Math.floor(pos/ConfigurationJeu.WIDTH_TILES);
     }
+    public int tabX(int pos){
+        return (int)pos%ConfigurationJeu.WIDTH_TILES;
+    }
+
+    public int getPos(int x, int y){
+        return (int) y*width+x;
+    }
+
+  public void creerArbre(int x,int y) {
+      tableau.set((getPos(x,y)),5);
+      tableau.set((getPos(x,y-1)),5);
+      tableau.set((getPos(x,y-2)),5);
+      tableau.set((getPos(x,y-3)),5);
+      tableau.set((getPos(x,y-4)),5);
+      tableau.set((getPos(x,y-5)),5);
+      tableau.set((getPos(x,y-6)),5);
+      tableau.set((getPos(x,y-7)),5);
+
+  }
 
     private void initTangibilite() {
         this.tangibilite = new boolean[height][width];
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                tangibilite[y][x] = !estTypeNonTangible(tableau[y][x]);
+                tangibilite[y][x] = !estTypeNonTangible(tableau.get(getPos(x,y)));
             }
         }
     }
@@ -168,12 +203,14 @@ public class Terrain {
         return this.height;
     }
 
-    public int[][] getTableau() {
+    public ObservableList<Integer> getTableau() {
         return tableau;
     }
 
     public void changerTuile(int blocDeRemplacement, int x, int y) {
-            this.getTableau()[y][x] = blocDeRemplacement;
+        int pos = getPos(x, y);
+        if (pos >= 0 && pos < tableau.size()) {
+            tableau.set(pos, blocDeRemplacement);
             updateTangibilite();
             System.out.println("Le bloc en x=" + x + " et en y=" + y + " est remplacé par un bloc de type " + blocDeRemplacement);
 
@@ -183,21 +220,19 @@ public class Terrain {
                     System.out.print(this.getTableau()[i][j]);
                 System.out.println("");
             }*/
-
-
+        }
     }
+
     public int compterArbreAuDessus(int x, int y){ //compte le nombre de buches de bois en haut de la tuile selectionnée
         int compteur=1;
-        while(this.tableau[y-compteur][x]==5){            //3=taille max d un arbre
+        while(tableau.get(getPos(x,y-compteur))==5){            //3=taille max d un arbre
                 compteur++;
         }
         return compteur;
     }
 
 
-    public void setTableau(int[][] tableau) {
-        this.tableau = tableau;
-    }
+
 
 
 }

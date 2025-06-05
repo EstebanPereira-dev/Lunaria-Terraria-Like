@@ -1,5 +1,6 @@
 package universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis;
 
+import javafx.collections.ObservableList;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
@@ -224,7 +225,7 @@ public class Adepte extends Ennemi {
             int newX = current.x + dir;
 
             // Vérifier les limites
-            if (newX < 0 || newX >= getEnv().getTerrain().getTableau()[0].length) {
+            if (newX < 0 || newX >= getEnv().getTerrain().getTableau().size()){
                 continue;
             }
 
@@ -246,16 +247,16 @@ public class Adepte extends Ennemi {
     }
 
     private int trouverSolY(int x) {
-        int[][] terrain = getEnv().getTerrain().getTableau();
+        ObservableList<Integer> terrain = getEnv().getTerrain().getTableau();
 
         // Chercher le premier bloc tangible depuis le haut
-        for (int y = 0; y < terrain.length; y++) {
+        for (int y = 0; y < terrain.size(); y++) {
             if (getEnv().getTerrain().estTangible(x, y)) {
                 return Math.max(0, y - 1); // Position juste au-dessus du bloc
             }
         }
 
-        return terrain.length - 1; // Si pas de sol, retourner le bas
+        return terrain.size() - 1; // Si pas de sol, retourner le bas
     }
 
     private Queue<Point> reconstruireChemin(Map<Point, Point> parent, Point start, Point target) {
@@ -388,9 +389,9 @@ public class Adepte extends Ennemi {
 
     private double trouverHauteurSol(double x) {
         int tileX = (int) (x / ConfigurationJeu.TAILLE_TUILE);
-        int[][] terrain = getEnv().getTerrain().getTableau();
+        ObservableList<Integer> terrain = getEnv().getTerrain().getTableau();
 
-        for (int tileY = 0; tileY < terrain.length; tileY++) {
+        for (int tileY = 0; tileY < terrain.size(); tileY++) {
             if (getEnv().getTerrain().estTangible(tileX, tileY)) {
                 return tileY * ConfigurationJeu.TAILLE_TUILE;
             }
