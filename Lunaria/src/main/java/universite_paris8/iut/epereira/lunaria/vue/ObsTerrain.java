@@ -78,7 +78,7 @@ public class ObsTerrain implements ListChangeListener<Integer> {
                         GridPane.getColumnIndex(node) == x &&
                         GridPane.getRowIndex(node) == y
         );
-
+//        grilleAffichage.on
         grilleAffichage.add(imageView, x, y);
     }
 

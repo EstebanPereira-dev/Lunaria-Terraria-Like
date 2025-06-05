@@ -27,11 +27,7 @@
              <children>
                  <Button focusTraversable="false" onMouseClicked="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="0" GridPane.rowIndex="0">
                      <graphic>
-                        <ImageView fx:id="imageInv1"  fitHeight="80.0" fitWidth="80.0" focusTraversable="true" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                        </ImageView>
+                        <ImageView fx:id="imageInv1"  fitHeight="80.0" fitWidth="80.0" focusTraversable="true" mouseTransparent="true" pickOnBounds="true" preserveRatio="true"/>
                      </graphic></Button>
                  <Button focusTraversable="false" onAction="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="1" GridPane.rowIndex="0">
                      <graphic>
