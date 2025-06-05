@@ -45,8 +45,8 @@ public class GestionSouris {
         System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
         if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) != 0) { // Si la case n'est pas vide
-            if (env.estDansRange(tuileX, tuileY)) {
-                env.casserBloc(terrain, tuileX, tuileY);
+            if (env.getHero().estDansRange(tuileX, tuileY)) {
+                env.getHero().casserBloc(terrain, tuileX, tuileY);
             }
         } else {
             boolean attaqueLancee = env.getHero().executerAttaque();
@@ -62,8 +62,8 @@ public class GestionSouris {
         System.out.println("Clic droit à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
         if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) == 0) { // Si la case est vide
-            if (env.estDansRange(tuileX, tuileY)) {
-                env.placerBloc(tuileX, tuileY);
+            if (env.getHero().estDansRange(tuileX, tuileY)) {
+                env.getHero().placerBloc(tuileX, tuileY);
                 // Mettre à jour l'affichage de l'inventaire
                 controleur.getGestionInventaire().mettreAJourAffichage();
             }
