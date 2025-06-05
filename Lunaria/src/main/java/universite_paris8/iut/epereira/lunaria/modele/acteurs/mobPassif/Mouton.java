@@ -36,7 +36,7 @@ public class Mouton extends mobPassif{
 
         deplacerHorizontalement(vitesseX * direction);
 
-// Rebonds sur les bords (garde ton code)
+        // Rebonds sur les bords
         if (getPosX() > ConfigurationJeu.WIDTH_SCREEN - 10) {
             direction = -1;
         } else if (getPosX() < 10) {

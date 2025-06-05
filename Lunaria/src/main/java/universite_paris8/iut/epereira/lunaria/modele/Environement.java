@@ -2,9 +2,11 @@ package universite_paris8.iut.epereira.lunaria.modele;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.epereira.lunaria.controleur.GestionInventaire;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,4 +100,29 @@ public class Environement {
     public Terrain getTerrain() {
         return terrain;
     }
+
+
+
+    public boolean estPositionOccupeeParActeur(int tuileX, int tuileY) {
+        for (Acteur acteur : getActeurs()) {
+            if (acteur instanceof Hero) {
+                int heroX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
+                int heroY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
+
+                if ((tuileX == heroX - 1 || tuileX == heroX || tuileX == heroX + 1) && (tuileY == heroY - 1 || tuileY == heroY || tuileY == heroY + 1)) {
+                    return true;
+                } else {
+                    int acteurX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
+                    int acteurY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
+
+                    if (tuileX == acteurX && tuileY == acteurY) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

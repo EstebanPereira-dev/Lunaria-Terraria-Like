@@ -26,7 +26,7 @@ public class GestionInventaire {
         this.env = env;
         this.controleur = controleur;
         isSelectedInHand = 0;
-        }
+    }
 
     //selectionne l'item en appuyant dans l'inventaire ou sur les touche 1-9
     public Item selectItem(int i) {
@@ -75,7 +75,33 @@ public class GestionInventaire {
         Integer row = GridPane.getRowIndex(source);
         Integer col = GridPane.getColumnIndex(source);
 
+
+
+
+        //Item temp = env.getHero().getInv().getIteminList(row * 3 + col);
+
+        //vérifie si l'emplacement sur le quel on click est occupé
+        //si occupé, echangé ce que contient la souris avec le contenue de l'emplacement
+        //sinon, juste placer ce que contient la souris dans l'emplacement
+        //if (temp != null) {
+        //  Item switch2 = temp;
+        //env.getHero().getInv().addItem(row * 3 + col, tempItemSouris);
+        //tempItemSouris = switch2;
+        // } else {
+        //   env.getHero().getInv().addItem(row * 3 + col, tempItemSouris);
+        // }
         selectItem(row * 3 + col);
+
+
+        //charger ce que contient la case par une image de l'item, vide si null
+
+        //imageInv1.setImage(new Image("/universite_paris8/iut/epereira/lunaria/DossierMap/Background.png"));
+
+        //((Node) event.getSource()).setStyle("-fx-background-image: url("+getClass().getResource("/universite_paris8/iut/epereira/lunaria/DossierMap/Background.png")+")");
+        //((Node) event.getSource()).setOpacity(1.0);
+
+        //inventaireGridPane.getChildren().get(row * 3 + col).setStyle();
+
 
     }
 
@@ -96,6 +122,7 @@ public class GestionInventaire {
     public Boolean getInventaireBooleanOvert(){
         return inventaireBooleanOvert;
     }
+
 
 
 
