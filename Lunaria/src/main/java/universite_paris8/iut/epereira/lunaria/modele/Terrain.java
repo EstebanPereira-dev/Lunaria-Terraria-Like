@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 public class Terrain {
     private int width;
     private int height;
-    //private int[][] tableau;
     private ObservableList<Integer> tableau;
     private boolean[][] tangibilite;
 
@@ -230,6 +229,8 @@ public class Terrain {
         }
         return compteur;
     }
+
+
 
 
 
