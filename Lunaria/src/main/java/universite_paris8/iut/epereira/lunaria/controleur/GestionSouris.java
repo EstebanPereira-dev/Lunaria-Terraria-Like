@@ -44,8 +44,8 @@ public class GestionSouris {
         System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
         if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) != 0) { // Si la case n'est pas vide
-            if (estDansRange(tuileX, tuileY)) {
-                casserBloc(terrain, tuileX, tuileY);
+            if (env.estDansRange(tuileX, tuileY)) {
+                env.casserBloc(terrain, tuileX, tuileY);
             }
         } else {
             VueActeur vueHero= controleur.getVueActeur(env.getHero());
@@ -60,7 +60,7 @@ public class GestionSouris {
         System.out.println("Clic droit à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
         if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) == 0) { // Si la case est vide
-            if (estDansRange(tuileX, tuileY)) {
+            if (env.estDansRange(tuileX, tuileY)) {
                 env.placerBloc(tuileX, tuileY);
                 // Mettre à jour l'affichage de l'inventaire
                 controleur.getGestionInventaire().mettreAJourAffichage();
@@ -68,46 +68,5 @@ public class GestionSouris {
         }
     }
 
-    private boolean estDansRange(int tuileX, int tuileY) {
-        int heroX = (int) (env.getHero().getPosX() / ConfigurationJeu.TAILLE_TUILE);
-        int heroY = (int) (env.getHero().getPosY() / ConfigurationJeu.TAILLE_TUILE);
-        int range = env.getHero().getRange(); // en nombre de cases
 
-        int distanceX = Math.abs(tuileX - heroX);
-        int distanceY = Math.abs(tuileY - heroY);
-
-        return distanceX <= range && distanceY <= range;
-    }
-
-    private void casserBloc(ObservableList<Integer> terrain, int tuileX, int tuileY) {
-        Item item = Item.getItemPourTuile(env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)));
-
-        if(env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY))==5){
-            casserArbre(env.getTerrain().compterArbreAuDessus(tuileX,tuileY),tuileX,tuileY);
-            }
-        else if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY))!=5) {
-            env.getHero().getInv().ajouterItem(item, 1);
-            // Supprimer la tuile du terrain
-            env.getTerrain().changerTuile(0, tuileX, tuileY);
-            //optionnel, juste pour voir l'avancé
-            System.out.println("+1 " + item.getNom());
-            // Afficher le total de cet item dans l'inventaire
-            int totalItem = env.getHero().getInv().compterItem(item.getNom());
-            System.out.println("Total " + item.getNom() + " : " + totalItem);
-        }
-    }
-    public void casserArbre(int nbreBuches,int x, int y) {
-        Item planche = new Planche();
-        for (int i = 0; i < nbreBuches; i++) {
-            env.getHero().getInv().ajouterItem(planche, 1);
-            // Supprimer la tuile du terrain
-            env.getTerrain().changerTuile(0, x, y - i);
-            //optionnel, juste pour voir l'avancé
-            System.out.println("+1 " + planche.getNom());
-        }
-        // Afficher le total de cet item dans l'inventaire
-        int totalItem = env.getHero().getInv().compterItem(planche.getNom());
-        System.out.println("Total " + planche.getNom() + " : " + totalItem);
-    }
-
-}
+   }
