@@ -5,7 +5,9 @@ import javafx.collections.ObservableList;
 import universite_paris8.iut.epereira.lunaria.controleur.GestionInventaire;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Aleksa;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.PNJ;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class Environement {
     private List<Acteur> acteursASupprimer = new ArrayList<>();
     // Spawner pour les ennemis
     private Adepte spawnerAdepte;
+    private Inventaire marchand;
 
     public Environement(int width, int height){
         this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
@@ -29,6 +32,8 @@ public class Environement {
         acteurs = new ArrayList<>();
 
         acteurs.add(new Mouton(20, 1, this, 200, 400));
+
+        acteurs.add(new Aleksa(100,1,this,300,400));
 
         acteurs.add(hero);
 
@@ -53,6 +58,27 @@ public class Environement {
             acteurs.remove(acteur);
         }
         acteursASupprimer.clear();
+    }
+
+    public boolean estPositionOccupeeParActeur(int tuileX, int tuileY) {
+        for (Acteur acteur : getActeurs()) {
+            if (acteur instanceof Hero) {
+                int heroX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
+                int heroY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
+
+                if ((tuileX == heroX - 1 || tuileX == heroX || tuileX == heroX + 1) && (tuileY == heroY - 1 || tuileY == heroY || tuileY == heroY + 1)) {
+                    return true;
+                } else {
+                    int acteurX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
+                    int acteurY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
+
+                    if (tuileX == acteurX && tuileY == acteurY) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     // GETTER :
@@ -100,29 +126,5 @@ public class Environement {
     public Terrain getTerrain() {
         return terrain;
     }
-
-
-
-    public boolean estPositionOccupeeParActeur(int tuileX, int tuileY) {
-        for (Acteur acteur : getActeurs()) {
-            if (acteur instanceof Hero) {
-                int heroX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
-                int heroY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
-
-                if ((tuileX == heroX - 1 || tuileX == heroX || tuileX == heroX + 1) && (tuileY == heroY - 1 || tuileY == heroY || tuileY == heroY + 1)) {
-                    return true;
-                } else {
-                    int acteurX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
-                    int acteurY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
-
-                    if (tuileX == acteurX && tuileY == acteurY) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
 
 }

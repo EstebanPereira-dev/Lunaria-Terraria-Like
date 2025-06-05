@@ -1,19 +1,16 @@
 package universite_paris8.iut.epereira.lunaria.vue;
 
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.controleur.Controleur;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
-import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
-public class VueEnnemi extends VueActeur {
+public class VueAdepte extends VueActeur {
     private Image[] ennemiFrames;
 
-    public VueEnnemi(Ennemi ennemi, Controleur controleur) {
+    public VueAdepte(Ennemi ennemi, Controleur controleur) {
         super(ennemi, controleur);
         initialiserVue();
     }

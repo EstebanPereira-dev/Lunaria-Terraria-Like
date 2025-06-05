@@ -9,7 +9,6 @@ import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeur;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeurFactory;
-import universite_paris8.iut.epereira.lunaria.vue.VueEnnemi;
 
 import java.util.ArrayList;
 import java.util.List;

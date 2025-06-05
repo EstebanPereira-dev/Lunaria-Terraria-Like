@@ -12,7 +12,7 @@ import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 import java.util.ArrayList;
 
 public class Hero extends Acteur {
-    private InventaireJoueur inv;
+    private Inventaire inv;
     private ArrayList<Boolean> actions;
     private boolean haut = false, bas = false, droite = false, gauche = false, inventaire = false, pause = false, attaque = false;
     private int range, degat;
@@ -20,7 +20,7 @@ public class Hero extends Acteur {
     public Hero(Environement env) {
         super(env);
         actions = new ArrayList<>();
-        inv = new InventaireJoueur();
+        inv = new Inventaire();
         remplirAction();
         range = 5;
         degat = 10;
@@ -125,20 +125,6 @@ public class Hero extends Acteur {
 
     }
 
-    public InventaireJoueur getInv() {
-        return inv;
-    }
-    public int getRange() {
-        return range;
-    }
-
-    public int getDegat() {
-        return degat;
-    }
-
-    public ArrayList<Boolean> getActions() {
-        return actions;
-    }
 
     public boolean estDansRange(int tuileX, int tuileY) {
         int heroX = (int) (getPosX() / ConfigurationJeu.TAILLE_TUILE);
@@ -203,4 +189,20 @@ public class Hero extends Acteur {
             }
         }
     }
+
+    public Inventaire getInv() {
+        return inv;
+    }
+    public int getRange() {
+        return range;
+    }
+
+    public int getDegat() {
+        return degat;
+    }
+
+    public ArrayList<Boolean> getActions() {
+        return actions;
+    }
+
 }
