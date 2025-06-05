@@ -25,7 +25,6 @@ public class Adepte extends Ennemi {
     private double rayonPatrouille = 100; // Rayon de patrouille
     private boolean directionPatrouille = true; // true = droite, false = gauche
 
-    // Pathfinding
     private Queue<Point> chemin;
     private long dernierCalculChemin;
     private static final long INTERVALLE_CALCUL_CHEMIN = 1500; // Recalculer toutes les 1.5s (plus stable)

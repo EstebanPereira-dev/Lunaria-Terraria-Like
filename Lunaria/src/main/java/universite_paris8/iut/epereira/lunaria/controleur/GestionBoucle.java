@@ -51,7 +51,7 @@ public class GestionBoucle {
             }
         }
 
-        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
+        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs()); // A modifi utiliser une boucle while a la place et observable list
         for (Acteur a : acteursCopie) {
             double oldX = a.getPosX();
             a.deplacement();

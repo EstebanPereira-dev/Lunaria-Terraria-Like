@@ -18,10 +18,7 @@ import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
-import universite_paris8.iut.epereira.lunaria.vue.ObsTerrain;
-import universite_paris8.iut.epereira.lunaria.vue.VueActeur;
-import universite_paris8.iut.epereira.lunaria.vue.VueActeurFactory;
-import universite_paris8.iut.epereira.lunaria.vue.VueTerrain;
+import universite_paris8.iut.epereira.lunaria.vue.*;
 
 
 import java.net.URL;
@@ -66,18 +63,16 @@ public class Controleur implements Initializable {
     private GestionInventaire gestionInventaire;
     private GestionBoucle gestionBoucle;
     private List<VueActeur> vuesActeurs = new ArrayList<>();
+    private VueHero v;
 
     //game loop
     private Timeline gameLoop;
-
-
-
-
 
     @Override //initialization
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Création de l'environement de la taille de l'écren
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
+        v = new VueHero(env.getHero(),this);
 
         // Récupération du terrain
         Terrain terrain = env.getTerrain();
@@ -89,8 +84,6 @@ public class Controleur implements Initializable {
         for (int i = 0; i < terrain.getTableau().size(); i++) {
             obsTerrain.updateTuile(i, terrain.getTableau().get(i));
         }
-
-
 
         //initialisation du gestionaire de la map
         gestionMap = new VueTerrain(env, this);
@@ -105,10 +98,15 @@ public class Controleur implements Initializable {
         barreDeVieHero.setTranslateY(30);
         tabJeu.getChildren().add(barreDeVieHero);
 
-        //ajouter tous les acteurs dans la vue
+        // Ajouter d'abord la vue héros à la liste
+        vuesActeurs.add(v);
+
+        Hero hero = env.getHero();
         for (Acteur a : env.getActeurs()) {
-            VueActeur vue = VueActeurFactory.creerVue(a, this);
-            vuesActeurs.add(vue);
+            if (a != hero) { // Comparaison directe par référence, pas instanceof
+                VueActeur vue = VueActeurFactory.creerVue(a, this);
+                vuesActeurs.add(vue);
+            }
         }
 
         //démarage du jeux
@@ -188,6 +186,10 @@ public class Controleur implements Initializable {
 
     public List<VueActeur> getVuesActeurs() {
         return vuesActeurs;
+    }
+
+    public VueHero getV() {
+        return v;
     }
 
     public GestionBoucle getGestionBoucle() {

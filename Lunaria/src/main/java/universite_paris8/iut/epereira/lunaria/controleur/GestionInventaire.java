@@ -122,6 +122,7 @@ public class GestionInventaire {
     public Boolean getInventaireBooleanOvert(){
         return inventaireBooleanOvert;
     }
+
     public void mettreAJourAffichage() {
         // Vérifier si l'item actuellement sélectionné existe encore
         if (env.getHero().getInv().getListeditem().get(isSelectedInHand) == null) {

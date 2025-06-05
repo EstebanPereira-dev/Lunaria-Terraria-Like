@@ -1,5 +1,9 @@
 package universite_paris8.iut.epereira.lunaria.modele.acteurs;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.InventaireJoueur;
@@ -53,43 +57,72 @@ public class Hero extends Acteur {
         deplacerHorizontalement(deltaX);
     }
 
-    @Override
-    public void agit() {
-        attaque = actions.get(6);
-        if (attaque) {
-            System.out.println("Attaque à mains nues!");
+    public boolean peutAttaquer() {
+        return !attackOnCooldown;
+    }
 
-            // Créer une liste temporaire pour stocker les ennemis qui doivent être tués
-            ArrayList<Acteur> ennemisASupprimer = new ArrayList<>();
+    public boolean executerAttaque() {
+        if (!peutAttaquer()) {
+            System.out.println("COOLDOWN");
+            return false;
+        }
 
-            // Parcourir tous les acteurs pour trouver les ennemis à portée
-            for (Acteur acteur : getEnv().getActeurs()) {
-                if (acteur instanceof Ennemi) {
-                    double distanceX = Math.abs(getPosX() - acteur.getPosX());
-                    double distanceY = Math.abs(getPosY() - acteur.getPosY());
-                    double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+        // Marquer le début du cooldown - L'attaque se lance toujours
+        attackOnCooldown = true;
 
-                    if (distance <= range) {
-                        acteur.setPv(acteur.getPv() - degat);
-                        System.out.println("Ennemi touché ! Points de vie restants: " + acteur.getPv());
+        // Logique d'attaque - vérifier s'il y a des ennemis touchés
+        boolean ennemisATouches = false;
+        ArrayList<Acteur> ennemisASupprimer = new ArrayList<>();
 
-                        if (acteur.getPv() <= 0) {
-                            System.out.println("Ennemi vaincu !");
-                            // Au lieu d'appeler estMort() ici, ajoutez l'ennemi à la liste temporaire
-                            ennemisASupprimer.add(acteur);
-                        }
+        for (Acteur acteur : getEnv().getActeurs()) {
+            if (acteur instanceof Ennemi) {
+                double distanceX = Math.abs(getPosX() - acteur.getPosX());
+                double distanceY = Math.abs(getPosY() - acteur.getPosY());
+                double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                if (distance <= range) {
+                    acteur.setPv(acteur.getPv() - degat);
+                    System.out.println("Ennemi touché ! Points de vie restants: " + acteur.getPv());
+                    ennemisATouches = true;
+
+                    if (acteur.getPv() <= 0) {
+                        System.out.println("Ennemi vaincu !");
+                        ennemisASupprimer.add(acteur);
                     }
                 }
             }
-
-            // Maintenant, marquer les ennemis pour suppression en dehors de la boucle
-            for (Acteur ennemi : ennemisASupprimer) {
-                ennemi.estMort();
-            }
-
-            // Réinitialiser immédiatement l'action d'attaque pour éviter le spam
-            actions.set(6, false);
         }
+
+        // Supprimer les ennemis morts
+        for (Acteur ennemi : ennemisASupprimer) {
+            ennemi.estMort();
+        }
+
+        // Message si aucun ennemi touché
+        if (!ennemisATouches) {
+            System.out.println("Attaque dans le vide !");
+        }
+
+        // Démarrer le cooldown
+        demarrerCooldown();
+
+        // Retourne toujours true car l'attaque s'est lancée
+        return true;
+    }
+
+    private void demarrerCooldown() {
+        Timeline cooldownTimer = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> {
+                    this.attackOnCooldown = false;
+                    System.out.println("Attaque dispo");
+                })
+        );
+        cooldownTimer.setCycleCount(1);
+        cooldownTimer.play();
+    }
+    @Override
+    public void agit() {
+
     }
 
     public InventaireJoueur getInv() {

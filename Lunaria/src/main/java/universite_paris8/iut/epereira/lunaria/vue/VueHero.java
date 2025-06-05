@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VueHero extends VueActeur {
-    // Maps spécifiques au héros (plusieurs animations) - ✅ Initialisées dans le constructeur
     private Map<Acteur, Timeline> idleAnimations;
     private Map<Acteur, Timeline> jumpAnimations;
     private Map<Acteur, Timeline> attackAnimations;
@@ -29,12 +28,10 @@ public class VueHero extends VueActeur {
     public VueHero(Hero hero, Controleur controleur) {
         super(hero, controleur); // Appel du constructeur parent
 
-        // ✅ Initialiser les maps APRÈS super()
         this.idleAnimations = new HashMap<>();
         this.jumpAnimations = new HashMap<>();
         this.attackAnimations = new HashMap<>();
 
-        // ✅ Maintenant initialiser la vue (tous les champs sont prêts)
         initialiserVue();
     }
 
@@ -128,7 +125,6 @@ public class VueHero extends VueActeur {
         ImageView sprite = sprites.get(acteur);
         if (sprite == null) return;
 
-        // ✅ UTILISE la méthode commune d'orientation
         orienterSprite(sprite, vitesseX);
 
         Hero hero = (Hero) acteur;
@@ -141,7 +137,6 @@ public class VueHero extends VueActeur {
         boolean isAttacking = hero.getActions().get(6);
         boolean isJumping = !hero.auSol;
 
-        // ✅ PROTECTION : Ne pas interrompre l'animation d'attaque si elle est en cours
         boolean isAttackAnimationPlaying = currentState.equals("attack") &&
                 attackAnimation != null &&
                 attackAnimation.getStatus() == Animation.Status.RUNNING;
@@ -175,32 +170,13 @@ public class VueHero extends VueActeur {
         attackAnimations.get(acteur).stop();
     }
 
-    public void attaquer() {
+    public void jouerAnimationAttaque() {
         Hero hero = (Hero) acteur;
-        if (!hero.attackOnCooldown) {
-            hero.getActions().set(6, true);
-            hero.agit();
-
-            Timeline attackAnimation = attackAnimations.get(hero);
-            if (attackAnimation != null) {
-                arreterToutesAnimationsHero();
-                attackAnimation.play();
-                animationState.put(hero, "attack");
-            }
-
-            Platform.runLater(() -> hero.getActions().set(6, false));
-
-            hero.attackOnCooldown = true;
-            Timeline cooldownTimer = new Timeline(
-                    new KeyFrame(Duration.seconds(1), e -> {
-                        hero.attackOnCooldown = false;
-                        System.out.println("Attaque dispo");
-                    })
-            );
-            cooldownTimer.setCycleCount(1);
-            cooldownTimer.play();
-        } else {
-            System.out.println("COOLDOWN");
+        Timeline attackAnimation = attackAnimations.get(hero);
+        if (attackAnimation != null) {
+            arreterToutesAnimationsHero();
+            attackAnimation.play();
+            animationState.put(hero, "attack");
         }
     }
 }
