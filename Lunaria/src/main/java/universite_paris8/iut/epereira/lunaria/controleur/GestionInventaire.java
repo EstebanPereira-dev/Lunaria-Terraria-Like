@@ -30,6 +30,7 @@ public class GestionInventaire {
 
     //selectionne l'item en appuyant dans l'inventaire ou sur les touche 1-9
     public void selectItem(int i) {
+        System.out.println("enter selectitem");
         if (!inventaireBooleanOvert) {
             // Vérifier si la case contient un item avant d'essayer de l'équiper
             if (env.getHero().getInv().getListeditem().get(i) != null) {

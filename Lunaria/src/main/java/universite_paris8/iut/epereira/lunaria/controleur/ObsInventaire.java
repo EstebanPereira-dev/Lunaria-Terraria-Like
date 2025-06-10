@@ -3,31 +3,25 @@ package universite_paris8.iut.epereira.lunaria.controleur;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
 
+
 public class ObsInventaire implements ListChangeListener<Item> {
-    //Image dans FXML de l'inventaire
-//    private ImageView img1,img2,img3,img4,img5,img6,img7,img8,img9;
     private TilePane tilePaneInv;
+    private Environement env;
     //Image des objet
     private Image imageVide, imageBois, imageBuisson, imageHerbe, imageMur, imageTerre;
 
-    public ObsInventaire(TilePane tilePaneInv) {
-        //initializer pour avoir toute les image lier avec le controleur
-//        this.img1 = img1;
-//        this.img2 = img2;
-//        this.img3 = img3;
-//        this.img4 = img4;
-//        this.img5 = img5;
-//        this.img6 = img6;
-//        this.img7 = img7;
-//        this.img8 = img8;
-//        this.img9 = img9;
+    public ObsInventaire(TilePane tilePaneInv, Environement env) {
         this.tilePaneInv = tilePaneInv;
+        this.env = env;
 
         //initializer chaque image
         imageVide = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png"));
@@ -77,21 +71,21 @@ public class ObsInventaire implements ListChangeListener<Item> {
                     break;
             }
             ImageView img = new ImageView(sprite);
-
             img.setFitHeight(48);
             img.setFitWidth(48);
+
 
             VBox warpper = new VBox(img);
             warpper.setPadding(new Insets(2.5));
             warpper.setStyle("-fx-border-color: grey;");
-            tilePaneInv.getChildren().add(change.getFrom(), warpper);
+            tilePaneInv.getChildren().set(change.getFrom(), warpper);
+
+            tilePaneInv.getChildren().get(change.getFrom()).setOnMouseClicked(event -> {
+            });
 
 
 
-            //System.out.println("\n\n numero inventaire:");
-            //System.out.println(change.getFrom());
-
-            //selon la position de l'item dans l'inventaire on prend la bonne case ou placer l'item
         }
     }
+
 }

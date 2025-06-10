@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -39,10 +40,6 @@ public class Controleur implements Initializable {
 
     @FXML //le Pane qui contient tout
     private Pane tabJeu;
-
-
-    @FXML
-    private ImageView imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9;
 
     //listener de l'inventaire
     private ObsInventaire obsInventaire;
@@ -124,31 +121,28 @@ public class Controleur implements Initializable {
         });
 
 
+        initInventaire(tilePaneInventaire);
 
-
-        BackgroundImage invBackground = new BackgroundImage(
-                new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Inventaire.png")),
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                new BackgroundSize(100 , 100, true, true, true, false)
-        );
-
-
-
-        tilePaneInventaire.setBackground(new Background(invBackground));
 
         //ajout du listener sur l'observable liste de l'inventaire
-        obsInventaire = new ObsInventaire(tilePaneInventaire);
-        tilePaneInventaire.setOnMouseClicked(e -> {
-                    System.out.println("enter");
-                    Node source = (Node) e.getSource();
-                    int index = tilePaneInventaire.getChildren().indexOf(source);
-                    System.out.println(" Appuie sur l'index dans l'inventaire nuemro: " +index);
-        }
-        );
+        obsInventaire = new ObsInventaire(tilePaneInventaire,env);
         env.getHero().getInv().getListeditem().addListener(obsInventaire);
 
+
+    }
+
+
+    public void initInventaire(TilePane paneInv){
+        ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png")));
+        img.setFitHeight(48);
+        img.setFitWidth(48);
+
+        for(int i = 0; i < 45; i++){
+            VBox warpper = new VBox(img);
+            warpper.setPadding(new Insets(2.5));
+            warpper.setStyle("-fx-border-color: grey;");
+            paneInv.getChildren().add(i,warpper);
+        }
 
     }
 
