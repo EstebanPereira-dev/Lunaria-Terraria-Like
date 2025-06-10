@@ -64,6 +64,7 @@ public class GestionBoucle {
                 a.agit();
             }
         }
+        controleur.getEcu().setText(env.getHero().getEcu()+"");
         controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv(),env.getHero().getFaim());
     }
 

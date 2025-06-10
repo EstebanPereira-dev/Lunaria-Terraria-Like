@@ -53,16 +53,7 @@ public class Environement {
     public void update() { //faire agir tout le monde et supprimer les morts
         spawnerAdepte.spawner();
         supprimerActeursMarques();
-        compteurFaim++;
-        if (compteurFaim >= INTERVALLE_FAIM) {
-            compteurFaim = 0; // Reset du compteur
-
-            if (getHero().getFaim() == 0) {
-                getHero().setPv(getHero().getPv() - 1);
-            } else {
-                getHero().setFaim(getHero().getFaim() - 1);
-            }
-        }
+        getHero().saciete();
     }
 
 

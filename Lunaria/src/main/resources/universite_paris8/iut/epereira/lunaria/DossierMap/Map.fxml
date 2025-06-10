@@ -19,8 +19,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane onMouseClicked="#clicSouris" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.controleur.Controleur">
-<StackPane onMouseMoved="#gererPositionSouris" onMouseClicked="#clicSouris" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.controleur.Controleur">
+<StackPane onMouseClicked="#clicSouris" onMouseMoved="#gererPositionSouris" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.controleur.Controleur">
    <children>
       <Pane fx:id="tabJeu" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #131D24;">
          <children>
@@ -87,8 +86,8 @@
                </rowConstraints>
             </GridPane>
             <TilePane fx:id="tilePaneId" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
-            <Label fx:id="ecu" layoutX="1207.0" layoutY="108.0" prefHeight="33.0" prefWidth="75.0" style="-fx-background-color: ;" text="Label" textFill="WHITE" />
-            <ImageView fitHeight="40.0" fitWidth="44.0" layoutX="1225.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="ecu" layoutX="1215.0" layoutY="125.0" prefHeight="33.0" prefWidth="75.0" text="Label" textFill="WHITE" />
+            <ImageView fitHeight="40.0" fitWidth="44.0" layoutX="1225.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Ecu.png" />
                </image>

@@ -16,6 +16,10 @@ public class Hero extends Acteur {
     private ArrayList<Boolean> actions;
     private boolean haut = false, bas = false, droite = false, gauche = false, inventaire = false, pause = false, attaque = false, interraction = false;
     private int range, degat, faim;
+    private int compteurFaim = 0;
+    private int compteurRegen = 0;
+    private final int INTERVALLE_REGEN = 250;
+    private final int INTERVALLE_FAIM = 150;
 
     public Hero(Environement env) {
         super(env);
@@ -196,6 +200,25 @@ public class Hero extends Acteur {
                     getInv().retirerItem(positionEquipe, 1);
 
                 }
+            }
+        }
+    }
+    public void saciete(){
+        compteurFaim++;
+        if (compteurFaim >= INTERVALLE_FAIM) {
+            compteurFaim = 0; // Reset du compteur
+
+            if (getFaim() == 0) {
+                setPv(getPv() - 1);
+            } else {
+                setFaim(getFaim() - 1);
+            }
+        }
+        compteurRegen++;
+        if (compteurRegen >= INTERVALLE_REGEN){
+            compteurRegen = 0;
+            if (faim > 150 && getPv() < 100){
+                setPv(getPv()+1);
             }
         }
     }
