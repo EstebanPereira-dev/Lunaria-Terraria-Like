@@ -20,6 +20,9 @@ public class Environement {
     private int width;
     private int height;
     private ArrayList<Acteur> acteurs;
+    private ArrayList<PNJ> pnjs;
+    private int compteurFaim = 0;
+    private final int INTERVALLE_FAIM = 140;
     private List<Acteur> acteursASupprimer = new ArrayList<>();
     // Spawner pour les ennemis
     private Adepte spawnerAdepte;
@@ -28,7 +31,7 @@ public class Environement {
     public Environement(int width, int height){
         this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
         this.hero = new Hero(this);
-
+        pnjs = new ArrayList<>();
         acteurs = new ArrayList<>();
 
         acteurs.add(new Mouton(20, 1, this, 200, 400));
@@ -45,9 +48,19 @@ public class Environement {
 
     public void update() { //faire agir tout le monde et supprimer les morts
         spawnerAdepte.spawner();
-
         supprimerActeursMarques();
+        compteurFaim++;
+        if (compteurFaim >= INTERVALLE_FAIM) {
+            compteurFaim = 0; // Reset du compteur
+
+            if (getHero().getFaim() == 0) {
+                getHero().setPv(getHero().getPv() - 1);
+            } else {
+                getHero().setFaim(getHero().getFaim() - 1);
+            }
+        }
     }
+
 
     public void marquerPourSuppression(Acteur acteur) {
         acteursASupprimer.add(acteur);
@@ -123,8 +136,28 @@ public class Environement {
         return hero;
     }
 
+    public PNJ getPNJ(int id) {
+        return pnjs.get(id);
+    }
+
+    public ArrayList<PNJ> getPNJs(){
+        for(Acteur pnj : getActeurs()) {
+            if (pnj instanceof PNJ)
+                pnjs.add((PNJ)pnj);
+        }
+        return pnjs;
+    }
+
     public Terrain getTerrain() {
         return terrain;
     }
 
+    public Inventaire getMarchand() {
+        return marchand;
+    }
+
+    public void setMarchand(Inventaire marchand) {
+        this.marchand = marchand;
+        System.out.println("inv updated");
+    }
 }

@@ -29,14 +29,18 @@ public abstract class PNJ extends mobPassif{
 
         if (tempsAvantChangement >= dureeAction) {
             double rand = Math.random();
-            if (rand < 0.3) {
-                direction = -1; // gauche
-            } else if (rand < 0.6) {
-                direction = 1;  // droite
-            } else {
-                direction = 0;  // arrêt
-            }
+            if (getEnv().getMarchand() != inv) {
 
+                if (rand < 0.3) {
+                    direction = -1; // gauche
+                } else if (rand < 0.6) {
+                    direction = 1;  // droite
+                } else {
+                    direction = 0;  // arrêt
+                }
+            }
+            else
+                direction = 0;
             tempsAvantChangement = 0;
             dureeAction = (int)(Math.random() * 120 + 60);
         }
@@ -53,5 +57,9 @@ public abstract class PNJ extends mobPassif{
         if (auSol && aleatoire <= 1)
             vitesseY = SAUT;
         deplacerVerticalement();
+    }
+
+    public Inventaire getInv() {
+        return inv;
     }
 }

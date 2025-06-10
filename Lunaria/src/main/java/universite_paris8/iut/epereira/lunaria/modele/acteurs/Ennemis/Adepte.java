@@ -8,6 +8,7 @@ import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.ViandeDeMouton;
 
 import java.util.*;
 
@@ -63,6 +64,13 @@ public class Adepte extends Ennemi {
         this.zonePatrouilleX = x; // La position initiale devient le centre de patrouille
         this.chemin = new LinkedList<>();
         this.dernierCalculChemin = 0;
+        ecu.set(2);
+    }
+    @Override
+    public void loot(){
+        if(getPv() <= 0){
+
+        }
     }
 
     @Override

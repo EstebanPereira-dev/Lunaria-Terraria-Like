@@ -1,7 +1,9 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.shape.Circle;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 
@@ -16,6 +18,8 @@ public abstract class Acteur {
     private String id;
 
     private double posX, posY;
+
+    protected SimpleIntegerProperty ecu;
 
     public DoubleProperty x;
     public DoubleProperty y;
@@ -32,6 +36,7 @@ public abstract class Acteur {
     public int cooldownAttack;
 
     public Acteur(int pv, int v, Environement env, double x, double y) {
+        ecu = new SimpleIntegerProperty(0);
         this.pv = pv;
         this.vitesseX = v;
         this.env = env;
@@ -52,6 +57,7 @@ public abstract class Acteur {
 
     // Main character
     public Acteur(Environement env) {
+        ecu = new SimpleIntegerProperty(0);
         this.env = env;
         pv = 100;
         this.vitesseX = 3;
@@ -66,7 +72,6 @@ public abstract class Acteur {
         collision = env.getTerrain().estEnCollision(this);
         auSol = env.getTerrain().estAuSol(this);
     }
-
     public abstract void deplacement();
     public abstract void agit();
     public void updateVisualPosition() {
@@ -111,10 +116,12 @@ public abstract class Acteur {
         }
         updateVisualPosition();
     }
+    public abstract void loot();
 
     public void estMort(){
         env.retirer(this);
         env.marquerPourSuppression(this);
+        loot();
     }
 
     public void deplacerHorizontalement(double deltaX) {
@@ -151,6 +158,11 @@ public abstract class Acteur {
     }
 
     // GETTER :
+
+    public int getEcu() {
+        return ecu.get();
+    }
+
     public Environement getEnv() {
         return env;
     }

@@ -39,7 +39,7 @@ public class GestionBoucle {
             }
         }
         env.supprimerActeursMarques();
-
+        controleur.getEcu().setText(env.getHero().getEcu()+"");
         env.update();
 
         for (Acteur acteur : env.getActeurs()) {
@@ -65,7 +65,7 @@ public class GestionBoucle {
             }
         }
 
-        controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv());
+        controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv(),env.getHero().getFaim());
     }
     // Démarrage
     public void demarrer() {

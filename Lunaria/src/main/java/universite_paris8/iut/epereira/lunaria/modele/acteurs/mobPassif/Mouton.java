@@ -2,6 +2,7 @@ package universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif;
 
 import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.ViandeDeMouton;
 
 import static universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu.WIDTH_SCREEN;
 import static universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu.rdm;
@@ -46,6 +47,12 @@ public class Mouton extends mobPassif{
         if (auSol && aleatoire <= 1)
             vitesseY = SAUT;
         deplacerVerticalement();
+    }
+    @Override
+    public void loot(){
+        if(getPv() <= 0){
+            getEnv().getHero().getInv().ajouterItem(new ViandeDeMouton());
+        }
     }
     @Override
     public void agit() {
