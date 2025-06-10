@@ -147,7 +147,7 @@ public class Environement {
         this.getHero().getInv().ajouterItem(new EpeeEnBois());
         this.getHero().getInv().ajouterItem(new Pioche());
         this.getHero().getInv().ajouterItem(new Hache());
-        this.hero.getInv().equiperItem(0);
+        this.getHero().getInv().equiperItem(0);
     }
 
 

@@ -92,13 +92,10 @@ public class GestionSouris {
 
     private void gererClicGauche(ObservableList<Integer> terrain, int tuileX, int tuileY) { // faire plutot un appel a agir
         System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
-
-        if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) != 0) { // Si la case n'est pas vide
-            if (env.getHero().estDansRange(tuileX, tuileY)) {
-                if(env.verifCasser(tuileX,tuileY)) {
+            if (env.verifCasser(tuileX,tuileY)) {
+                if(env.getHero().estDansRange(tuileX, tuileY)) {
                     env.getHero().casserBloc(terrain, tuileX, tuileY);
                 }
-            }
         } else {
             if (env.getHero().verifAttaque()){
                 boolean attaqueLancee = env.getHero().executerAttaque();

@@ -54,7 +54,6 @@ public class GestionTouches {
 
             case DIGIT1:
                 controleur.getGestionInventaire().selectItem(0);
-                env.getHero().getInv().equiperItem(0);
                 break;
 
             case DIGIT2:
