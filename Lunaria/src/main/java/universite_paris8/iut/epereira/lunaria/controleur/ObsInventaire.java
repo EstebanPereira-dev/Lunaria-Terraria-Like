@@ -11,7 +11,7 @@ public class ObsInventaire implements ListChangeListener<Item> {
     private ImageView img1,img2,img3,img4,img5,img6,img7,img8,img9;
 
     //Image des objet
-    private Image imageVide,imageBois,imageBuisson,imageHerbe,imageMur,imageTerre;
+    private Image imageVide,imageBois,imageBuisson,imageHerbe,imageMur,imageTerre,imagePiocheEnBois,imageHacheEnBois;
 
     public ObsInventaire(ImageView img1,ImageView img2,ImageView img3,ImageView img4,ImageView img5,ImageView img6,ImageView img7,ImageView img8,ImageView img9){
         //initializer pour avoir toute les image lier avec le controleur
@@ -32,6 +32,8 @@ public class ObsInventaire implements ListChangeListener<Item> {
         imageBuisson = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
         imageMur = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
         imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
+        imagePiocheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/PiocheEnBois.png"));
+        imageHacheEnBois =new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/HacheEnBois.png"));
 
     }
 
@@ -72,6 +74,11 @@ public class ObsInventaire implements ListChangeListener<Item> {
                     case 5:
                         sprite = imageBois;
                         break;
+                    case 30:
+                        sprite = imageHacheEnBois;
+                        break;
+                    case 31:
+                        sprite = imagePiocheEnBois;
                     default:
                         sprite = imageVide;
                         break;
