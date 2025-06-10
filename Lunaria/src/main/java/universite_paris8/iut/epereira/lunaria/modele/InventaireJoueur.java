@@ -10,7 +10,7 @@ public class InventaireJoueur {
     private int taille;
 
     public InventaireJoueur() {
-        taille = 9;
+        taille = 45;
         //listeditem = new Item[taille];
         listeditem = FXCollections.observableArrayList();
         quantite = new int[taille];

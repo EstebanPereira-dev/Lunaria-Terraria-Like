@@ -7,13 +7,12 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.*;
 import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
@@ -26,8 +25,11 @@ import java.util.*;
 import java.util.List;
 
 public class Controleur implements Initializable {
+//    @FXML
+//    private GridPane inventaireGridPane;  //gridPane qui contient les emplacement d'inventaire
+
     @FXML
-    private GridPane inventaireGridPane;  //gridPane qui contient les emplacement d'inventaire
+    private TilePane tilePaneInventaire;
 
     @FXML
     private TilePane tilePaneId; //tilePane pour poesr nos bloc et les casser
@@ -37,6 +39,7 @@ public class Controleur implements Initializable {
 
     @FXML //le Pane qui contient tout
     private Pane tabJeu;
+
 
     @FXML
     private ImageView imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9;
@@ -120,9 +123,32 @@ public class Controleur implements Initializable {
             gestionBoucle.demarrer();
         });
 
+
+
+
+        BackgroundImage invBackground = new BackgroundImage(
+                new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Inventaire.png")),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100 , 100, true, true, true, false)
+        );
+
+
+
+        tilePaneInventaire.setBackground(new Background(invBackground));
+
         //ajout du listener sur l'observable liste de l'inventaire
-        obsInventaire = new ObsInventaire(imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9);
+        obsInventaire = new ObsInventaire(tilePaneInventaire);
+        tilePaneInventaire.setOnMouseClicked(e -> {
+                    System.out.println("enter");
+                    Node source = (Node) e.getSource();
+                    int index = tilePaneInventaire.getChildren().indexOf(source);
+                    System.out.println(" Appuie sur l'index dans l'inventaire nuemro: " +index);
+        }
+        );
         env.getHero().getInv().getListeditem().addListener(obsInventaire);
+
 
     }
 
@@ -160,8 +186,9 @@ public class Controleur implements Initializable {
         return gestionMap;
     }
 
-    public GridPane getInventaireGridPane() {
-        return inventaireGridPane;
+
+    public TilePane getTilePaneInventaire() {
+        return tilePaneInventaire;
     }
 
     public Environement getEnv() {
