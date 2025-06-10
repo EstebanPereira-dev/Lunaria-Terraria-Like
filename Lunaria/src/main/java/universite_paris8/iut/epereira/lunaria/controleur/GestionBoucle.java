@@ -70,7 +70,9 @@ public class GestionBoucle {
         }
 
         controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv());
+        
     }
+
     // Démarrage
     public void demarrer() {
         gameLoop.play();

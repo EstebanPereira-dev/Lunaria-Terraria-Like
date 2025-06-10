@@ -224,16 +224,9 @@ public class Terrain {
 
     public int compterArbreAuDessus(int x, int y){ //compte le nombre de buches de bois en haut de la tuile selectionnée
         int compteur=1;
-        while(tableau.get(getPos(x,y-compteur))==5){            //3=taille max d un arbre
+        while(tableau.get(getPos(x,y-compteur))==5){
                 compteur++;
         }
         return compteur;
     }
-
-
-
-
-
-
-
 }

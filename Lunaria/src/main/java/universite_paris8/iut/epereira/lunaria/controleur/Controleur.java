@@ -137,6 +137,14 @@ public class Controleur implements Initializable {
     public void clicSouris(MouseEvent mouseEvent) {
         gestionSouris.clicDeSouris(mouseEvent);
     }
+    @FXML
+    public void gererPositionSouris(MouseEvent mouseEvent) {
+        gestionSouris.gererPositionDeSouris(mouseEvent);
+    }
+
+    public GestionSouris getGestionSouris() {
+        return gestionSouris;
+    }
 
     //pour chaque action dans inventaire
     @FXML
@@ -199,5 +207,9 @@ public class Controleur implements Initializable {
 
     public Pane getTabJeu() {
         return tabJeu;
+    }
+
+    public GridPane getTerrainGrid() {
+        return terrainGrid;
     }
 }

@@ -203,4 +203,9 @@ public class Hero extends Acteur {
             }
         }
     }
+    public boolean verifAttaque(){
+        if(getInv().getItemEquipeSousFormeItem().getId()==20 ||getInv().getItemEquipeSousFormeItem().getId()==21)
+            return true;
+        return false;
+    }
 }
