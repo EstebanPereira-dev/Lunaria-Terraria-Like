@@ -126,6 +126,13 @@ public class Inventaire {
         }
         return -1; // Aucun item équipé
     }
+    public Item getItemEquipeSousFormeItem(){
+        for (int i = 0; i < listeditem.size(); i++) {
+            if (this.listeditem.get(i) != null && this.listeditem.get(i).estEquipe()) {
+                return this.listeditem.get(i);
+            }
+        }return null;
+    }
 
     public void equiperItem(int pos) {
         if (pos >= 0 && pos < taille && listeditem.get(pos) != null) {

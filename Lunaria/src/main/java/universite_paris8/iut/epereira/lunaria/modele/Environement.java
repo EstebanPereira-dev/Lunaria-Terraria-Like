@@ -9,6 +9,9 @@ import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Aleksa;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.PNJ;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Armes.EpeeEnBois;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Hache;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Pioche;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ public class Environement {
     public Environement(int width, int height){
         this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
         this.hero = new Hero(this);
+        initialiserHero();
         pnjs = new ArrayList<>();
         acteurs = new ArrayList<>();
 
@@ -160,4 +164,31 @@ public class Environement {
         this.marchand = marchand;
         System.out.println("inv updated");
     }
+
+    public boolean verifCasser(int x, int y){
+        //cas 1: casser la terre ou la pierre
+
+        if(this.getHero().getInv().getItemEquipeSousFormeItem().getId()==31 && (this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==1 || this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==2 || this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==3 || this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==4)){
+            return true;
+        }
+        //cas 2: casser le bois
+
+        else if (this.getHero().getInv().getItemEquipeSousFormeItem().getId()==30 && (this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==5 || this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==6)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void initialiserHero(){
+        this.getHero().getInv().ajouterItem(new EpeeEnBois());
+        this.getHero().getInv().ajouterItem(new Pioche());
+        this.getHero().getInv().ajouterItem(new Hache());
+        this.getHero().getInv().equiperItem(0);
+    }
+
+
+
+
 }
