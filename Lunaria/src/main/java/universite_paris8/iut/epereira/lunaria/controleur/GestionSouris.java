@@ -14,7 +14,6 @@ public class GestionSouris {
     public double dernierePosY = -1;
     public Rectangle tuileSurbrillance;
 
-
     public GestionSouris(Environement env, Controleur controleur) {
         this.env = env;
         this.controleur = controleur;
@@ -25,8 +24,6 @@ public class GestionSouris {
         this.tuileSurbrillance.setVisible(false);
         controleur.getTilePaneId().getChildren().add(tuileSurbrillance);
     }
-
-
 
     public void gererPositionDeSouris(MouseEvent mouseEvent) {
         dernierePosX = mouseEvent.getX();
@@ -122,6 +119,9 @@ public class GestionSouris {
                     // Mettre à jour l'affichage de l'inventaire
                     controleur.getGestionInventaire().mettreAJourAffichage();
             }
+        }
+        if (env.getHero().getInv().getItemEquipeSousFormeItem().getId() > 39 && env.getHero().getInv().getItemEquipeSousFormeItem().getId() > 50){
+
         }
     }
 

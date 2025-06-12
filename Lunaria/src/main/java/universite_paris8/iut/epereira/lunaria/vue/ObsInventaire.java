@@ -1,7 +1,6 @@
-package universite_paris8.iut.epereira.lunaria.controleur;
+package universite_paris8.iut.epereira.lunaria.vue;
 
 import javafx.collections.ListChangeListener;
-import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
@@ -11,7 +10,7 @@ public class ObsInventaire implements ListChangeListener<Item> {
     private ImageView img1,img2,img3,img4,img5,img6,img7,img8,img9;
 
     //Image des objet
-    private Image imageVide,imageBois,imageBuisson,imageHerbe,imageMur,imageTerre,imagePiocheEnBois,imageHacheEnBois;
+    private Image imageVide,imageBois,imageBuisson,imageHerbe,imageMur,imageTerre,imagePiocheEnBois,imageHacheEnBois,imageViandeMouton;
 
     public ObsInventaire(ImageView img1,ImageView img2,ImageView img3,ImageView img4,ImageView img5,ImageView img6,ImageView img7,ImageView img8,ImageView img9){
         //initializer pour avoir toute les image lier avec le controleur
@@ -33,7 +32,8 @@ public class ObsInventaire implements ListChangeListener<Item> {
         imageMur = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
         imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
         imagePiocheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/PiocheEnBois.png"));
-        imageHacheEnBois =new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/HacheEnBois.png"));
+        imageHacheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/HacheEnBois.png"));
+        imageViandeMouton = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/ViandeMouton.png"));
 
     }
 
@@ -79,6 +79,10 @@ public class ObsInventaire implements ListChangeListener<Item> {
                         break;
                     case 31:
                         sprite = imagePiocheEnBois;
+                        break;
+                    case 40:
+                        sprite = imageViandeMouton;
+                        break;
                     default:
                         sprite = imageVide;
                         break;

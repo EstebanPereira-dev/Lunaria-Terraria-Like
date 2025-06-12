@@ -7,4 +7,5 @@ public class ViandeDeMouton extends Item {
     public ViandeDeMouton() {
         super("Viande Halal", "Traditionelle", false, 40, true);
     }
+    
 }
