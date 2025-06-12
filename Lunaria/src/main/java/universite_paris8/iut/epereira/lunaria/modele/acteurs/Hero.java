@@ -16,6 +16,8 @@ public class Hero extends Acteur {
     private ArrayList<Boolean> actions;
     private boolean haut = false, bas = false, droite = false, gauche = false, inventaire = false, pause = false, attaque = false;
     private int range, degat;
+    private Item souris;
+    private int quantiteItem;
 
     public Hero(Environement env) {
         super(env);
@@ -24,6 +26,8 @@ public class Hero extends Acteur {
         remplirAction();
         range = 5;
         degat = 10;
+        souris = null;
+        quantiteItem = 0;
     }
 
     public void remplirAction() {
@@ -202,5 +206,28 @@ public class Hero extends Acteur {
                 }
             }
         }
+    }
+
+
+    public int getQuantiteItem() {
+        return quantiteItem;
+    }
+
+    public Item getSouris() {
+        return souris;
+    }
+
+    public void setSouris(Item souris) {
+        this.souris = souris;
+    }
+
+    public void setQuantiteItem(int quantiteItem) {
+        this.quantiteItem = quantiteItem;
+    }
+
+    public boolean sourisVide() {
+        System.out.println("item dans souris: " + souris.toString());
+        System.out.println("Quantite Souris:" + quantiteItem);
+        return souris == null;
     }
 }

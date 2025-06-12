@@ -8,6 +8,8 @@ import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 
+import javax.crypto.spec.PSource;
+import java.security.cert.CertificateNotYetValidException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,6 +124,48 @@ public class Environement {
             }
         }
         return false;
+    }
+
+
+
+
+    //interaction inventaire hero
+    public void clickPrimaire(int index){
+        Item itemTemp = hero.getSouris();
+        int quantiteTemp = hero.getQuantiteItem();
+
+        hero.setQuantiteItem(hero.getInv().getQuantite()[index]);
+        hero.setSouris(hero.getInv().getListeditem().get(index));
+
+        hero.getInv().getQuantite()[index] = quantiteTemp;
+        hero.getInv().getListeditem().set(index,itemTemp);
+    }
+
+    public void clickSecondaireVide(int index){
+        if(hero.sourisVide() && hero.getInv().getQuantite()[index] > 1 && hero.getInv().getListeditem().get(index) != null){
+            hero.setSouris(hero.getInv().getListeditem().get(index));
+            hero.setQuantiteItem(hero.getInv().getQuantite()[index]/2);
+            hero.getInv().getQuantite()[index] = hero.getInv().getQuantite()[index]/2;
+            hero.getInv().getQuantite()[index] += hero.getInv().getQuantite()[index]%2;
+        }
+    }
+
+    public void clickSecondairePlein(int index){
+        if(!hero.sourisVide() && hero.getInv().getListeditem().get(index) != null){
+            if(hero.getInv().getListeditem().get(index) == null){
+                hero.getInv().getListeditem().set(index, hero.getSouris());
+                hero.getInv().getQuantite()[index] = 1;
+            }
+            else{
+                if(hero.getInv().getListeditem().get(index).getId() == hero.getSouris().getId()){
+                    hero.getInv().getQuantite()[index] +=1;
+                    hero.setQuantiteItem(hero.getQuantiteItem()-1);
+                }
+            }
+            if(hero.getQuantiteItem() == 0){
+                hero.setSouris(null);
+            }
+        }
     }
 
 

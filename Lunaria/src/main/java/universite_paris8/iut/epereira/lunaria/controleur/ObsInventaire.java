@@ -7,8 +7,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import jdk.swing.interop.SwingInterOpUtils;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
 
@@ -70,18 +72,37 @@ public class ObsInventaire implements ListChangeListener<Item> {
                     sprite = imageVide;
                     break;
             }
-            ImageView img = new ImageView(sprite);
-            img.setFitHeight(48);
-            img.setFitWidth(48);
 
 
-            VBox warpper = new VBox(img);
-            warpper.setPadding(new Insets(2.5));
-            warpper.setStyle("-fx-border-color: grey;");
-            tilePaneInv.getChildren().set(change.getFrom(), warpper);
 
-            tilePaneInv.getChildren().get(change.getFrom()).setOnMouseClicked(event -> {
-            });
+//            img.setOnMouseClicked(event -> {
+//                System.out.println("clicked mouse click image");
+//            });
+
+
+
+            VBox vbox = (VBox) tilePaneInv.getChildren().get(change.getFrom());
+            ImageView imageView = (ImageView) vbox.getChildren().get(0);
+            imageView.setImage(sprite);
+//
+//            System.out.println("stp entre dans le set on mouse clicked");
+//            System.out.println(change.getFrom());
+//            System.out.println(tilePaneInv.getChildren());
+//            System.out.println(tilePaneInv.getChildren().get(change.getFrom()));
+//            tilePaneInv.getChildren().get(change.getFrom()).setOnMouseClicked(event -> {
+//                System.out.println("ENTER DANS SETMOUSECLICKED");
+//                Item temp = env.getHero().getSouris();
+//                int quantiteTemp = env.getHero().getQuantiteItem();
+//
+//                if(event.getButton() == MouseButton.PRIMARY){
+//                    System.out.println("ENTER PRIMARY BUTTON SUR INV");
+//                    env.getHero().setQuantiteItem(env.getHero().getQuantiteItem());
+//                    env.getHero().setSouris(env.getHero().getSouris());
+//                    System.out.println("ENTER QUANTITE ET ITEM CHANGE");
+//                    env.getHero().getInv().getListeditem().set(change.getFrom(),temp);
+//                    env.getHero().getInv().getQuantite()[change.getFrom()] = quantiteTemp;
+//                }
+//            });
 
 
 

@@ -16,8 +16,6 @@ public class GestionInventaire {
     //garde quel slot de l'inventaire est selectioné
     private int isSelectedInHand;
 
-    //contient l'item dans la souris
-    private Item tempItemSouris;
 
     //boolean popur savoir si l'inventaire est ouvert ou pas.
     private boolean inventaireBooleanOvert;
@@ -119,9 +117,6 @@ public class GestionInventaire {
     public Boolean getInventaireBooleanOvert(){
         return inventaireBooleanOvert;
     }
-
-
-
 
     public void mettreAJourAffichage() {
         // Vérifier si l'item actuellement sélectionné existe encore

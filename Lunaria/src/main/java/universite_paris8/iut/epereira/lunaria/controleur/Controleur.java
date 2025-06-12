@@ -98,6 +98,7 @@ public class Controleur implements Initializable {
         barreDeVieHero.setTranslateY(30);
         tabJeu.getChildren().add(barreDeVieHero);
 
+
         // Ajouter d'abord la vue héros à la liste
         vuesActeurs.add(v);
 
@@ -133,14 +134,20 @@ public class Controleur implements Initializable {
 
 
     public void initInventaire(TilePane paneInv){
-        ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png")));
-        img.setFitHeight(48);
-        img.setFitWidth(48);
-
         for(int i = 0; i < 45; i++){
+            ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png")));
+            img.setFitHeight(48);
+            img.setFitWidth(48);
+            //img.setStyle("-fx-border-color: yellow");
+
+            img.setOnMouseClicked(event -> {
+                System.out.println("clicked on init INVENTAIRE");
+            });
+
+
             VBox warpper = new VBox(img);
             warpper.setPadding(new Insets(2.5));
-            warpper.setStyle("-fx-border-color: grey;");
+            warpper.setStyle("-fx-border-color: blue;");
             paneInv.getChildren().add(i,warpper);
         }
 
