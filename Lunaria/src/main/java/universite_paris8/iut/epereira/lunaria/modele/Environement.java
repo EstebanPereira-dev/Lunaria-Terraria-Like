@@ -1,12 +1,8 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import universite_paris8.iut.epereira.lunaria.controleur.GestionInventaire;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
-import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Armes.EpeeEnBois;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Hache;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Pioche;
@@ -24,6 +20,8 @@ public class Environement {
     private List<Acteur> acteursASupprimer = new ArrayList<>();
     // Spawner pour les ennemis
     private Adepte spawnerAdepte;
+    private boolean etatJour;    //permet de savoir si on est le jour ou la nuit
+                          //true=jour, false=nuit
 
     public Environement(int width, int height){
         this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
@@ -39,6 +37,7 @@ public class Environement {
         this.width = width;
 
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
+        this.etatJour =true;
     }
 
     public void update() { //faire agir tout le monde et supprimer les morts
@@ -149,8 +148,14 @@ public class Environement {
         this.getHero().getInv().ajouterItem(new Hache());
         this.getHero().getInv().equiperItem(0);
     }
+    public void changerEtatJour(){
+        if(etatJour)
+            etatJour=false;
+        else
+            etatJour=true;
+    }
 
-
-
-
+    public boolean getEtatJour() {
+        return etatJour;
+    }
 }

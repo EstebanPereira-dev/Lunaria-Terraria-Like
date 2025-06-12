@@ -19,7 +19,7 @@
          <children>
             <ImageView fx:id="background" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Background.png" />
+                  <Image url="@BackgroundJour.png" />
                </image>
             </ImageView>
              <GridPane fx:id="terrainGrid" layoutX="0" layoutY="0" pickOnBounds="false" />

@@ -11,12 +11,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.*;
-import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.vue.*;
 
@@ -67,6 +66,12 @@ public class Controleur implements Initializable {
 
     //game loop
     private Timeline gameLoop;
+
+    //images du background
+
+    private Image imageJour=new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/BackgroundJour.png"));
+    private Image imagenuit=new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Background.png"));
+
 
     @Override //initialization
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -193,6 +198,7 @@ public class Controleur implements Initializable {
         return background;
     }
 
+
     public List<VueActeur> getVuesActeurs() {
         return vuesActeurs;
     }
@@ -212,4 +218,12 @@ public class Controleur implements Initializable {
     public GridPane getTerrainGrid() {
         return terrainGrid;
     }
+
+    public void setBackground(){
+        if (env.getEtatJour())
+            background.setImage(imageJour);
+        else
+            background.setImage(imagenuit);
+    }
+
 }
