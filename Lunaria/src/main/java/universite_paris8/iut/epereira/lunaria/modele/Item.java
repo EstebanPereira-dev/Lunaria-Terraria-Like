@@ -1,63 +1,50 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
-import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.*;
+import universite_paris8.iut.epereira.lunaria.modele.Acteur;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 
-public class Item {
+public abstract class Item {
+    protected String nom;
+    protected String description;
+    protected boolean destructible;
+    protected int id;
+    protected boolean consommableUneSeuleFois;
+    protected boolean estStackable;
+    protected int stackMax;
+    protected boolean equipe;
 
-    private String nom;
-    private String description;
-    public int id;
-    private boolean condition;
-    private boolean equipe;
-    private boolean peutEtrePlace;
-    private boolean estStackable;
-    private int stackMax;
-
-    public Item(String nom, String description, boolean peutEtrePlace,int id, boolean estStackable){
-        this.description = description;
+    public Item(String nom, String description, boolean destructible, int id, boolean consommableUneSeuleFois) {
         this.nom = nom;
+        this.description = description;
+        this.destructible = destructible;
         this.id = id;
-        this.peutEtrePlace=peutEtrePlace;
-        this.estStackable=estStackable;
-        if (this.estStackable)
-            stackMax=999;
-        condition = false;
-        equipe = false;
+        this.consommableUneSeuleFois = consommableUneSeuleFois;
+        this.estStackable = true;
+        this.stackMax = 64;
+        this.equipe = false;
     }
 
-    public String getNom() {
-        return nom;
+    // Méthodes dispatch - chaque item redéfinit seulement ce qu'il sait faire
+    public boolean peutCasser(int typeBloc) { return false; }
+    public boolean peutEtrePlaceSur(int typeBloc) { return false; }
+    public int getValeurNutritive() { return 0; }
+    public int getDegats() { return 0; }
+    public int getPortee() { return 0; }
+
+    public boolean isEstStackable() {
+        return estStackable;
     }
 
-    public String getDescription() {
-        return description;
+    public void setEstStackable(boolean estStackable) {
+        this.estStackable = estStackable;
     }
 
-    public void setCondition(boolean condition) {
-        this.condition = condition;
+    public int getStackMax() {
+        return stackMax;
     }
 
-    public boolean GetCondition() {
-        return condition;
-    }
-
-    public static Item getItemPourTuile(int idTuile) {
-        switch (idTuile) {
-            case 1:
-                return new Terre();
-            case 2:
-                return new Herbe();
-            case 3:
-                return new Buisson();
-            case 4:
-                return new Pierre();
-            case 5:
-                return new Buche();
-            case 6:
-                return new Planche();
-            default:
-                return null;
-        }
+    public void setStackMax(int stackMax) {
+        this.stackMax = stackMax;
     }
 
     public boolean estEquipe() {
@@ -68,36 +55,16 @@ public class Item {
         this.equipe = equipe;
     }
 
-    public boolean getPeutEtrePlace(){
-        return peutEtrePlace;
-    }
+    // Méthodes de vérification basées sur les valeurs de retour
+    public boolean estOutil() { return peutCasser(1) || peutCasser(5); }
+    public boolean estConsommable() { return getValeurNutritive() > 0; }
+    public boolean estPlacable() { return peutEtrePlaceSur(0); }
+    public boolean estArme() { return getDegats() > 0; }
 
-    public void setPeutEtrePlace(boolean peutEtrePlace) {
-        this.peutEtrePlace = peutEtrePlace;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return nom + "\n" + description + "\n";
-    }
-
-    public boolean isEquipe() {
-        return equipe;
-    }
-
-    public boolean isEstStackable() {
-        return estStackable;
-    }
-
-    public boolean isPeutEtrePlace() {
-        return peutEtrePlace;
-    }
-
-    public int getStackMax() {
-        return stackMax;
-    }
+    // Getters basiques
+    public String getNom() { return nom; }
+    public String getDescription() { return description; }
+    public int getId() { return id; }
+    public boolean isDestructible() { return destructible; }
+    public boolean isConsommableUneSeuleFois() { return consommableUneSeuleFois; }
 }

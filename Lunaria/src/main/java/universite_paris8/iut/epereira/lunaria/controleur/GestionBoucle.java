@@ -9,7 +9,7 @@ import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeur;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeurFactory;
-import universite_paris8.iut.epereira.lunaria.vue.VueEnnemi;
+import universite_paris8.iut.epereira.lunaria.vue.VueAdepte;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,6 @@ public class GestionBoucle {
             }
         }
         env.supprimerActeursMarques();
-
         env.update();
 
         for (Acteur acteur : env.getActeurs()) {
@@ -56,8 +55,10 @@ public class GestionBoucle {
             }
         }
 
-        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs()); // A modifier utiliser une boucle while a la place et observable list
-        for (Acteur a : acteursCopie) {
+        int i = 0;
+        while (i < env.getActeurs().size()) {
+            Acteur a = env.getActeurs().get(i);
+            List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
             double oldX = a.getPosX();
             a.deplacement();
             double deltaX = a.getPosX() - oldX;
@@ -69,12 +70,14 @@ public class GestionBoucle {
             if (a instanceof Ennemi) {
                 a.agit();
             }
+            i++;
         }
+
         controleur.getEcu().setText(env.getHero().getEcu()+"");
         controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv(),env.getHero().getFaim());
 
 
-        controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv());
+        controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv(),env.getHero().getFaim());
         compteurFrames++;
         if (compteurFrames >= FRAMES_POUR_60_SECONDES) {
             this.env.changerEtatJour();

@@ -18,6 +18,7 @@ public class ObsTerrain implements ListChangeListener<Integer> {
     private final Image imagePierre = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
     private final Image imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buche.png"));
     private final Image imagePlanche = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Planche.png"));
+    private final Image imageFeuille = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Feuille.png"));
     private final int width;
 
     public ObsTerrain(GridPane grilleAffichage, int width) {
@@ -58,6 +59,9 @@ public class ObsTerrain implements ListChangeListener<Integer> {
                 break;
             case 6:
                 sprite = imagePlanche;
+                break;
+            case 7:
+                sprite = imageFeuille;
                 break;
             default:
                 sprite = imageVide;
