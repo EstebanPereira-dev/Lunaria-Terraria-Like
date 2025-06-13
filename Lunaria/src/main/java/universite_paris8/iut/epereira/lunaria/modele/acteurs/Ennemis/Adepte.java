@@ -1,10 +1,14 @@
 package universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.ViandeDeMouton;
 
 import java.util.*;
 
@@ -60,6 +64,13 @@ public class Adepte extends Ennemi {
         this.zonePatrouilleX = x; // La position initiale devient le centre de patrouille
         this.chemin = new LinkedList<>();
         this.dernierCalculChemin = 0;
+        ecu.set(2);
+    }
+    @Override
+    public void loot(){
+        if(getPv() <= 0){
+
+        }
     }
 
     @Override
@@ -337,38 +348,63 @@ public class Adepte extends Ennemi {
 
     @Override
     public void agit() {
-        if (mode == MODE_INACTIF) {
+        if (mode == MODE_INACTIF || attackOnCooldown) {
             return;
         }
-
+        // Calcul de la position du hero
         double distanceX = Math.abs(getPosX() - hero.getPosX());
         double distanceY = Math.abs(getPosY() - hero.getPosY());
         double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
+        // Vérifier si le héros est à portée
         if (distance <= range) {
+            // Calculer les dégâts avec bonus éventuel
             int degatsInfliges = getDegat();
-
             if (mode == MODE_AGGRESSIF) {
                 degatsInfliges = (int) (degatsInfliges * 1.2);
             }
 
+            // Infliger les dégâts au héros
             hero.setPv(hero.getPv() - degatsInfliges);
-            String modeString = getModeString(mode);
-            System.out.println("Hero touché par Adepte (" + modeString + ") ! Dégâts: " + degatsInfliges +
-                    ", Points de vie restants: " + hero.getPv());
 
+            // Vérifier si le héros est vaincu
             if (hero.getPv() <= 0) {
-                System.out.println("Hero vaincu !");
                 hero.estMort();
             }
+            // Déclencher le cooldown d'attaque
+            demarrerCooldownAttaque();
         }
+    }
+
+    private void demarrerCooldownAttaque() {
+        attackOnCooldown = true;
+
+        final Acteur finalActeur = this;
+        Timeline attackCooldownTimer = new Timeline(
+                new KeyFrame(Duration.seconds(5), e -> {
+                    if (!getEnv().getActeursASupprimer().contains(finalActeur)) {
+                        finalActeur.attackOnCooldown = false;
+                        System.out.println("Ennemi peut attaquer à nouveau");
+                    }
+                })
+        );
+        attackCooldownTimer.setCycleCount(1);
+        attackCooldownTimer.play();
+    }
+    private double calculerDistance(Acteur acteur1, Acteur acteur2) {
+        double deltaX = acteur1.getPosX() - acteur2.getPosX();
+        double deltaY = acteur1.getPosY() - acteur2.getPosY();
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 
     @Override
     public boolean conditionApparation() {
-        long maintenant = System.currentTimeMillis();
-        return (maintenant - dernierSpawn) > 90000 &&
-                rdm.nextInt(100) < 30; // 30% de chance
+        if (!this.getEnv().getEtatJour()) {         //faire spawn la nuit
+            long maintenant = System.currentTimeMillis();
+            return (maintenant - dernierSpawn) > 90000 &&
+                    rdm.nextInt(100) < 30; // 30% de chance
+        }
+        else return false;
     }
 
     @Override

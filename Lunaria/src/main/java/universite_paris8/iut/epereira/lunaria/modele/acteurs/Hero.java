@@ -12,22 +12,25 @@ import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 import java.util.ArrayList;
 
 public class Hero extends Acteur {
-    private InventaireJoueur inv;
+    private Inventaire inv;
     private ArrayList<Boolean> actions;
-    private boolean haut = false, bas = false, droite = false, gauche = false, inventaire = false, pause = false, attaque = false;
-    private int range, degat;
-    private Item souris;
-    private int quantiteItem;
+    private boolean haut = false, bas = false, droite = false, gauche = false, inventaire = false, pause = false, attaque = false, interraction = false;
+    private int range, degat, faim;
+    private int compteurFaim = 0;
+    private int compteurRegen = 0;
+    private final int INTERVALLE_REGEN = 250;
+    private final int INTERVALLE_FAIM = 150;
 
     public Hero(Environement env) {
         super(env);
         actions = new ArrayList<>();
-        inv = new InventaireJoueur();
+        inv = new Inventaire();
         remplirAction();
-        range = 5;
+        range = 16;
         degat = 10;
         souris = null;
         quantiteItem = 0;
+        faim = 200;
     }
 
     public void remplirAction() {
@@ -38,6 +41,7 @@ public class Hero extends Acteur {
         actions.add(inventaire);
         actions.add(pause);
         actions.add(attaque);
+        actions.add(interraction);
     }
 
     @Override
@@ -75,35 +79,39 @@ public class Hero extends Acteur {
         attackOnCooldown = true;
 
         // Logique d'attaque - vérifier s'il y a des ennemis touchés
-        boolean ennemisATouches = false;
-        ArrayList<Acteur> ennemisASupprimer = new ArrayList<>();
+        boolean acteursATouches = false;
+        ArrayList<Acteur> acteursASupprimer = new ArrayList<>();
 
         for (Acteur acteur : getEnv().getActeurs()) {
-            if (acteur instanceof Ennemi) {
-                double distanceX = Math.abs(getPosX() - acteur.getPosX());
-                double distanceY = Math.abs(getPosY() - acteur.getPosY());
-                double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            // AJOUT : Empêcher le héros de s'attaquer lui-même
+            if (acteur == this) {
+                continue; // Passer au prochain acteur
+            }
 
-                if (distance <= range) {
-                    acteur.setPv(acteur.getPv() - degat);
-                    System.out.println("Ennemi touché ! Points de vie restants: " + acteur.getPv());
-                    ennemisATouches = true;
+            double distanceX = Math.abs(getPosX() - acteur.getPosX());
+            double distanceY = Math.abs(getPosY() - acteur.getPosY());
+            double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-                    if (acteur.getPv() <= 0) {
-                        System.out.println("Ennemi vaincu !");
-                        ennemisASupprimer.add(acteur);
-                    }
+            if (distance <= range) {
+                acteur.setPv(acteur.getPv() - degat);
+                System.out.println("Ennemi touché ! Points de vie restants: " + acteur.getPv());
+                acteursATouches = true;
+
+                if (acteur.getPv() <= 0) {
+                    setEcu(ecu.get() + acteur.getEcu());
+                    System.out.println("Ennemi vaincu !");
+                    acteursASupprimer.add(acteur);
                 }
             }
         }
 
         // Supprimer les ennemis morts
-        for (Acteur ennemi : ennemisASupprimer) {
-            ennemi.estMort();
+        for (Acteur acteur : acteursASupprimer) {
+            acteur.estMort();
         }
 
         // Message si aucun ennemi touché
-        if (!ennemisATouches) {
+        if (!acteursATouches) {
             System.out.println("Attaque dans le vide !");
         }
 
@@ -129,19 +137,9 @@ public class Hero extends Acteur {
 
     }
 
-    public InventaireJoueur getInv() {
-        return inv;
-    }
-    public int getRange() {
-        return range;
-    }
+    @Override
+    public void loot() {
 
-    public int getDegat() {
-        return degat;
-    }
-
-    public ArrayList<Boolean> getActions() {
-        return actions;
     }
 
     public boolean estDansRange(int tuileX, int tuileY) {
@@ -206,6 +204,57 @@ public class Hero extends Acteur {
                 }
             }
         }
+    }
+    public void saciete(){
+        compteurFaim++;
+        if (compteurFaim >= INTERVALLE_FAIM) {
+            compteurFaim = 0; // Reset du compteur
+
+            if (getFaim() == 0) {
+                setPv(getPv() - 1);
+            } else {
+                setFaim(getFaim() - 1);
+            }
+        }
+        compteurRegen++;
+        if (compteurRegen >= INTERVALLE_REGEN){
+            compteurRegen = 0;
+            if (faim > 150 && getPv() < 100){
+                setPv(getPv()+1);
+            }
+        }
+    }
+    public void setEcu(int ecu) {
+        this.ecu.set(ecu);
+    }
+
+    public Inventaire getInv() {
+        return inv;
+    }
+    public int getRange() {
+        return range;
+    }
+
+    public int getDegat() {
+        return degat;
+    }
+
+    public int getFaim() {
+        return faim;
+    }
+
+    public void setFaim(int faim) {
+        this.faim = faim;
+    }
+
+    public ArrayList<Boolean> getActions() {
+        return actions;
+    }
+
+    public boolean verifAttaque(){
+        if(getInv().getItemEquipeSousFormeItem().getId()==20 ||getInv().getItemEquipeSousFormeItem().getId()==21)
+            return true;
+        return false;
     }
 
 

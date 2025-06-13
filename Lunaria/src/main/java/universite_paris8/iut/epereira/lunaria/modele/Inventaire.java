@@ -1,16 +1,15 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
-import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class InventaireJoueur {
+public class Inventaire {
     private ObservableList<Item> listeditem;
     private int[] quantite; // Quantité pour chaque slot
     private int taille;
 
-    public InventaireJoueur() {
-        taille = 45;
+    public Inventaire() {
+        taille = 9;
         //listeditem = new Item[taille];
         listeditem = FXCollections.observableArrayList();
         quantite = new int[taille];
@@ -126,6 +125,13 @@ public class InventaireJoueur {
             }
         }
         return -1; // Aucun item équipé
+    }
+    public Item getItemEquipeSousFormeItem(){
+        for (int i = 0; i < listeditem.size(); i++) {
+            if (this.listeditem.get(i) != null && this.listeditem.get(i).estEquipe()) {
+                return this.listeditem.get(i);
+            }
+        }return null;
     }
 
     public void equiperItem(int pos) {

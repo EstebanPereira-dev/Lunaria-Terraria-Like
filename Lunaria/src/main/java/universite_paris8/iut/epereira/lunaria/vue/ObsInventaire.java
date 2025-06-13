@@ -1,4 +1,4 @@
-package universite_paris8.iut.epereira.lunaria.controleur;
+package universite_paris8.iut.epereira.lunaria.vue;
 
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -19,7 +19,7 @@ public class ObsInventaire implements ListChangeListener<Item> {
     private TilePane tilePaneInv;
     private Environement env;
     //Image des objet
-    private Image imageVide, imageBois, imageBuisson, imageHerbe, imageMur, imageTerre;
+    private Image imageVide,imageBois,imageBuisson,imageHerbe,imageMur,imageTerre,imagePiocheEnBois,imageHacheEnBois,imageViandeMouton;
 
     public ObsInventaire(TilePane tilePaneInv, Environement env) {
         this.tilePaneInv = tilePaneInv;
@@ -32,7 +32,9 @@ public class ObsInventaire implements ListChangeListener<Item> {
         imageBuisson = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
         imageMur = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
         imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
-
+        imagePiocheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/PiocheEnBois.png"));
+        imageHacheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/HacheEnBois.png"));
+        imageViandeMouton = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/ViandeMouton.png"));
     }
 
     /*
@@ -68,6 +70,15 @@ public class ObsInventaire implements ListChangeListener<Item> {
 
                     case 5:
                         sprite = imageBois;
+                        break;
+                    case 30:
+                        sprite = imageHacheEnBois;
+                        break;
+                    case 31:
+                        sprite = imagePiocheEnBois;
+                        break;
+                    case 40:
+                        sprite = imageViandeMouton;
                         break;
                     default:
                         sprite = imageVide;

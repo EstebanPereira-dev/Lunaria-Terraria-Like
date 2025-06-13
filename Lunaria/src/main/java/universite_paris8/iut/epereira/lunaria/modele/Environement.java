@@ -5,9 +5,14 @@ import javafx.collections.ObservableList;
 import universite_paris8.iut.epereira.lunaria.controleur.GestionInventaire;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Aleksa;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.PNJ;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Terre;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Armes.EpeeEnBois;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Hache;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Pioche;
 
 import javax.crypto.spec.PSource;
 import java.security.cert.CertificateNotYetValidException;
@@ -21,17 +26,26 @@ public class Environement {
     private int width;
     private int height;
     private ArrayList<Acteur> acteurs;
+    private ArrayList<PNJ> pnjs;
+    private int compteurFaim = 0;
+    private final int INTERVALLE_FAIM = 140;
     private List<Acteur> acteursASupprimer = new ArrayList<>();
     // Spawner pour les ennemis
     private Adepte spawnerAdepte;
+    private boolean etatJour;    //permet de savoir si on est le jour ou la nuit
+                          //true=jour, false=nuit
+    private Inventaire marchand;
 
     public Environement(int width, int height){
         this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
         this.hero = new Hero(this);
-
+        initialiserHero();
+        pnjs = new ArrayList<>();
         acteurs = new ArrayList<>();
 
         acteurs.add(new Mouton(20, 1, this, 200, 400));
+
+        acteurs.add(new Aleksa(100,1,this,300,400));
 
         acteurs.add(hero);
 
@@ -40,13 +54,15 @@ public class Environement {
 
         initTest();
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
+        this.etatJour =true;
     }
 
     public void update() { //faire agir tout le monde et supprimer les morts
         spawnerAdepte.spawner();
-
         supprimerActeursMarques();
+        getHero().saciete();
     }
+
 
     public void marquerPourSuppression(Acteur acteur) {
         acteursASupprimer.add(acteur);
@@ -57,6 +73,27 @@ public class Environement {
             acteurs.remove(acteur);
         }
         acteursASupprimer.clear();
+    }
+
+    public boolean estPositionOccupeeParActeur(int tuileX, int tuileY) {
+        for (Acteur acteur : getActeurs()) {
+            if (acteur instanceof Hero) {
+                int heroX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
+                int heroY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
+
+                if ((tuileX == heroX - 1 || tuileX == heroX || tuileX == heroX + 1) && (tuileY == heroY - 1 || tuileY == heroY || tuileY == heroY + 1)) {
+                    return true;
+                } else {
+                    int acteurX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
+                    int acteurY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
+
+                    if (tuileX == acteurX && tuileY == acteurY) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     // GETTER :
@@ -101,34 +138,63 @@ public class Environement {
         return hero;
     }
 
+    public PNJ getPNJ(int id) {
+        return pnjs.get(id);
+    }
+
+    public ArrayList<PNJ> getPNJs(){
+        for(Acteur pnj : getActeurs()) {
+            if (pnj instanceof PNJ)
+                pnjs.add((PNJ)pnj);
+        }
+        return pnjs;
+    }
+
     public Terrain getTerrain() {
         return terrain;
     }
 
-
-
-    public boolean estPositionOccupeeParActeur(int tuileX, int tuileY) {
-        for (Acteur acteur : getActeurs()) {
-            if (acteur instanceof Hero) {
-                int heroX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
-                int heroY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
-
-                if ((tuileX == heroX - 1 || tuileX == heroX || tuileX == heroX + 1) && (tuileY == heroY - 1 || tuileY == heroY || tuileY == heroY + 1)) {
-                    return true;
-                } else {
-                    int acteurX = (int) (acteur.getPosX() / ConfigurationJeu.TAILLE_TUILE);
-                    int acteurY = (int) (acteur.getPosY() / ConfigurationJeu.TAILLE_TUILE);
-
-                    if (tuileX == acteurX && tuileY == acteurY) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    public Inventaire getMarchand() {
+        return marchand;
     }
 
+    public void setMarchand(Inventaire marchand) {
+        this.marchand = marchand;
+        System.out.println("inv updated");
+    }
 
+    public boolean verifCasser(int x, int y){
+        //cas 1: casser la terre ou la pierre
+
+        if(this.getHero().getInv().getItemEquipeSousFormeItem().getId()==31 && (this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==1 || this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==2 || this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==3 || this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==4)){
+            return true;
+        }
+        //cas 2: casser le bois
+
+        else if (this.getHero().getInv().getItemEquipeSousFormeItem().getId()==30 && (this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==5 || this.getTerrain().getTableau().get(getTerrain().getPos(x,y))==6)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void initialiserHero(){
+        this.getHero().getInv().ajouterItem(new EpeeEnBois());
+        this.getHero().getInv().ajouterItem(new Pioche());
+        this.getHero().getInv().ajouterItem(new Hache());
+        this.getHero().getInv().equiperItem(0);
+    }
+    public void changerEtatJour(){
+        if(etatJour)
+            etatJour=false;
+        else
+            etatJour=true;
+    }
+
+    public boolean getEtatJour() {
+        return etatJour;
+    }
 
 
     //interaction inventaire hero

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="588e6dd0-3bda-4199-ab0d-dd02dc54dd5d" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="develop" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;miamcookie&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/DUT-Info-Montreuil/SAE2.1256-MChen-EPereira-EMusert.git&quot;,
+    &quot;accountId&quot;: &quot;4efcca37-78d3-4c54-bf35-bc1a2fd0b1b8&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2wzwFs7mK06rLSGW3X1T8dl2XkD" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Lanceur.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Optimisation",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/miamc/Documents/iut/SAE/SAE2.1256/Lunaria",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "0d570cb2-96df-43cc-80da-7f777e6d0afe",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\miamc\Documents\iut\SAE\SAE2.1256\SAE2.1256-MChen-EPereira-EMusert\Lunaria\src\main\java\universite_paris8\iut\epereira\lunaria\DossierControleur" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="universite_paris8.iut.epereira.lunaria.modele.acteurs" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Lanceur" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="universite_paris8.iut.epereira.lunaria.Lanceur" />
+      <module name="Lunaria" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="universite_paris8.iut.epereira.lunaria.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Lanceur" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="588e6dd0-3bda-4199-ab0d-dd02dc54dd5d" name="Changes" comment="" />
+      <created>1747057610056</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1747057610056</updated>
+      <workItem from="1747057611288" duration="10273000" />
+      <workItem from="1747293316554" duration="12265000" />
+      <workItem from="1747378566198" duration="30174000" />
+      <workItem from="1747734159780" duration="20410000" />
+      <workItem from="1747897870505" duration="21776000" />
+    </task>
+    <task id="LOCAL-00001" summary="Ajoute Class Item">
+      <option name="closed" value="true" />
+      <created>1747059072594</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1747059072595</updated>
+    </task>
+    <task id="LOCAL-00002" summary="réglage des problem avec le merge">
+      <option name="closed" value="true" />
+      <created>1747303747823</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1747303747823</updated>
+    </task>
+    <task id="LOCAL-00003" summary="inventaire refait">
+      <option name="closed" value="true" />
+      <created>1747645369836</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747645369836</updated>
+    </task>
+    <task id="LOCAL-00004" summary="inventaire refait">
+      <option name="closed" value="true" />
+      <created>1747645442354</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1747645442354</updated>
+    </task>
+    <task id="LOCAL-00005" summary="merge">
+      <option name="closed" value="true" />
+      <created>1747741634273</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1747741634273</updated>
+    </task>
+    <task id="LOCAL-00006" summary="ajoute du hightlight dans l'inventaire">
+      <option name="closed" value="true" />
+      <created>1747749150781</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1747749150781</updated>
+    </task>
+    <task id="LOCAL-00007" summary="merging">
+      <option name="closed" value="true" />
+      <created>1747749654617</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1747749654617</updated>
+    </task>
+    <task id="LOCAL-00008" summary="ajout crafting">
+      <option name="closed" value="true" />
+      <created>1747835200933</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1747835200933</updated>
+    </task>
+    <task id="LOCAL-00009" summary="ajout détaille dans InventaireJoueur">
+      <option name="closed" value="true" />
+      <created>1747906526679</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1747906526679</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="develop" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Avancement et préparation à la collaboration" />
+    <MESSAGE value="Ajoute Class Item" />
+    <MESSAGE value="réglage des problem avec le merge" />
+    <MESSAGE value="inventaire refait" />
+    <MESSAGE value="merge" />
+    <MESSAGE value="ajoute du hightlight dans l'inventaire" />
+    <MESSAGE value="merging" />
+    <MESSAGE value="ajout crafting" />
+    <MESSAGE value="ajout détaille dans InventaireJoueur" />
+    <option name="LAST_COMMIT_MESSAGE" value="ajout détaille dans InventaireJoueur" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NoClassDefFoundError" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

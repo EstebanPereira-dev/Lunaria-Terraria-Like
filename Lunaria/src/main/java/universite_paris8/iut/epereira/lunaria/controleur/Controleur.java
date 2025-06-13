@@ -9,12 +9,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
@@ -31,6 +36,9 @@ public class Controleur implements Initializable {
 
     @FXML
     private TilePane tilePaneInventaire;
+
+    @FXML
+    private Label ecu;
 
     @FXML
     private TilePane tilePaneId; //tilePane pour poesr nos bloc et les casser
@@ -51,7 +59,7 @@ public class Controleur implements Initializable {
     private GridPane terrainGrid;
 
     //Barrre de vie du hero
-    private BarreDeVie barreDeVieHero;
+    private BarresStatut barreDuHero;
 
     //lier acteur avec leur sprites et animation
     private Environement env;
@@ -67,6 +75,10 @@ public class Controleur implements Initializable {
 
     //game loop
     private Timeline gameLoop;
+
+    //Vue Environnement
+    private VueEnvironnement vueEnvironnement;
+
 
     @Override //initialization
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -85,6 +97,9 @@ public class Controleur implements Initializable {
             obsTerrain.updateTuile(i, terrain.getTableau().get(i));
         }
 
+        //initialisation de la Vue Environnement
+        this.vueEnvironnement=new VueEnvironnement(this);
+
         //initialisation du gestionaire de la map
         gestionMap = new VueTerrain(env, this);
         gestionTouches= new GestionTouches(env,this);
@@ -93,10 +108,10 @@ public class Controleur implements Initializable {
         gestionBoucle = new GestionBoucle(env,this);
 
         //initialisation de la barre de vie du hero
-        barreDeVieHero = new BarreDeVie(env.getHero().getPv(), 200, 20);
-        barreDeVieHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
-        barreDeVieHero.setTranslateY(30);
-        tabJeu.getChildren().add(barreDeVieHero);
+        barreDuHero = new BarresStatut(env.getHero().getPv(), 200, 200,20);
+        barreDuHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
+        barreDuHero.setTranslateY(30);
+        tabJeu.getChildren().add(barreDuHero);
 
 
         // Ajouter d'abord la vue héros à la liste
@@ -141,6 +156,14 @@ public class Controleur implements Initializable {
     public void clicSouris(MouseEvent mouseEvent) {
         gestionSouris.clicDeSouris(mouseEvent);
     }
+    @FXML
+    public void gererPositionSouris(MouseEvent mouseEvent) {
+        gestionSouris.gererPositionDeSouris(mouseEvent);
+    }
+
+    public GestionSouris getGestionSouris() {
+        return gestionSouris;
+    }
 
     //pour chaque action dans inventaire
     @FXML
@@ -165,8 +188,8 @@ public class Controleur implements Initializable {
         return gestionInventaire;
     }
 
-    public BarreDeVie getBarreDeVieHero() {
-        return barreDeVieHero;
+    public BarresStatut getBarreDeVieHero() {
+        return barreDuHero;
     }
 
     public VueTerrain getGestionMap() {
@@ -207,6 +230,10 @@ public class Controleur implements Initializable {
         return v;
     }
 
+    public Label getEcu() {
+        return ecu;
+    }
+
     public GestionBoucle getGestionBoucle() {
         return gestionBoucle;
     }
@@ -215,4 +242,11 @@ public class Controleur implements Initializable {
         return tabJeu;
     }
 
+    public GridPane getTerrainGrid() {
+        return terrainGrid;
+    }
+
+    public VueEnvironnement getVueEnvironnement() {
+        return vueEnvironnement;
+    }
 }

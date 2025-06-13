@@ -20,6 +20,11 @@ public class GestionBoucle {
     //game loop
     private Timeline gameLoop;
 
+    private int compteurFrames = 0;
+    private static final int FRAMES_PAR_SECONDE = 1000 / 15; // 15ms par frame = ~66.67 FPS
+    private static final int FRAMES_POUR_60_SECONDES = FRAMES_PAR_SECONDE * 60;
+
+
     public GestionBoucle(Environement env, Controleur controleur){
         this.env = env;
         this.controleur = controleur;
@@ -51,7 +56,7 @@ public class GestionBoucle {
             }
         }
 
-        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs()); // A modifi utiliser une boucle while a la place et observable list
+        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs()); // A modifier utiliser une boucle while a la place et observable list
         for (Acteur a : acteursCopie) {
             double oldX = a.getPosX();
             a.deplacement();
@@ -62,15 +67,23 @@ public class GestionBoucle {
                 vueActeur.mettreAJourAnimation(a, deltaX);
             }
             if (a instanceof Ennemi) {
-                VueActeur vueEnnemi = controleur.getVueActeur(a);
-                if (vueEnnemi instanceof VueEnnemi) {
-                    ((VueEnnemi) vueEnnemi).attaquer();
-                }
+                a.agit();
             }
         }
+        controleur.getEcu().setText(env.getHero().getEcu()+"");
+        controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv(),env.getHero().getFaim());
+
 
         controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv());
+        compteurFrames++;
+        if (compteurFrames >= FRAMES_POUR_60_SECONDES) {
+            this.env.changerEtatJour();
+            compteurFrames = 0; // Reset du compteur
+        }
+
+       this.controleur.getVueEnvironnement().setBackground();
     }
+
     // Démarrage
     public void demarrer() {
         gameLoop.play();
@@ -80,4 +93,5 @@ public class GestionBoucle {
     public void arreter() {
         gameLoop.stop();
     }
+
 }

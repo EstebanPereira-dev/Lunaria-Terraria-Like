@@ -3,6 +3,7 @@ package universite_paris8.iut.epereira.lunaria.controleur;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.PNJ;
 
 import java.security.Key;
 
@@ -51,10 +52,19 @@ public class GestionTouches {
 
                 }
                 break;
+            case E:
+                for(PNJ pnj : env.getPNJs()) {
+                    double distanceX = Math.abs(env.getHero().getPosX() - pnj.getPosX());
+                    double distanceY = Math.abs(env.getHero().getPosY() - pnj.getPosY());
+                    double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
+                    if (distance <= env.getHero().getRange()) {
+                        env.setMarchand(pnj.getInv());
+                    }
+                }
+                break;
             case DIGIT1:
                 controleur.getGestionInventaire().selectItem(0);
-                env.getHero().getInv().equiperItem(0);
                 break;
 
             case DIGIT2:
