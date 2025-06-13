@@ -399,9 +399,12 @@ public class Adepte extends Ennemi {
 
     @Override
     public boolean conditionApparation() {
-        long maintenant = System.currentTimeMillis();
-        return (maintenant - dernierSpawn) > 90000 &&
-                rdm.nextInt(100) < 30; // 30% de chance
+        if (!this.getEnv().getEtatJour()) {         //faire spawn la nuit
+            long maintenant = System.currentTimeMillis();
+            return (maintenant - dernierSpawn) > 90000 &&
+                    rdm.nextInt(100) < 30; // 30% de chance
+        }
+        else return false;
     }
 
     @Override

@@ -9,6 +9,7 @@ import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeur;
 import universite_paris8.iut.epereira.lunaria.vue.VueActeurFactory;
+import universite_paris8.iut.epereira.lunaria.vue.VueEnnemi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,11 @@ public class GestionBoucle {
     private Controleur controleur;
     //game loop
     private Timeline gameLoop;
+
+    private int compteurFrames = 0;
+    private static final int FRAMES_PAR_SECONDE = 1000 / 15; // 15ms par frame = ~66.67 FPS
+    private static final int FRAMES_POUR_60_SECONDES = FRAMES_PAR_SECONDE * 60;
+
 
     public GestionBoucle(Environement env, Controleur controleur){
         this.env = env;
@@ -52,6 +58,8 @@ public class GestionBoucle {
         int i = 0;
         while (i < env.getActeurs().size()) {
             Acteur a = env.getActeurs().get(i);
+        List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs()); // A modifier utiliser une boucle while a la place et observable list
+        for (Acteur a : acteursCopie) {
             double oldX = a.getPosX();
             a.deplacement();
             double deltaX = a.getPosX() - oldX;
@@ -68,6 +76,16 @@ public class GestionBoucle {
 
         controleur.getEcu().setText(env.getHero().getEcu()+"");
         controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv(),env.getHero().getFaim());
+
+
+        controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv());
+        compteurFrames++;
+        if (compteurFrames >= FRAMES_POUR_60_SECONDES) {
+            this.env.changerEtatJour();
+            compteurFrames = 0; // Reset du compteur
+        }
+
+       this.controleur.getVueEnvironnement().setBackground();
     }
 
     // Démarrage
@@ -79,4 +97,5 @@ public class GestionBoucle {
     public void arreter() {
         gameLoop.stop();
     }
+
 }

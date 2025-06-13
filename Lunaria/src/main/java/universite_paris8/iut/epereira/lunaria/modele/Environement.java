@@ -29,6 +29,8 @@ public class Environement {
     private List<Acteur> acteursASupprimer = new ArrayList<>();
     // Spawner pour les ennemis
     private Adepte spawnerAdepte;
+    private boolean etatJour;    //permet de savoir si on est le jour ou la nuit
+                          //true=jour, false=nuit
     private Inventaire marchand;
 
     public Environement(int width, int height){
@@ -48,6 +50,7 @@ public class Environement {
         this.width = width;
 
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
+        this.etatJour =true;
     }
 
     public void update() { //faire agir tout le monde et supprimer les morts
@@ -167,4 +170,14 @@ public class Environement {
         return itemEquipe.peutCasser(typeBloc);
     }
 
+    public void changerEtatJour(){
+        if(etatJour)
+            etatJour=false;
+        else
+            etatJour=true;
+    }
+
+    public boolean getEtatJour() {
+        return etatJour;
+    }
 }

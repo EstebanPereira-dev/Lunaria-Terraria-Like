@@ -1,5 +1,7 @@
 package universite_paris8.iut.epereira.lunaria.controleur;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -9,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -65,6 +68,10 @@ public class Controleur implements Initializable {
     //game loop
     private Timeline gameLoop;
 
+    //Vue Environnement
+    private VueEnvironnement vueEnvironnement;
+
+
     @Override //initialization
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Création de l'environement de la taille de l'écren
@@ -81,6 +88,10 @@ public class Controleur implements Initializable {
         for (int i = 0; i < terrain.getTableau().size(); i++) {
             obsTerrain.updateTuile(i, terrain.getTableau().get(i));
         }
+
+        //initialisation de la Vue Environnement
+        this.vueEnvironnement=new VueEnvironnement(this);
+
         //initialisation du gestionaire de la map
         gestionMap = new VueTerrain(env, this);
         gestionTouches= new GestionTouches(env,this);
@@ -211,5 +222,9 @@ public class Controleur implements Initializable {
 
     public GridPane getTerrainGrid() {
         return terrainGrid;
+    }
+
+    public VueEnvironnement getVueEnvironnement() {
+        return vueEnvironnement;
     }
 }
