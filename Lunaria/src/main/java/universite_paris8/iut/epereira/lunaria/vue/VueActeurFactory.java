@@ -4,6 +4,7 @@ import universite_paris8.iut.epereira.lunaria.controleur.Controleur;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
 
 public class VueActeurFactory {
 
@@ -11,11 +12,12 @@ public class VueActeurFactory {
         if (acteur instanceof Hero) {
             return new VueHero((Hero) acteur, controleur);
         } else if (acteur instanceof Ennemi) {
-            return new VueEnnemi((Ennemi) acteur, controleur);
-        } else {
-            // Tous les autres acteurs (moutons, etc.) utilisent le template simple
+            return new VueAdepte((Ennemi) acteur, controleur);
+        } else if (acteur instanceof Mouton){
             return new VueMouton(acteur, controleur);
         }
+        else
+            return new VuePNJ(acteur, controleur);
     }
 
     public static boolean aVueSpecialisee(Acteur acteur) {

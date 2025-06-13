@@ -1,15 +1,14 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
-import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class InventaireJoueur {
+public class Inventaire {
     private ObservableList<Item> listeditem;
     private int[] quantite; // Quantité pour chaque slot
     private int taille;
 
-    public InventaireJoueur() {
+    public Inventaire() {
         taille = 9;
         //listeditem = new Item[taille];
         listeditem = FXCollections.observableArrayList();

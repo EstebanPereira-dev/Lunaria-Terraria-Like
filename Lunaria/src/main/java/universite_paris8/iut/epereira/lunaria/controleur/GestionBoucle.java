@@ -67,12 +67,11 @@ public class GestionBoucle {
                 vueActeur.mettreAJourAnimation(a, deltaX);
             }
             if (a instanceof Ennemi) {
-                VueActeur vueEnnemi = controleur.getVueActeur(a);
-                if (vueEnnemi instanceof VueEnnemi) {
-                    ((VueEnnemi) vueEnnemi).attaquer();
-                }
+                a.agit();
             }
         }
+        controleur.getEcu().setText(env.getHero().getEcu()+"");
+        controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv(),env.getHero().getFaim());
 
 
         controleur.getBarreDeVieHero().mettreAJour(env.getHero().getPv());

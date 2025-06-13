@@ -7,8 +7,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -27,7 +27,8 @@ import java.util.List;
 public class Controleur implements Initializable {
     @FXML
     private GridPane inventaireGridPane;  //gridPane qui contient les emplacement d'inventaire
-
+    @FXML
+    private Label ecu;
     @FXML
     private TilePane tilePaneId; //tilePane pour poesr nos bloc et les casser
 
@@ -50,7 +51,7 @@ public class Controleur implements Initializable {
     private GridPane terrainGrid;
 
     //Barrre de vie du hero
-    private BarreDeVie barreDeVieHero;
+    private BarresStatut barreDuHero;
 
     //lier acteur avec leur sprites et animation
     private Environement env;
@@ -99,10 +100,10 @@ public class Controleur implements Initializable {
         gestionBoucle = new GestionBoucle(env,this);
 
         //initialisation de la barre de vie du hero
-        barreDeVieHero = new BarreDeVie(env.getHero().getPv(), 200, 20);
-        barreDeVieHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
-        barreDeVieHero.setTranslateY(30);
-        tabJeu.getChildren().add(barreDeVieHero);
+        barreDuHero = new BarresStatut(env.getHero().getPv(), 200, 200,20);
+        barreDuHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
+        barreDuHero.setTranslateY(30);
+        tabJeu.getChildren().add(barreDuHero);
 
         // Ajouter d'abord la vue héros à la liste
         vuesActeurs.add(v);
@@ -166,8 +167,8 @@ public class Controleur implements Initializable {
         return gestionInventaire;
     }
 
-    public BarreDeVie getBarreDeVieHero() {
-        return barreDeVieHero;
+    public BarresStatut getBarreDeVieHero() {
+        return barreDuHero;
     }
 
     public VueTerrain getGestionMap() {
@@ -199,13 +200,16 @@ public class Controleur implements Initializable {
         return background;
     }
 
-
     public List<VueActeur> getVuesActeurs() {
         return vuesActeurs;
     }
 
     public VueHero getV() {
         return v;
+    }
+
+    public Label getEcu() {
+        return ecu;
     }
 
     public GestionBoucle getGestionBoucle() {

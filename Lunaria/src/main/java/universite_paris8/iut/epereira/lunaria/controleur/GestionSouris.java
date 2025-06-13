@@ -14,7 +14,6 @@ public class GestionSouris {
     public double dernierePosY = -1;
     public Rectangle tuileSurbrillance;
 
-
     public GestionSouris(Environement env, Controleur controleur) {
         this.env = env;
         this.controleur = controleur;
@@ -25,8 +24,6 @@ public class GestionSouris {
         this.tuileSurbrillance.setVisible(false);
         controleur.getTilePaneId().getChildren().add(tuileSurbrillance);
     }
-
-
 
     public void gererPositionDeSouris(MouseEvent mouseEvent) {
         dernierePosX = mouseEvent.getX();
@@ -74,19 +71,24 @@ public class GestionSouris {
 
     public void clicDeSouris(MouseEvent mouseEvent) {
         if(env.getHero().getPv() > 0) {
-        dernierePosX = mouseEvent.getX();
-        dernierePosY = mouseEvent.getY();
+            dernierePosX = mouseEvent.getX();
+            dernierePosY = mouseEvent.getY();
 
-        int tuileX = (int) (dernierePosX / ConfigurationJeu.TAILLE_TUILE);
-        int tuileY = (int) (dernierePosY / ConfigurationJeu.TAILLE_TUILE);
+            int tuileX = (int) (dernierePosX / ConfigurationJeu.TAILLE_TUILE);
+            int tuileY = (int) (dernierePosY / ConfigurationJeu.TAILLE_TUILE);
 
+//        ObservableList<Integer> terrain = env.getTerrain().getTableau();
+
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                gererClicGauche(env.getTerrain().getTableau(), tuileX, tuileY);
+            }
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             gererClicGauche(env.getTerrain().getTableau(), tuileX, tuileY);
         }
 
-        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-            gererClicDroit(env.getTerrain().getTableau(), tuileX, tuileY);
-        }
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                gererClicDroit(env.getTerrain().getTableau(), tuileX, tuileY);
+            }
         }
     }
 
@@ -118,7 +120,10 @@ public class GestionSouris {
                     controleur.getGestionInventaire().mettreAJourAffichage();
             }
         }
+        if (env.getHero().getInv().getItemEquipeSousFormeItem().getId() > 39 && env.getHero().getInv().getItemEquipeSousFormeItem().getId() > 50){
+
+        }
     }
 
 
-   }
+}
