@@ -67,10 +67,8 @@ public class Controleur implements Initializable {
     //game loop
     private Timeline gameLoop;
 
-    //images du background
-
-    private Image imageJour=new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/BackgroundJour.png"));
-    private Image imagenuit=new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Background.png"));
+    //Vue Environnement
+    private VueEnvironnement vueEnvironnement;
 
 
     @Override //initialization
@@ -89,6 +87,9 @@ public class Controleur implements Initializable {
         for (int i = 0; i < terrain.getTableau().size(); i++) {
             obsTerrain.updateTuile(i, terrain.getTableau().get(i));
         }
+
+        //initialisation de la Vue Environnement
+        this.vueEnvironnement=new VueEnvironnement(this);
 
         //initialisation du gestionaire de la map
         gestionMap = new VueTerrain(env, this);
@@ -219,11 +220,7 @@ public class Controleur implements Initializable {
         return terrainGrid;
     }
 
-    public void setBackground(){
-        if (env.getEtatJour())
-            background.setImage(imageJour);
-        else
-            background.setImage(imagenuit);
+    public VueEnvironnement getVueEnvironnement() {
+        return vueEnvironnement;
     }
-
 }

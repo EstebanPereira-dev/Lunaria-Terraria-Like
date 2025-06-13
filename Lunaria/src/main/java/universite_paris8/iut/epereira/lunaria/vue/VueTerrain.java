@@ -49,54 +49,6 @@ public class VueTerrain {
         imagePlanche = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Planche.png"));
     }
 
-   /*public void chargerTiles(Terrain terrain) {
-        controleur.getTilePaneId().getChildren().clear();
-
-        controleur.getTilePaneId().getChildren().setAll(genererTuilesDepuisMap(terrain.getTableau(), ConfigurationJeu.TAILLE_TUILE));
-
-        System.out.println("Dimensions du terrain: " + terrain.getWidth() + "x" + terrain.getHeight());
-
-        for (int i = 0; i < terrain.getHeight(); i++) {
-            for (int j = 0; j < terrain.getWidth(); j++) {
-                int tile = terrain.getTableau().get(terrain.getPos(i,j));
-                Image sprite;
-
-                // Utilisation des images préchargées
-                switch (tile) {
-                    case 0:
-                        sprite = imageVide;
-                        break;
-                    case 1:
-                        sprite = imageTerre;
-                        break;
-                    case 2:
-                        sprite = imageHerbe;
-                        break;
-                    case 3:
-                        sprite = imageBuisson;
-                        break;
-                    case 4:
-                        sprite = imageMur;
-                        break;
-                    case 5:
-                        sprite =imageBois;
-                        break;
-                    case 6:
-                        sprite = imagePlanche;
-                        break;
-                    default:
-                        sprite = imageVide;
-                        break;
-                }
-
-                ImageView imageView = new ImageView(sprite);
-                imageView.setFitHeight(ConfigurationJeu.TAILLE_TUILE);
-                imageView.setFitWidth(ConfigurationJeu.TAILLE_TUILE);
-
-                controleur.getTilePaneId().getChildren().add(imageView);
-            }
-        }
-    }*/
 
     private Image getImageTuile(int typeTuile){
         if (typeTuile==0)
@@ -121,22 +73,6 @@ public class VueTerrain {
         return tableau;
     }
 
-
-   /* public ObservableList<Node> genererTuilesDepuisMap(ObservableList<Integer> map, int tileSize) {
-        ObservableList<Node> liste = FXCollections.observableArrayList();
-
-        for (int y = 0; y < map.size(); y++) {
-            for (int x = 0; x < map.size(); x++) {
-                int type = map.get(getTableau().getPos(x,y));
-                ImageView imageView = new ImageView(getImageTuile(type));
-                imageView.setFitWidth(tileSize);
-                imageView.setFitHeight(tileSize);
-                liste.add(imageView);
-            }
-        }
-
-        return liste;
-    }*/
 
 
 }
