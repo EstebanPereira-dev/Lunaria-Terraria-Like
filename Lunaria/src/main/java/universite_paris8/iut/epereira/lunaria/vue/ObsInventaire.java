@@ -74,15 +74,19 @@ public class ObsInventaire implements ListChangeListener<Item> {
                     case 5:
                         sprite = imageBois;
                         break;
+
                     case 30:
                         sprite = imageHacheEnBois;
                         break;
+
                     case 31:
                         sprite = imagePiocheEnBois;
                         break;
+
                     case 40:
                         sprite = imageViandeMouton;
                         break;
+
                     default:
                         sprite = imageVide;
                         break;
