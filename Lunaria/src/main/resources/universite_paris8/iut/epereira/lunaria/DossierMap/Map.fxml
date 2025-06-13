@@ -3,11 +3,11 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.GridPane ?>
 
 <StackPane onMouseClicked="#clicSouris" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.controleur.Controleur">
    <children>
@@ -19,7 +19,7 @@
                </image>
             </ImageView>
             <GridPane fx:id="terrainGrid" layoutX="0" layoutY="0" pickOnBounds="false" />
-            <TilePane fx:id="tilePaneInventaire" layoutX="14.0" layoutY="7.0" onMouseClicked="#inv" prefColumns="9" prefHeight="290.0" prefWidth="512.0" style="-fx-border-color: black;"  />
+            <TilePane fx:id="tilePaneInventaire" layoutX="14.0" layoutY="7.0" onMouseClicked="#inv" prefColumns="9" prefHeight="280.0" prefWidth="505.4" style="-fx-border-color: black;" />
             <!--<GridPane fx:id="inventaireGridPane" gridLinesVisible="true" layoutX="317.0" layoutY="503.0" maxHeight="288.0" maxWidth="288.0" minHeight="288.0" opacity="0.33" prefHeight="288.0" prefWidth="288.0" style="-fx-background-color: white; -fx-border-color: black;">
              <children>
                  <Button focusTraversable="false" onMouseClicked="#inv" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: white" GridPane.columnIndex="0" GridPane.rowIndex="0">

@@ -42,68 +42,43 @@ public class ObsInventaire implements ListChangeListener<Item> {
     @Override
     public void onChanged(Change change) {
         while (change.next()) {
-            Image sprite;
+            Image sprite = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png"));
             Item item = (Item) change.getList().get(change.getFrom());
 
 //            System.out.println("Item Id:");
 //            System.out.println(item.getId());
             //selon l'id de l'item, on prend la bonne image
-            switch (item.getId()) {
-                case 1:
-                    sprite = imageTerre;
-                    break;
+            if (item != null) {
+                switch (item.getId()) {
+                    case 1:
+                        sprite = imageTerre;
+                        break;
 
-                case 2:
-                    sprite = imageHerbe;
-                    break;
+                    case 2:
+                        sprite = imageHerbe;
+                        break;
 
-                case 3:
-                    sprite = imageBuisson;
-                    break;
+                    case 3:
+                        sprite = imageBuisson;
+                        break;
 
-                case 4:
-                    sprite = imageMur;
-                    break;
+                    case 4:
+                        sprite = imageMur;
+                        break;
 
-                case 5:
-                    sprite = imageBois;
-                    break;
-                default:
-                    sprite = imageVide;
-                    break;
+                    case 5:
+                        sprite = imageBois;
+                        break;
+                    default:
+                        sprite = imageVide;
+                        break;
+                }
             }
-
-
-
-//            img.setOnMouseClicked(event -> {
-//                System.out.println("clicked mouse click image");
-//            });
-
 
 
             VBox vbox = (VBox) tilePaneInv.getChildren().get(change.getFrom());
             ImageView imageView = (ImageView) vbox.getChildren().get(0);
             imageView.setImage(sprite);
-//
-//            System.out.println("stp entre dans le set on mouse clicked");
-//            System.out.println(change.getFrom());
-//            System.out.println(tilePaneInv.getChildren());
-//            System.out.println(tilePaneInv.getChildren().get(change.getFrom()));
-//            tilePaneInv.getChildren().get(change.getFrom()).setOnMouseClicked(event -> {
-//                System.out.println("ENTER DANS SETMOUSECLICKED");
-//                Item temp = env.getHero().getSouris();
-//                int quantiteTemp = env.getHero().getQuantiteItem();
-//
-//                if(event.getButton() == MouseButton.PRIMARY){
-//                    System.out.println("ENTER PRIMARY BUTTON SUR INV");
-//                    env.getHero().setQuantiteItem(env.getHero().getQuantiteItem());
-//                    env.getHero().setSouris(env.getHero().getSouris());
-//                    System.out.println("ENTER QUANTITE ET ITEM CHANGE");
-//                    env.getHero().getInv().getListeditem().set(change.getFrom(),temp);
-//                    env.getHero().getInv().getQuantite()[change.getFrom()] = quantiteTemp;
-//                }
-//            });
-
 
 
         }

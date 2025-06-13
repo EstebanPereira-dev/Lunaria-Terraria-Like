@@ -7,6 +7,7 @@ import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Terre;
 
 import javax.crypto.spec.PSource;
 import java.security.cert.CertificateNotYetValidException;
@@ -37,6 +38,7 @@ public class Environement {
         this.height = height;
         this.width = width;
 
+        initTest();
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
     }
 
@@ -130,6 +132,8 @@ public class Environement {
 
 
     //interaction inventaire hero
+
+    //click gauche echange l'item dans la souris avec l'item dans l'inventaire avec les quantite
     public void clickPrimaire(int index){
         Item itemTemp = hero.getSouris();
         int quantiteTemp = hero.getQuantiteItem();
@@ -141,6 +145,7 @@ public class Environement {
         hero.getInv().getListeditem().set(index,itemTemp);
     }
 
+    //click droit avec la souris vide pour prendre la moitier des item dans l'invnetaire et le mettre dans la souris
     public void clickSecondaireVide(int index){
         if(hero.sourisVide() && hero.getInv().getQuantite()[index] > 1 && hero.getInv().getListeditem().get(index) != null){
             hero.setSouris(hero.getInv().getListeditem().get(index));
@@ -150,23 +155,43 @@ public class Environement {
         }
     }
 
+    //click droit avec la souris qui contient des item pose 1 item dans l'inventaire
     public void clickSecondairePlein(int index){
-        if(!hero.sourisVide() && hero.getInv().getListeditem().get(index) != null){
+//        System.out.println("entrer 1");
+//        System.out.println(hero.getSouris());
+//        System.out.println(hero.sourisVide());
+        if(!hero.sourisVide()){
+            //System.out.println("entrer 2");
             if(hero.getInv().getListeditem().get(index) == null){
+                //System.out.println("entrer 3");
                 hero.getInv().getListeditem().set(index, hero.getSouris());
                 hero.getInv().getQuantite()[index] = 1;
+                hero.setQuantiteItem(hero.getQuantiteItem()-1);
+                if(hero.getQuantiteItem() == 0){
+                    hero.setSouris(null);
+                }
             }
             else{
+                //System.out.println("entrer 4");
                 if(hero.getInv().getListeditem().get(index).getId() == hero.getSouris().getId()){
+                    //System.out.println("entrer 5");
                     hero.getInv().getQuantite()[index] +=1;
                     hero.setQuantiteItem(hero.getQuantiteItem()-1);
                 }
             }
             if(hero.getQuantiteItem() == 0){
+                //System.out.println("entrer 6");
                 hero.setSouris(null);
             }
         }
     }
 
+
+    public void initTest(){
+        Item item = new Terre();
+        hero.getInv().getListeditem().set( 19,item);
+        hero.getInv().getQuantite()[19] = 10;
+
+    }
 
 }

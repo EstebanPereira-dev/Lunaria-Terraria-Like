@@ -121,37 +121,14 @@ public class Controleur implements Initializable {
             gestionBoucle.demarrer();
         });
 
+        initTilePaneInv(tilePaneInventaire,obsInventaire);
+    }
 
-        initInventaire(tilePaneInventaire);
-
-
-        //ajout du listener sur l'observable liste de l'inventaire
-        obsInventaire = new ObsInventaire(tilePaneInventaire,env);
-        env.getHero().getInv().getListeditem().addListener(obsInventaire);
-
-
+    public void initTilePaneInv(TilePane tilePane,ObsInventaire obsInventaire){
+        gestionInventaire.initPane(tilePane,obsInventaire);
     }
 
 
-    public void initInventaire(TilePane paneInv){
-        for(int i = 0; i < 45; i++){
-            ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png")));
-            img.setFitHeight(48);
-            img.setFitWidth(48);
-            //img.setStyle("-fx-border-color: yellow");
-
-            img.setOnMouseClicked(event -> {
-                System.out.println("clicked on init INVENTAIRE");
-            });
-
-
-            VBox warpper = new VBox(img);
-            warpper.setPadding(new Insets(2.5));
-            warpper.setStyle("-fx-border-color: blue;");
-            paneInv.getChildren().add(i,warpper);
-        }
-
-    }
 
 
     //pour chaque entré de touche
@@ -167,8 +144,17 @@ public class Controleur implements Initializable {
 
     //pour chaque action dans inventaire
     @FXML
-    public void inv(ActionEvent event) {
-    gestionInventaire.inv(event);
+    public void inv(MouseEvent event) {
+        Node node = (Node) event.getTarget();
+        VBox vbox = null;
+        if(node instanceof VBox){
+            vbox = (VBox) node;
+        } else if (node instanceof ImageView) {
+             vbox = (VBox) node.getParent();
+        }
+        //VBox vbox = (VBox) event.getTarget();
+        gestionInventaire.inv(event, vbox);
+
    }
 
     public TextArea getPauseID() {
@@ -228,4 +214,5 @@ public class Controleur implements Initializable {
     public Pane getTabJeu() {
         return tabJeu;
     }
+
 }
