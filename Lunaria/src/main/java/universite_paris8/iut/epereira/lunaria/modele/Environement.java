@@ -52,7 +52,7 @@ public class Environement {
         this.height = height;
         this.width = width;
 
-        initTest();
+       // initTest();
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
         this.etatJour =true;
     }
@@ -242,11 +242,11 @@ public class Environement {
     }
 
 
-    public void initTest(){
-        Item item = new Terre();
-        hero.getInv().getListeditem().set( 19,item);
-        hero.getInv().getQuantite()[19] = 10;
-
-    }
+//    public void initTest(){
+//        Item item = new Terre();
+//        hero.getInv().getListeditem().set( 19,item);
+//        hero.getInv().getQuantite()[19] = 10;
+//
+//    }
 
 }
