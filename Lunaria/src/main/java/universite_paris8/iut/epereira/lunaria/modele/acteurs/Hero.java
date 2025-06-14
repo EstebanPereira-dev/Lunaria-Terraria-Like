@@ -26,6 +26,8 @@ public class Hero extends Acteur {
     private int compteurRegen = 0;
     private final int INTERVALLE_REGEN = 250;
     private final int INTERVALLE_FAIM = 150;
+    private Item souris;
+    private int quantiteItem;
 
     public Hero(Environement env) {
         super(env);

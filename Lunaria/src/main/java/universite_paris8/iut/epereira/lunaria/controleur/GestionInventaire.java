@@ -13,6 +13,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
+import universite_paris8.iut.epereira.lunaria.vue.ObsInventaire;
 
 public class GestionInventaire {
 
