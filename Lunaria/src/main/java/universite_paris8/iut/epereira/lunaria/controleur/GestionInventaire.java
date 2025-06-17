@@ -108,7 +108,7 @@ public class GestionInventaire{
     }
 
     public void initInventaire(TilePane paneInv) {
-        for (int i = 0; i < 45; i++) {
+        for (int i = 0; i < env.getHero().getInv().getTaille(); i++) {
             Label labelQuantite = new Label();
             labelQuantite.textProperty().bind(env.getHero().getInv().getQuantite()[i].asString());
             labelQuantite.setStyle("-fx-background-color: grey");
@@ -153,7 +153,7 @@ public class GestionInventaire{
         tilePane.setVgap(1);
         initInventaire(tilePane);
         //ajout du listener sur l'observable liste de l'inventaire
-        ObsInventaire obsInventaire = new ObsInventaire(tilePane);
+        ObsInventaire obsInventaire = new ObsInventaire(tilePane,env);
         liste.addListener(obsInventaire);
     }
 

@@ -11,7 +11,7 @@ public class Inventaire {
     private int taille;
 
     public Inventaire() {
-        taille = 45;
+        taille = 27;
         //listeditem = new Item[taille];
         listeditem = FXCollections.observableArrayList();
         quantite = new SimpleIntegerProperty[taille];

@@ -78,12 +78,16 @@ public class Controleur implements Initializable {
     //Vue Environnement
     private VueEnvironnement vueEnvironnement;
 
+    private VueCraft vueCraft;
+
 
     @Override //initialization
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Création de l'environement de la taille de l'écren
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
-        v = new VueHero(env.getHero(),this);
+        v = new VueHero(env.getHero(), this);
+//        vueCraft = new VueCraft(craftPane);
+//        vueCraft.init();
 
         // Récupération du terrain
         Terrain terrain = env.getTerrain();
@@ -97,18 +101,18 @@ public class Controleur implements Initializable {
         }
 
         //initialisation de la Vue Environnement
-        this.vueEnvironnement=new VueEnvironnement(this);
+        this.vueEnvironnement = new VueEnvironnement(this);
 
         //initialisation du gestionaire de la map
         gestionMap = new VueTerrain(env, this);
-        gestionTouches= new GestionTouches(env,this);
-        gestionSouris = new GestionSouris(env,this);
-        gestionInventaire = new GestionInventaire(env,this,true);
+        gestionTouches = new GestionTouches(env, this);
+        gestionSouris = new GestionSouris(env, this);
+        gestionInventaire = new GestionInventaire(env, this, true);
 
-        gestionBoucle = new GestionBoucle(env,this);
+        gestionBoucle = new GestionBoucle(env, this);
 
         //initialisation de la barre de vie du hero
-        barreDuHero = new BarresStatut(env.getHero().getPv(), 200, 200,20);
+        barreDuHero = new BarresStatut(env.getHero().getPv(), 200, 200, 20);
         barreDuHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
         barreDuHero.setTranslateY(30);
         tabJeu.getChildren().add(barreDuHero);
@@ -136,26 +140,26 @@ public class Controleur implements Initializable {
             gestionBoucle.demarrer();
         });
 
-        initTilePaneInv(tilePaneInventaire,hero.getInv().getListeditem());
+        initTilePaneInv(tilePaneInventaire, hero.getInv().getListeditem());
     }
 
-    public void initTilePaneInv(TilePane tilePane, ObservableList<Item> liste){
+    public void initTilePaneInv(TilePane tilePane, ObservableList<Item> liste) {
         gestionInventaire.initPane(tilePane, liste);
     }
 
 
-
-
     //pour chaque entré de touche
-    private void configurerEvenements(){
+    private void configurerEvenements() {
         tabJeu.setOnKeyPressed(event -> gestionTouches.gererTouchePressee(event));
         tabJeu.setOnKeyReleased(event -> gestionTouches.gererToucheRelachee(event));
     }
+
     //chaque click de souris
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
         gestionSouris.clicDeSouris(mouseEvent);
     }
+
     @FXML
     public void gererPositionSouris(MouseEvent mouseEvent) {
         gestionSouris.gererPositionDeSouris(mouseEvent);

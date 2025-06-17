@@ -3,6 +3,7 @@ package universite_paris8.iut.epereira.lunaria.modele;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.epereira.lunaria.controleur.GestionInventaire;
+import universite_paris8.iut.epereira.lunaria.modele.Craft.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Aleksa;
@@ -13,6 +14,7 @@ import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Terre;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Armes.EpeeEnBois;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Hache;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Pioche;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.PiocheBois;
 
 import javax.crypto.spec.PSource;
 import java.security.cert.CertificateNotYetValidException;
@@ -35,6 +37,8 @@ public class Environement {
     private boolean etatJour;    //permet de savoir si on est le jour ou la nuit
     //true=jour, false=nuit
     private Inventaire marchand;
+    private ArrayList<Craft> listeCraft;
+    private ObservableList<Craft> craftingListVue;
 
     public Environement(int width, int height) {
         this.terrain = new Terrain(width / ConfigurationJeu.TAILLE_TUILE, height / ConfigurationJeu.TAILLE_TUILE);
@@ -42,6 +46,13 @@ public class Environement {
         hero.initialiserHero();
         pnjs = new ArrayList<>();
         acteurs = new ArrayList<>();
+        craftingListVue = FXCollections.observableArrayList();
+        listeCraft = new ArrayList<>();
+
+        listeCraft.add(new CraftPiocheBois(this));
+        listeCraft.add(new CraftPiochePierre(this));
+        listeCraft.add(new CraftHacheBois(this));
+        listeCraft.add(new CraftHachePierre(this));
 
         acteurs.add(new Mouton(20, 1, this, 200, 400));
 
@@ -96,6 +107,18 @@ public class Environement {
         return false;
     }
 
+
+    public void updateCraft(){
+        for(int i = 0; i < listeCraft.size();i++){
+            if(listeCraft.get(i).craftable()){
+                craftingListVue.add(listeCraft.get(i));
+            } else if (craftingListVue.contains(craftingListVue.get(i))) {
+                craftingListVue.remove(craftingListVue.get(i));
+            }
+
+        }
+    }
+
     // GETTER :
     public List<Acteur> getActeursASupprimer() {
         return new ArrayList<>(acteursASupprimer);
@@ -128,6 +151,10 @@ public class Environement {
 
     public int getWidth() {
         return width;
+    }
+
+    public ObservableList<Craft> getCraftingList() {
+        return craftingListVue;
     }
 
     public char getCylceJourNuit() {
