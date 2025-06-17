@@ -35,9 +35,6 @@ public class VueTerrain {
         controleur.getTilePaneId().setPrefWidth(ConfigurationJeu.WIDTH_SCREEN);
         controleur.getTilePaneId().setPrefHeight(ConfigurationJeu.HEIGHT_TILES);
 
-        controleur.getBackground().setFitWidth(ConfigurationJeu.WIDTH_SCREEN);
-        controleur.getBackground().setFitHeight(ConfigurationJeu.HEIGHT_SCREEN);
-
         tableau = env.getTerrain();
 
         imageVide = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png"));

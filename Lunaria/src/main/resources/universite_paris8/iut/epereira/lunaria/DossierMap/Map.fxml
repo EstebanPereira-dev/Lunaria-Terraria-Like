@@ -13,7 +13,7 @@
 
 <StackPane onMouseClicked="#clicSouris" onMouseMoved="#gererPositionSouris" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.controleur.Controleur">
    <children>
-      <Pane fx:id="tabJeu" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #131D24;">
+      <Pane fx:id="tabJeu" focusTraversable="true"  prefHeight="800" prefWidth="1280" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #131D24;">
          <children>
             <ImageView fx:id="background" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
                <image>
