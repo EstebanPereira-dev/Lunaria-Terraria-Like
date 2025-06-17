@@ -1,27 +1,19 @@
 package universite_paris8.iut.epereira.lunaria.controleur;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.util.Duration;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import universite_paris8.iut.epereira.lunaria.modele.*;
-import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.vue.*;
 
@@ -49,6 +41,12 @@ public class Controleur implements Initializable {
     @FXML //le Pane qui contient tout
     private Pane tabJeu;
 
+    @FXML
+    private ScrollPane craftPane;
+
+    @FXML
+    private TilePane tilePaneMarchand;
+
     //listener de l'inventaire
     private ObsInventaire obsInventaire;
 
@@ -69,6 +67,7 @@ public class Controleur implements Initializable {
     private GestionTouches gestionTouches;
     private GestionSouris gestionSouris;
     private GestionInventaire gestionInventaire;
+    private GestionInventaire gestionInventaireMarchand;
     private GestionBoucle gestionBoucle;
     private List<VueActeur> vuesActeurs = new ArrayList<>();
     private VueHero v;
@@ -104,7 +103,8 @@ public class Controleur implements Initializable {
         gestionMap = new VueTerrain(env, this);
         gestionTouches= new GestionTouches(env,this);
         gestionSouris = new GestionSouris(env,this);
-        gestionInventaire = new GestionInventaire(env,this);
+        gestionInventaire = new GestionInventaire(env,this,true);
+
         gestionBoucle = new GestionBoucle(env,this);
 
         //initialisation de la barre de vie du hero
@@ -136,11 +136,11 @@ public class Controleur implements Initializable {
             gestionBoucle.demarrer();
         });
 
-        initTilePaneInv(tilePaneInventaire,obsInventaire);
+        initTilePaneInv(tilePaneInventaire,hero.getInv().getListeditem());
     }
 
-    public void initTilePaneInv(TilePane tilePane,ObsInventaire obsInventaire){
-        gestionInventaire.initPane(tilePane,obsInventaire);
+    public void initTilePaneInv(TilePane tilePane, ObservableList<Item> liste){
+        gestionInventaire.initPane(tilePane, liste);
     }
 
 
@@ -164,20 +164,6 @@ public class Controleur implements Initializable {
     public GestionSouris getGestionSouris() {
         return gestionSouris;
     }
-
-    //pour chaque action dans inventaire
-    public void inv(MouseEvent event) {
-        Node node = (Node) event.getTarget();
-        VBox vbox = null;
-        if(node instanceof VBox){
-            vbox = (VBox) node;
-        } else if (node instanceof ImageView) {
-             vbox = (VBox) node.getParent();
-        }
-        //VBox vbox = (VBox) event.getTarget();
-        gestionInventaire.inv(event, vbox);
-
-   }
 
     public TextArea getPauseID() {
         return pauseID;
@@ -247,5 +233,9 @@ public class Controleur implements Initializable {
 
     public VueEnvironnement getVueEnvironnement() {
         return vueEnvironnement;
+    }
+
+    public ScrollPane getCraftPane() {
+        return craftPane;
     }
 }

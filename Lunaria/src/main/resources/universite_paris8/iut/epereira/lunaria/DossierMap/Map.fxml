@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane onMouseClicked="#clicSouris" onMouseMoved="#gererPositionSouris" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.controleur.Controleur">
+<StackPane onMouseClicked="#clicSouris" onMouseMoved="#gererPositionSouris" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.epereira.lunaria.controleur.Controleur">
    <children>
       <Pane fx:id="tabJeu" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #131D24;">
          <children>
@@ -37,6 +29,8 @@
                   <Image url="@Ecu.png" />
                </image>
             </ImageView>
+            <ScrollPane fx:id="craftPane" layoutX="542.0" layoutY="5.0" opacity="0.33" pannable="true" prefHeight="395.0" prefWidth="187.0" style="-fx-background-color: transparent;" />
+            <TilePane fx:id="tilePaneMarchand" layoutX="747.0" layoutY="174.0" prefColumns="9" prefHeight="280.0" prefWidth="505.4" style="-fx-border-color: black;" />
          </children>
       </Pane>
       <TextArea fx:id="pauseID" editable="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="55.0" prefWidth="128.0" text="PAUSE" visible="false">

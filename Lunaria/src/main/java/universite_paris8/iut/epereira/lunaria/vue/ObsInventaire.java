@@ -17,13 +17,11 @@ import universite_paris8.iut.epereira.lunaria.modele.Item;
 
 public class ObsInventaire implements ListChangeListener<Item> {
     private TilePane tilePaneInv;
-    private Environement env;
     //Image des objet
     private Image imageVide,imageBois,imageBuisson,imageHerbe,imageMur,imageTerre,imagePiocheEnBois,imageHacheEnBois,imageViandeMouton;
 
-    public ObsInventaire(TilePane tilePaneInv, Environement env) {
+    public ObsInventaire(TilePane tilePaneInv) {
         this.tilePaneInv = tilePaneInv;
-        this.env = env;
 
         //initializer chaque image
         imageVide = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png"));

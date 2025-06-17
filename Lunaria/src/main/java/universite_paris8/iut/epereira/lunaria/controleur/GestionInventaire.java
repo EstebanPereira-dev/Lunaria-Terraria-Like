@@ -2,16 +2,13 @@ package universite_paris8.iut.epereira.lunaria.controleur;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -23,6 +20,7 @@ public class GestionInventaire{
 
     private Environement env;
     private Controleur controleur;
+    private boolean hero;
     Image imageVide = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png"));
     Image imageTerre = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Terre.png"));
     Image imageHerbe = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Herbe.png"));
@@ -42,11 +40,12 @@ public class GestionInventaire{
     //boolean popur savoir si l'inventaire est ouvert ou pas.
     private boolean inventaireBooleanOvert;
 
-    public GestionInventaire(Environement env, Controleur controleur) {
+    public GestionInventaire(Environement env, Controleur controleur, boolean hero) {
         this.env = env;
         this.controleur = controleur;
         isSelectedInHand = 0;
         cooldownInv = true;
+        this.hero = hero;
     }
 
     public void cooldown(){
@@ -149,13 +148,13 @@ public class GestionInventaire{
         }
     }
 
-    public void initPane(TilePane tilePane, ObsInventaire obsInventaire) {
+    public void initPane(TilePane tilePane, ObservableList<Item> liste) {
         tilePane.setHgap(1);
         tilePane.setVgap(1);
         initInventaire(tilePane);
         //ajout du listener sur l'observable liste de l'inventaire
-        obsInventaire = new ObsInventaire(tilePane, env);
-        env.getHero().getInv().getListeditem().addListener(obsInventaire);
+        ObsInventaire obsInventaire = new ObsInventaire(tilePane);
+        liste.addListener(obsInventaire);
     }
 
     //selectionne l'item en appuyant dans l'inventaire ou sur les touche 1-9
@@ -230,6 +229,8 @@ public class GestionInventaire{
     public void setInvVisible(Boolean bool) {
         controleur.getTilePaneInventaire().setVisible(bool);
         controleur.getTilePaneInventaire().setDisable(!bool);
+        controleur.getCraftPane().setVisible(bool);
+        controleur.getCraftPane().setDisable(!bool);
     }
 
     public void setInventaireBooleanOvert(boolean inventaireBooleanOvert) {
