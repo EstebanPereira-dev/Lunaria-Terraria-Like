@@ -33,11 +33,11 @@ public class Environement {
     // Spawner pour les ennemis
     private Adepte spawnerAdepte;
     private boolean etatJour;    //permet de savoir si on est le jour ou la nuit
-                          //true=jour, false=nuit
+    //true=jour, false=nuit
     private Inventaire marchand;
 
-    public Environement(int width, int height){
-        this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
+    public Environement(int width, int height) {
+        this.terrain = new Terrain(width / ConfigurationJeu.TAILLE_TUILE, height / ConfigurationJeu.TAILLE_TUILE);
         this.hero = new Hero(this);
         hero.initialiserHero();
         pnjs = new ArrayList<>();
@@ -45,16 +45,16 @@ public class Environement {
 
         acteurs.add(new Mouton(20, 1, this, 200, 400));
 
-        acteurs.add(new Aleksa(100,1,this,300,400));
+        acteurs.add(new Aleksa(100, 1, this, 300, 400));
 
         acteurs.add(hero);
 
         this.height = height;
         this.width = width;
 
-       // initTest();
+        initTest();
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
-        this.etatJour =true;
+        this.etatJour = true;
     }
 
     public void update() { //faire agir tout le monde et supprimer les morts
@@ -110,19 +110,19 @@ public class Environement {
     }
 
     public Acteur getActeur(String id) {
-        for(Acteur a:this.acteurs){
-            if(a.getId().equals(id)){
+        for (Acteur a : this.acteurs) {
+            if (a.getId().equals(id)) {
                 return a;
             }
         }
         return null;
     }
 
-    public void ajouter(Acteur a){
+    public void ajouter(Acteur a) {
         acteurs.add(a);
     }
 
-    public void retirer(Acteur a){
+    public void retirer(Acteur a) {
         acteurs.remove(a);
     }
 
@@ -142,10 +142,10 @@ public class Environement {
         return pnjs.get(id);
     }
 
-    public ArrayList<PNJ> getPNJs(){
-        for(Acteur pnj : getActeurs()) {
+    public ArrayList<PNJ> getPNJs() {
+        for (Acteur pnj : getActeurs()) {
             if (pnj instanceof PNJ)
-                pnjs.add((PNJ)pnj);
+                pnjs.add((PNJ) pnj);
         }
         return pnjs;
     }
@@ -174,11 +174,11 @@ public class Environement {
         return itemEquipe.peutCasser(typeBloc);
     }
 
-    public void changerEtatJour(){
-        if(etatJour)
-            etatJour=false;
+    public void changerEtatJour() {
+        if (etatJour)
+            etatJour = false;
         else
-            etatJour=true;
+            etatJour = true;
     }
 
     public boolean getEtatJour() {
@@ -189,52 +189,77 @@ public class Environement {
     //interaction inventaire hero
 
     //click gauche echange l'item dans la souris avec l'item dans l'inventaire avec les quantite
-    public void clickPrimaire(int index){
+    public void clickPrimaire(int index) {
         Item itemTemp = hero.getSouris();
         int quantiteTemp = hero.getQuantiteItem();
+        System.out.println(itemTemp);
+        System.out.println(quantiteTemp);
+        //si on appuie sur une case non null avec un item dans la souris
+        if (hero.getSouris() != null && hero.getInv().getListeditem().get(index) != null) {
+            //si l'item dans la souris et l'item dans l'inventaire est le meme
+            if (hero.getSouris().getId() == hero.getInv().getListeditem().get(index).getId()) {
+                hero.setSouris(null);
+                //si en ajoutant la quantite de la souris dans l'inventaire, possibilité de dépasser la taille max
+                if ((hero.getInv().getQuantite()[index].getValue() + hero.getQuantiteItem()) > (hero.getInv().getListeditem().get(index).getStackMax()) ) {
 
-        hero.setQuantiteItem(hero.getInv().getQuantite()[index]);
-        hero.setSouris(hero.getInv().getListeditem().get(index));
+                    hero.setQuantiteItem((hero.getQuantiteItem() + hero.getInv().getQuantite()[index].getValue()) - hero.getInv().getListeditem().get(index).getStackMax());
+                    hero.getInv().getQuantite()[index].set(hero.getInv().getListeditem().get(index).getStackMax());
+                } else {
+                    hero.getInv().getQuantite()[index].set(hero.getInv().getQuantite()[index].getValue() + hero.getQuantiteItem());
+                    hero.setQuantiteItem(0);
+                }
+            }
+        } else {
 
-        hero.getInv().getQuantite()[index] = quantiteTemp;
-        hero.getInv().getListeditem().set(index,itemTemp);
+            hero.setQuantiteItem(hero.getInv().getQuantite()[index].getValue());
+            hero.setSouris(hero.getInv().getListeditem().get(index));
+
+            hero.getInv().getQuantite()[index].set(quantiteTemp);
+            hero.getInv().getListeditem().set(index, itemTemp);
+        }
     }
 
     //click droit avec la souris vide pour prendre la moitier des item dans l'invnetaire et le mettre dans la souris
-    public void clickSecondaireVide(int index){
-        if(hero.sourisVide() && hero.getInv().getQuantite()[index] > 1 && hero.getInv().getListeditem().get(index) != null){
+    public void clickSecondaireVide(int index) {
+        int qt = hero.getInv().getQuantite()[index].getValue();
+
+        if (hero.sourisVide() && hero.getInv().getQuantite()[index].getValue() > 1 && hero.getInv().getListeditem().get(index) != null) {
+
             hero.setSouris(hero.getInv().getListeditem().get(index));
-            hero.setQuantiteItem(hero.getInv().getQuantite()[index]/2);
-            hero.getInv().getQuantite()[index] = hero.getInv().getQuantite()[index]/2;
-            hero.getInv().getQuantite()[index] += hero.getInv().getQuantite()[index]%2;
+
+            hero.setQuantiteItem((int) Math.floorDiv(qt, 2) + Math.floorMod(qt, 2));
+            hero.getInv().getQuantite()[index].set(Math.floorDiv(qt, 2));
+        } else if (hero.getInv().getQuantite()[index].getValue() == 1) {
+            clickPrimaire(index);
         }
     }
 
     //click droit avec la souris qui contient des item pose 1 item dans l'inventaire
-    public void clickSecondairePlein(int index){
+    public void clickSecondairePlein(int index) {
 //        System.out.println("entrer 1");
 //        System.out.println(hero.getSouris());
 //        System.out.println(hero.sourisVide());
-        if(!hero.sourisVide()){
+        if (!hero.sourisVide()) {
+            if (hero.getQuantiteItem() == 1) {
+                clickPrimaire(index);
+            }
             //System.out.println("entrer 2");
-            if(hero.getInv().getListeditem().get(index) == null){
+            if (hero.getInv().getListeditem().get(index) == null) {
                 //System.out.println("entrer 3");
                 hero.getInv().getListeditem().set(index, hero.getSouris());
-                hero.getInv().getQuantite()[index] = 1;
-                hero.setQuantiteItem(hero.getQuantiteItem()-1);
-                if(hero.getQuantiteItem() == 0){
-                    hero.setSouris(null);
-                }
-            }
-            else{
+                hero.getInv().getQuantite()[index].setValue(1);
+                hero.setQuantiteItem(hero.getQuantiteItem() - 1);
+            } else {
                 //System.out.println("entrer 4");
-                if(hero.getInv().getListeditem().get(index).getId() == hero.getSouris().getId()){
-                    //System.out.println("entrer 5");
-                    hero.getInv().getQuantite()[index] +=1;
-                    hero.setQuantiteItem(hero.getQuantiteItem()-1);
+                if(hero.getInv().getListeditem().get(index) != null){
+                    if (hero.getInv().getListeditem().get(index).getId() == hero.getSouris().getId()) {
+                        //System.out.println("entrer 5");
+                        hero.getInv().getQuantite()[index].set(hero.getInv().getQuantite()[index].getValue() + 1);
+                        hero.setQuantiteItem(hero.getQuantiteItem() - 1);
+                    }
                 }
             }
-            if(hero.getQuantiteItem() == 0){
+            if (hero.getQuantiteItem() == 0) {
                 //System.out.println("entrer 6");
                 hero.setSouris(null);
             }
@@ -242,11 +267,11 @@ public class Environement {
     }
 
 
-//    public void initTest(){
-//        Item item = new Terre();
-//        hero.getInv().getListeditem().set( 19,item);
-//        hero.getInv().getQuantite()[19] = 10;
-//
-//    }
+    public void initTest() {
+        Item item = new Terre();
+        hero.getInv().getListeditem().set(19, item);
+        hero.getInv().getQuantite()[19].set(10);
+
+    }
 
 }

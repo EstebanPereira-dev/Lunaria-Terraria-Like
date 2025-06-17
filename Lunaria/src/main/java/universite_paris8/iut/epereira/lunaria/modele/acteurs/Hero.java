@@ -320,8 +320,8 @@ public class Hero extends Acteur {
     }
 
     public boolean sourisVide() {
-        System.out.println("item dans souris: " + souris.toString());
-        System.out.println("Quantite Souris:" + quantiteItem);
-        return souris.getId()<0;
+//        System.out.println("item dans souris: " + souris.toString());
+//        System.out.println("Quantite Souris:" + quantiteItem);
+        return souris == null;
     }
 }

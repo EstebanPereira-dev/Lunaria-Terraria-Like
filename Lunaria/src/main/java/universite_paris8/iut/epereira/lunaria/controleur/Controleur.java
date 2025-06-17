@@ -166,7 +166,6 @@ public class Controleur implements Initializable {
     }
 
     //pour chaque action dans inventaire
-    @FXML
     public void inv(MouseEvent event) {
         Node node = (Node) event.getTarget();
         VBox vbox = null;
