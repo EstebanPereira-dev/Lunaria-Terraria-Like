@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import jdk.swing.interop.SwingInterOpUtils;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
 
@@ -19,7 +18,7 @@ public class ObsInventaire implements ListChangeListener<Item> {
     private TilePane tilePaneInv;
     private Environement env;
     //Image des objet
-    private Image imageVide,imageBois,imageBuisson,imageHerbe,imageMur,imageTerre,imagePiocheEnBois,imageHacheEnBois,imageViandeMouton;
+    private Image imageVide,imageBois,imageBuisson,imageHerbe,imageMur,imageTerre,imagePiocheEnBois,imageHacheEnBois,imageEpeeEnBois,imageViandeMouton;
 
     public ObsInventaire(TilePane tilePaneInv, Environement env) {
         this.tilePaneInv = tilePaneInv;
@@ -34,6 +33,7 @@ public class ObsInventaire implements ListChangeListener<Item> {
         imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
         imagePiocheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/PiocheEnBois.png"));
         imageHacheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/HacheEnBois.png"));
+        imageEpeeEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/EpeeEnBois.png"));
         imageViandeMouton = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/ViandeMouton.png"));
     }
 
@@ -70,6 +70,9 @@ public class ObsInventaire implements ListChangeListener<Item> {
 
                     case 5:
                         sprite = imageBois;
+                        break;
+                    case 21 :
+                        sprite = imageEpeeEnBois;
                         break;
 
                     case 30:
