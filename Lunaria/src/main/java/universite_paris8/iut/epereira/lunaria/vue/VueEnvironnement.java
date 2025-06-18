@@ -4,8 +4,6 @@ import javafx.scene.image.Image;
 import universite_paris8.iut.epereira.lunaria.controleur.Controleur;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 
-import javax.sound.sampled.Control;
-
 public class VueEnvironnement {
     private Controleur controleur;
 
@@ -19,7 +17,7 @@ public class VueEnvironnement {
     }
 
     public void setBackground(){
-        if (controleur.getEnv().getEtatJour())
+        if (controleur.getEnv().getEtatJour().getValue())
             controleur.getBackground().setImage(imageJour);
         else
             controleur.getBackground().setImage(imagenuit);

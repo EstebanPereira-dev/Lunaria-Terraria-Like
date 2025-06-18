@@ -42,7 +42,7 @@ public class Adepte extends EnnemiTerrestre{
 
         @Override
         public boolean conditionApparation(){
-            if (!this.getEnv().getEtatJour()) {         //faire spawn la nuit
+            if (!this.getEnv().getEtatJour().getValue()) {   //faire spawn la nuit
                 long maintenant = System.currentTimeMillis();
                 return (maintenant - dernierSpawn) > 90000 &&
                         rdm.nextInt(100) < 30; // 30% de chance

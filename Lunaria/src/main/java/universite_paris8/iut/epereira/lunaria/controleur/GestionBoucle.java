@@ -84,7 +84,6 @@ public class GestionBoucle {
             compteurFrames = 0; // Reset du compteur
         }
 
-       this.controleur.getVueEnvironnement().setBackground();
     }
 
     // Démarrage
