@@ -5,7 +5,7 @@ import universite_paris8.iut.epereira.lunaria.modele.Item;
 
 import java.util.ArrayList;
 
-public class Craft {
+public abstract class Craft {
 
     private Environement env;
     private ArrayList<Item> recette;

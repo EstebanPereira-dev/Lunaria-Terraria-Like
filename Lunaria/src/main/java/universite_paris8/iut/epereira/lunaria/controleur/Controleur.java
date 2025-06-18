@@ -80,6 +80,8 @@ public class Controleur implements Initializable {
 
     private CameraJeu camera;
 
+    private VueCraft vueCraft;
+
 
 
     // Getter pour accéder à la caméra
@@ -90,6 +92,9 @@ public class Controleur implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Création de l'environement
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
+        v = new VueHero(env.getHero(), this);
+//        vueCraft = new VueCraft(craftPane);
+//        vueCraft.init();
 
         // Récupération du terrain
         Terrain terrain = env.getTerrain();
@@ -146,21 +151,23 @@ public class Controleur implements Initializable {
         initTilePaneInv(tilePaneInventaire, hero.getInv().getListeditem());
     }
 
-    public void initTilePaneInv(TilePane tilePane, ObservableList<Item> liste){
+    public void initTilePaneInv(TilePane tilePane, ObservableList<Item> liste) {
         gestionInventaire.initPane(tilePane, liste);
     }
 
 
     //pour chaque entré de touche
-    private void configurerEvenements(){
+    private void configurerEvenements() {
         tabJeu.setOnKeyPressed(event -> gestionTouches.gererTouchePressee(event));
         tabJeu.setOnKeyReleased(event -> gestionTouches.gererToucheRelachee(event));
     }
+
     //chaque click de souris
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
         gestionSouris.clicDeSouris(mouseEvent);
     }
+
     @FXML
     public void gererPositionSouris(MouseEvent mouseEvent) {
         gestionSouris.gererPositionDeSouris(mouseEvent);

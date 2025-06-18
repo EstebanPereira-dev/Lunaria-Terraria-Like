@@ -13,7 +13,9 @@ import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Terre;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Armes.EpeeEnBois;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Hache;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.HacheBois;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Pioche;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.PiocheBois;
 
 import java.util.ArrayList;
 
@@ -259,8 +261,8 @@ public class Hero extends Acteur {
     }
     public void initialiserHero(){
         getInv().ajouterItem(new EpeeEnBois());
-        getInv().ajouterItem(new Pioche());
-        getInv().ajouterItem(new Hache());
+        getInv().ajouterItem(new PiocheBois());
+        getInv().ajouterItem(new HacheBois());
         getInv().equiperItem(0);
     }
     public void restaurerFaim(int nutriment){
