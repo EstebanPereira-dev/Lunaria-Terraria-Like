@@ -17,10 +17,6 @@ public class Aigle extends EnnemiVolant{
         ecu.set(1);
     }
 
-       @Override
-    public void deplacer() {
-        deplacement();
-    }
 
     @Override
     public void loot() {

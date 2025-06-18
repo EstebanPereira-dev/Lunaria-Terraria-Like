@@ -163,19 +163,49 @@ public class Hero extends Acteur {
         return distanceX <= range && distanceY <= range;
     }
 
-    public void casserArbre(int nbreBuches,int x, int y){
+//    public void casserArbre(int nbreBuches,int x, int y){
+//        Item planche = new Planche();
+//        int i=0;
+//        for (i=0; i < nbreBuches; i++) {
+//            getInv().ajouterItem(planche, 1);
+//            // Supprimer la tuile du terrain
+//            getEnv().getTerrain().changerTuile(0, x, y - i);
+//            //optionnel, juste pour voir l'avancé
+//            System.out.println("+1 " + planche.getNom());
+//        }
+//        // Afficher le total de cet item dans l'inventaire
+//        int totalItem = getInv().compterItem(planche.getNom());
+//        System.out.println("Total " + planche.getNom() + " : " + totalItem);
+//    }
+
+    public void casserArbre(int nbreBuches, int x, int y) {
         Item planche = new Planche();
+
+        // Casser le tronc
         for (int i = 0; i < nbreBuches; i++) {
             getInv().ajouterItem(planche, 1);
-            // Supprimer la tuile du terrain
-            getEnv().getTerrain().changerTuile(0, x, y - i);
-            //optionnel, juste pour voir l'avancé
+            getEnv().getTerrain().changerTuile(0, x, y - i); // 0 = vide
             System.out.println("+1 " + planche.getNom());
         }
-        // Afficher le total de cet item dans l'inventaire
-        int totalItem = getInv().compterItem(planche.getNom());
-        System.out.println("Total " + planche.getNom() + " : " + totalItem);
+
+        // Supprimer les feuilles
+        int topY = y - nbreBuches;
+        if (topY >= 0 && topY < getEnv().getTerrain().getHeight()) {
+            // Sommet
+            getEnv().getTerrain().changerTuile(0, x, topY);
+            if (x > 0) getEnv().getTerrain().changerTuile(0, x - 1, topY);
+            if (x < getEnv().getTerrain().getWidth() - 1) getEnv().getTerrain().changerTuile(0, x + 1, topY);
+
+            // Couche du milieu
+            if (topY + 1 < getEnv().getTerrain().getHeight()) {
+                if (x > 0) getEnv().getTerrain().changerTuile(0, x - 1, topY + 1);
+                if (x < getEnv().getTerrain().getWidth() - 1) getEnv().getTerrain().changerTuile(0, x + 1, topY + 1);
+                if (x > 1) getEnv().getTerrain().changerTuile(0, x - 2, topY + 1);
+                if (x < getEnv().getTerrain().getWidth() - 2) getEnv().getTerrain().changerTuile(0, x + 2, topY + 1);
+            }
+        }
     }
+
 
     public void casserBloc(ObservableList<Integer> terrain, int tuileX, int tuileY) {
         // Récupérer le type de bloc une seule fois

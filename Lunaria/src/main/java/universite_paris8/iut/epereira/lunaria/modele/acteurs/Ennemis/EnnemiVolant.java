@@ -13,7 +13,7 @@ import static universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu.rdm
 public abstract class EnnemiVolant extends Ennemi {
     private boolean monte = true;
     private double altitudeCible = 120; // position centrale pour oscillation
-    private double amplitudeVol = 20; // variation maximale autour de la position centrale
+    private double amplitudeVol = 100; // variation maximale autour de la position centrale
 
 
     public EnnemiVolant(int pv, int v, int degats, int range, Environement env, Hero hero, double x, double y, int cooldown) {
@@ -79,16 +79,16 @@ public void deplacementPatrouille() {
 }
     private void deplacementVerticalPatrouille() {
         // Simple oscillation haut/bas
-        if (getPosY() < 95) {
-            setYProperty(getPosY() + 0.5); // Monte
-        } else if (getPosY() > 125) {
-            setYProperty(getPosY() - 0.5); // Descend
+        if (getPosY() < altitudeCible - amplitudeVol) {
+            setYProperty(getPosY() + 1); // Monte
+        } else if (getPosY() > altitudeCible + amplitudeVol) {
+            setYProperty(getPosY() - 1); // Descend
         } else {
             // Mouvement aléatoire léger dans la zone
             if (rdm.nextBoolean()) {
-                setYProperty(getPosY() + 0.3);
+                setYProperty(getPosY() + 1);
             } else {
-                setYProperty(getPosY() - 0.3);
+                setYProperty(getPosY() - 1);
             }
         }
     }
@@ -149,35 +149,6 @@ public void deplacementPatrouille() {
         updateVisualPosition();
     }
 
-    public void deplacementVertical() {
-        // Définit l'altitude centrale de patrouille si pas encore faite
-        if (altitudeCible == 0) {
-            altitudeCible = getPosY();
-        }
 
-        // Oscillation autour de l'altitude cible
-        double vitesseVerticale = 0.7;
-
-        if (monte) {
-            setYProperty(getPosY() - vitesseVerticale);
-            if (getPosY() <= altitudeCible - amplitudeVol) {
-                monte = false;
-            }
-        } else {
-            setYProperty(getPosY() + vitesseVerticale);
-            if (getPosY() >= altitudeCible + amplitudeVol) {
-                monte = true;
-            }
-        }
-    }
-
-    public void deplacementVerticalVersHero() {
-        double vitesseVerticale = 3;
-        if (getPosY() < hero.getPosY()) {
-            setYProperty(getPosY() + 1.0);
-        } else {
-            setYProperty(getPosY()- 1.0 -vitesseVerticale);
-        }
-    }
 
 }
