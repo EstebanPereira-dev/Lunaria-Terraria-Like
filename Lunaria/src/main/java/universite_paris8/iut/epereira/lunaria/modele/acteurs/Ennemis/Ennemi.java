@@ -65,14 +65,42 @@ public abstract class Ennemi extends Acteur {
 
     public abstract void deplacement();
 
-    public abstract void deplacer();
-
     public abstract void deplacementAggressif();
 
     public abstract void deplacementPatrouille();
 
     public abstract  void deplacementSimple();
 
+    @Override
+    public void agit(){
+        deplacement();
+        if (mode == MODE_INACTIF || attackOnCooldown) {
+            return;
+        }
+        // Calcul de la position du hero
+        double distanceX = Math.abs(getPosX() - hero.getPosX());
+        double distanceY = Math.abs(getPosY() - hero.getPosY());
+        double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+        // Vérifier si le héros est à portée
+        if (distance <= range) {
+            // Calculer les dégâts avec bonus éventuel
+            int degatsInfliges = getDegat();
+            if (mode == MODE_AGGRESSIF) {
+                degatsInfliges = (int) (degatsInfliges * 1.2);
+            }
+
+            // Infliger les dégâts au héros
+            hero.setPv(hero.getPv() - degatsInfliges);
+
+            // Vérifier si le héros est vaincu
+            if (hero.getPv() <= 0) {
+                hero.estMort();
+            }
+            // Déclencher le cooldown d'attaque
+            demarrerCooldownAttaque();
+        }
+    }
     public void calculerCheminVersHero() {
         int startX = (int) (getPosX() / ConfigurationJeu.TAILLE_TUILE);
         int startY = (int) (getPosY() / ConfigurationJeu.TAILLE_TUILE);
@@ -173,35 +201,6 @@ public abstract class Ennemi extends Acteur {
         }
     }
 
-    @Override
-    public void agit() {
-        if (mode == MODE_INACTIF || attackOnCooldown) {
-            return;
-        }
-        // Calcul de la position du hero
-        double distanceX = Math.abs(getPosX() - hero.getPosX());
-        double distanceY = Math.abs(getPosY() - hero.getPosY());
-        double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-        // Vérifier si le héros est à portée
-        if (distance <= range) {
-            // Calculer les dégâts avec bonus éventuel
-            int degatsInfliges = getDegat();
-            if (mode == MODE_AGGRESSIF) {
-                degatsInfliges = (int) (degatsInfliges * 1.2);
-            }
-
-            // Infliger les dégâts au héros
-            hero.setPv(hero.getPv() - degatsInfliges);
-
-            // Vérifier si le héros est vaincu
-            if (hero.getPv() <= 0) {
-                hero.estMort();
-            }
-            // Déclencher le cooldown d'attaque
-            demarrerCooldownAttaque();
-        }
-    }
 
     private void demarrerCooldownAttaque(){
         attackOnCooldown = true;

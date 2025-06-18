@@ -48,14 +48,17 @@ public class Mouton extends mobPassif{
             vitesseY = SAUT;
         deplacerVerticalement();
     }
+
+    @Override
+    public void agit() {
+        deplacement();
+    }
+
     @Override
     public void loot(){
         if(getPv() <= 0){
             getEnv().getHero().getInv().ajouterItem(new ViandeDeMouton());
         }
     }
-    @Override
-    public void agit() {
-        System.out.println("action mouton");
-    }
+
 }

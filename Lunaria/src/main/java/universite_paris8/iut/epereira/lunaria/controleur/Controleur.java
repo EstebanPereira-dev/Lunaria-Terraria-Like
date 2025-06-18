@@ -91,18 +91,14 @@ public class Controleur implements Initializable {
     @Override //initialization
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Création de l'environement
-        env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
-        v = new VueHero(env.getHero(), this);
-//        vueCraft = new VueCraft(craftPane);
-//        vueCraft.init();
-
-        // Récupération du terrain
-        Terrain terrain = env.getTerrain();
-
+        env = new Environement(ConfigurationJeu.WIDTH_TILES * ConfigurationJeu.TAILLE_TUILE, ConfigurationJeu.HEIGHT_TILES * ConfigurationJeu.TAILLE_TUILE);
         // CRÉER LA CAMÉRA
         double largeurCarteComplete = ConfigurationJeu.WIDTH_TILES * ConfigurationJeu.TAILLE_TUILE; // 100 * 16 = 1600
         double hauteurCarteComplete = ConfigurationJeu.HEIGHT_TILES * ConfigurationJeu.TAILLE_TUILE; // 100 * 16 = 1600
         camera = new CameraJeu(terrainGrid, tabJeu, env.getHero(), largeurCarteComplete, hauteurCarteComplete);
+
+        // Récupération du terrain
+        Terrain terrain = env.getTerrain();
 
         // 2. Configuration du terrain (observateur)
         ObsTerrain obsTerrain = new ObsTerrain(terrainGrid, terrain.getWidth());
@@ -110,6 +106,11 @@ public class Controleur implements Initializable {
         for (int i = 0; i < terrain.getTableau().size(); i++) {
             obsTerrain.updateTuile(i, terrain.getTableau().get(i));
         }
+
+//        vueCraft = new VueCraft(craftPane);
+//        vueCraft.init();
+
+
 
         // 3. Créer les vues d'acteurs
         v = new VueHero(env.getHero(), this);

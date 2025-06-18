@@ -18,11 +18,9 @@ public class Aleksa extends PNJ{
 
     }
 
-
-
     @Override
     public void agit() {
-
+        deplacement();
     }
 
     @Override

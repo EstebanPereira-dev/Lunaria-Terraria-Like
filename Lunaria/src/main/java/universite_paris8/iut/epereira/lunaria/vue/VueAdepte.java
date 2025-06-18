@@ -50,5 +50,6 @@ public class VueAdepte extends VueActeur {
 
         orienterSprite(sprite, vitesseX);
 
+
     }
 }

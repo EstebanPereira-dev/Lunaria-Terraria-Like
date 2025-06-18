@@ -111,7 +111,6 @@ public abstract class VueActeur {
     public final void supprimerActeurVue(Acteur acteur) {
         ImageView sprite = sprites.get(acteur);
         if (sprite != null) {
-
             controleur.getCamera().retirerActeurDuMonde(sprite);
             sprites.remove(acteur);
         }

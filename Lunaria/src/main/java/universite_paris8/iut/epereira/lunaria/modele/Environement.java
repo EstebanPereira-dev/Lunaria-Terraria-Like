@@ -70,7 +70,6 @@ public class Environement {
         spawnerAigle = new Aigle(1, 1, 1, 50, this, hero, 0, 0,5);
         this.etatJour =true;
         initTest();
-        spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
         this.etatJour = true;
     }
 

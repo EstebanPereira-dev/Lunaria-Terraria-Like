@@ -194,14 +194,5 @@ public abstract class EnnemiTerrestre extends Ennemi {
             }
         }
     }
-    @Override
-    public void deplacer() {
-        if (getMode() == MODE_PATROUILLE) {
-            deplacementPatrouille();
-        } else if (getMode() == MODE_AGGRESSIF) {
-            deplacementAggressif();
-        }
-    }
-
 
 }
