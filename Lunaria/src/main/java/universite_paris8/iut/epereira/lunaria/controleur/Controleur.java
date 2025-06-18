@@ -86,8 +86,8 @@ public class Controleur implements Initializable {
         //Création de l'environement de la taille de l'écren
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
         v = new VueHero(env.getHero(), this);
-//        vueCraft = new VueCraft(craftPane);
-//        vueCraft.init();
+        vueCraft = new VueCraft(craftPane);
+        vueCraft.init();
 
         // Récupération du terrain
         Terrain terrain = env.getTerrain();

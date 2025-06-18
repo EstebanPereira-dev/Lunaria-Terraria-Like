@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
+import universite_paris8.iut.epereira.lunaria.vue.LoadImage;
 import universite_paris8.iut.epereira.lunaria.vue.ObsInventaire;
 
 public class GestionInventaire{
@@ -21,15 +22,7 @@ public class GestionInventaire{
     private Environement env;
     private Controleur controleur;
     private boolean hero;
-    Image imageVide = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Vide.png"));
-    Image imageTerre = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Terre.png"));
-    Image imageHerbe = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Herbe.png"));
-    Image imageBuisson = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
-    Image imageMur = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
-    Image imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
-    Image imagePiocheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/PiocheEnBois.png"));
-    Image imageHacheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/HacheEnBois.png"));
-    Image imageViandeMouton = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/ViandeMouton.png"));
+    private LoadImage librairiImage;
 
     boolean cooldownInv;
 
@@ -46,6 +39,7 @@ public class GestionInventaire{
         isSelectedInHand = 0;
         cooldownInv = true;
         this.hero = hero;
+        librairiImage = new LoadImage();
     }
 
     public void cooldown(){
@@ -60,53 +54,6 @@ public class GestionInventaire{
     }
 
 
-    public Image selectImage(Item id){
-        Image sprite;
-        if(id == null){
-            sprite = imageVide;
-        }
-        else{
-            switch (id.getId()){
-                case 1:
-                    sprite = imageTerre;
-                    break;
-
-                case 2:
-                    sprite = imageHerbe;
-                    break;
-
-                case 3:
-                    sprite = imageBuisson;
-                    break;
-
-                case 4:
-                    sprite = imageMur;
-                    break;
-
-                case 5:
-                    sprite = imageBois;
-                    break;
-
-                case 30:
-                    sprite = imageHacheEnBois;
-                    break;
-
-                case 31:
-                    sprite = imagePiocheEnBois;
-                    break;
-
-                case 40:
-                    sprite = imageViandeMouton;
-                    break;
-
-                default:
-                    sprite = imageVide;
-                    break;
-            }
-        }
-        return sprite;
-    }
-
     public void initInventaire(TilePane paneInv) {
         for (int i = 0; i < env.getHero().getInv().getTaille(); i++) {
             Label labelQuantite = new Label();
@@ -115,7 +62,8 @@ public class GestionInventaire{
 
             labelQuantite.setPrefSize(48,16);
 
-            ImageView img = new ImageView(selectImage(env.getHero().getInv().getListeditem().get(i)));
+
+            ImageView img = new ImageView(librairiImage.selectImage(env.getHero().getInv().getListeditem().get(i)));
             img.setFitHeight(48);
             img.setFitWidth(48);
             img.setFocusTraversable(true);
