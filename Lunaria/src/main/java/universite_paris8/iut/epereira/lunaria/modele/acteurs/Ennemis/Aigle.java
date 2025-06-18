@@ -17,6 +17,7 @@ public class Aigle extends EnnemiVolant{
         ecu.set(1);
     }
 
+
     @Override
     public void loot() {
         if (getPv() <= 0) {
@@ -42,7 +43,7 @@ public class Aigle extends EnnemiVolant{
 
     @Override
     public boolean conditionApparation() {
-        if (this.getEnv().getEtatJour()) { // faire spawn le jour
+        if (this.getEnv().getEtatJour().getValue()) { // faire spawn le jour
             long maintenant = System.currentTimeMillis();
             return (maintenant - dernierSpawn) > 90000 &&
                     rdm.nextInt(100) < 30; // 30% de chance

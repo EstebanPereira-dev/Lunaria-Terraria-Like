@@ -195,4 +195,6 @@ public abstract class EnnemiTerrestre extends Ennemi {
         }
     }
 
+
+
 }

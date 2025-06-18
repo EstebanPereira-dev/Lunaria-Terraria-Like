@@ -2,6 +2,7 @@ package universite_paris8.iut.epereira.lunaria.controleur;
 
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -129,6 +130,10 @@ public class Controleur implements Initializable {
 
         // 5. Initialiser les autres gestionnaires
         this.vueEnvironnement = new VueEnvironnement(this);
+
+        env.getEtatJour().addListener((e-> vueEnvironnement.setBackground()));
+
+        //initialisation du gestionaire de la map
         gestionMap = new VueTerrain(env, this);
         gestionTouches = new GestionTouches(env, this);
         gestionSouris = new GestionSouris(env, this);

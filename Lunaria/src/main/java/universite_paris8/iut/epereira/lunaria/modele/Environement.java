@@ -1,5 +1,7 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.epereira.lunaria.controleur.GestionInventaire;
@@ -37,7 +39,7 @@ public class Environement {
     // Spawner pour les ennemis
     private Adepte spawnerAdepte;
     private Aigle spawnerAigle;
-    private boolean etatJour;    //permet de savoir si on est le jour ou la nuit
+    private BooleanProperty etatJour;    //permet de savoir si on est le jour ou la nuit
     //true=jour, false=nuit
     private Inventaire marchand;
     private ArrayList<Craft> listeCraft;
@@ -68,8 +70,9 @@ public class Environement {
 
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0,5);
         spawnerAigle = new Aigle(1, 1, 1, 50, this, hero, 0, 0,5);
-        this.etatJour =true;
+        this.etatJour =new SimpleBooleanProperty(true);
         initTest();
+        spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0,5);
         this.etatJour = true;
     }
 
@@ -209,13 +212,13 @@ public class Environement {
     }
 
     public void changerEtatJour() {
-        if (etatJour)
-            etatJour = false;
+        if (etatJour.getValue())
+            etatJour.set(false);
         else
-            etatJour = true;
+            etatJour.set(true);
     }
 
-    public boolean getEtatJour() {
+    public BooleanProperty getEtatJour(){
         return etatJour;
     }
 

@@ -65,6 +65,7 @@ public abstract class Ennemi extends Acteur {
 
     public abstract void deplacement();
 
+
     public abstract void deplacementAggressif();
 
     public abstract void deplacementPatrouille();
@@ -217,11 +218,7 @@ public abstract class Ennemi extends Acteur {
         attackCooldownTimer.setCycleCount(1);
         attackCooldownTimer.play();
     }
-//    private double calculerDistance(Acteur acteur1, Acteur acteur2) {
-//        double deltaX = acteur1.getPosX() - acteur2.getPosX();
-//        double deltaY = acteur1.getPosY() - acteur2.getPosY();
-//        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-//    }
+
 
     public int trouverSolY(int x) {
         ObservableList<Integer> terrain = getEnv().getTerrain().getTableau();
