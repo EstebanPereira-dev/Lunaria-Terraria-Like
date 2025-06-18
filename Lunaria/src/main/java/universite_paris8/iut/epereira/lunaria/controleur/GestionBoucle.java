@@ -46,7 +46,7 @@ public class GestionBoucle {
         }
         env.supprimerActeursMarques();
         env.update();
-
+        controleur.getCamera().mettreAJourCamera();
         for (Acteur acteur : env.getActeurs()) {
             VueActeur vueActeurExistante = controleur.getVueActeur(acteur);
             if (vueActeurExistante == null) {
@@ -58,18 +58,14 @@ public class GestionBoucle {
         int i = 0;
         while (i < env.getActeurs().size()) {
             Acteur a = env.getActeurs().get(i);
-            List<Acteur> acteursCopie = new ArrayList<>(env.getActeurs());
             double oldX = a.getPosX();
             a.deplacement();
             double deltaX = a.getPosX() - oldX;
-
             VueActeur vueActeur = controleur.getVueActeur(a);
             if (vueActeur != null) {
                 vueActeur.mettreAJourAnimation(a, deltaX);
             }
-            if (a instanceof Ennemi) {
-                a.agit();
-            }
+            a.agit();
             i++;
         }
 

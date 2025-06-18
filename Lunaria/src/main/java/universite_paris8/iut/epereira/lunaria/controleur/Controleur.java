@@ -78,72 +78,77 @@ public class Controleur implements Initializable {
     //Vue Environnement
     private VueEnvironnement vueEnvironnement;
 
+    private CameraJeu camera;
 
+
+
+    // Getter pour accéder à la caméra
+    public CameraJeu getCamera() {
+        return camera;
+    }
     @Override //initialization
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Création de l'environement de la taille de l'écren
+        //Création de l'environement
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
-        v = new VueHero(env.getHero(),this);
 
         // Récupération du terrain
         Terrain terrain = env.getTerrain();
-        // Création de l'observateur avec la grille d'affichage et la largeur du terrain
+
+        // CRÉER LA CAMÉRA
+        double largeurCarteComplete = ConfigurationJeu.WIDTH_TILES * ConfigurationJeu.TAILLE_TUILE; // 100 * 16 = 1600
+        double hauteurCarteComplete = ConfigurationJeu.HEIGHT_TILES * ConfigurationJeu.TAILLE_TUILE; // 100 * 16 = 1600
+        camera = new CameraJeu(terrainGrid, tabJeu, env.getHero(), largeurCarteComplete, hauteurCarteComplete);
+
+        // 2. Configuration du terrain (observateur)
         ObsTerrain obsTerrain = new ObsTerrain(terrainGrid, terrain.getWidth());
-        // Lier l'observateur à la liste observable
         terrain.getTableau().addListener(obsTerrain);
-        // Affichage initial des tuiles dans la grille
         for (int i = 0; i < terrain.getTableau().size(); i++) {
             obsTerrain.updateTuile(i, terrain.getTableau().get(i));
         }
 
-        //initialisation de la Vue Environnement
-        this.vueEnvironnement=new VueEnvironnement(this);
-
-        //initialisation du gestionaire de la map
-        gestionMap = new VueTerrain(env, this);
-        gestionTouches= new GestionTouches(env,this);
-        gestionSouris = new GestionSouris(env,this);
-        gestionInventaire = new GestionInventaire(env,this,true);
-
-        gestionBoucle = new GestionBoucle(env,this);
-
-        //initialisation de la barre de vie du hero
-        barreDuHero = new BarresStatut(env.getHero().getPv(), 200, 200,20);
-        barreDuHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
-        barreDuHero.setTranslateY(30);
-        tabJeu.getChildren().add(barreDuHero);
-
-
-        // Ajouter d'abord la vue héros à la liste
+        // 3. Créer les vues d'acteurs
+        v = new VueHero(env.getHero(), this);
         vuesActeurs.add(v);
 
         Hero hero = env.getHero();
         for (Acteur a : env.getActeurs()) {
-            if (a != hero) { // Comparaison directe par référence, pas instanceof
+            if (a != hero) {
                 VueActeur vue = VueActeurFactory.creerVue(a, this);
                 vuesActeurs.add(vue);
             }
         }
 
-        //démarage du jeux
+        // 4. Centrer la caméra sur le héros
+        camera.centrerSurHero();
+
+        // 5. Initialiser les autres gestionnaires
+        this.vueEnvironnement = new VueEnvironnement(this);
+        gestionMap = new VueTerrain(env, this);
+        gestionTouches = new GestionTouches(env, this);
+        gestionSouris = new GestionSouris(env, this);
+        gestionInventaire = new GestionInventaire(env, this, true);
+        gestionBoucle = new GestionBoucle(env, this);
+
+        // 6. Éléments d'interface
+        barreDuHero = new BarresStatut(env.getHero().getPv(), 200, 200, 20);
+        barreDuHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
+        barreDuHero.setTranslateY(30);
+        tabJeu.getChildren().add(barreDuHero); // Directement au tabJeu, pas au conteneur monde
+
+        // 7. Démarrage du jeu
         configurerEvenements();
         gestionBoucle.creerBoucleDeJeu();
-        Platform.runLater(() -> {
-            //gestionMap.chargerTiles(env.getTerrain());
-        });
         Platform.runLater(() -> {
             tabJeu.requestFocus();
             gestionBoucle.demarrer();
         });
 
-        initTilePaneInv(tilePaneInventaire,hero.getInv().getListeditem());
+        initTilePaneInv(tilePaneInventaire, hero.getInv().getListeditem());
     }
 
     public void initTilePaneInv(TilePane tilePane, ObservableList<Item> liste){
         gestionInventaire.initPane(tilePane, liste);
     }
-
-
 
 
     //pour chaque entré de touche

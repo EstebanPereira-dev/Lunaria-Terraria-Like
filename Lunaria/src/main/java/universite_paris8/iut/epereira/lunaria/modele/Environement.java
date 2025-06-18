@@ -26,12 +26,13 @@ public class Environement {
     private int width;
     private int height;
     private ArrayList<Acteur> acteurs;
+    //rajouter une liste de spawns
     private ArrayList<PNJ> pnjs;
     private int compteurFaim = 0;
     private final int INTERVALLE_FAIM = 140;
     private List<Acteur> acteursASupprimer = new ArrayList<>();
     // Spawner pour les ennemis
-    private Adepte spawnerAdepte;
+    private Adepte spawnerAdepte; //  a supprimmer
     private boolean etatJour;    //permet de savoir si on est le jour ou la nuit
     //true=jour, false=nuit
     private Inventaire marchand;
@@ -58,7 +59,7 @@ public class Environement {
     }
 
     public void update() { //faire agir tout le monde et supprimer les morts
-        spawnerAdepte.spawner();
+        spawnerAdepte.spawner(); //faire plutot une classe qui gere les spawns (reservoir de spawn dans env)
         supprimerActeursMarques();
         getHero().saciete();
     }
