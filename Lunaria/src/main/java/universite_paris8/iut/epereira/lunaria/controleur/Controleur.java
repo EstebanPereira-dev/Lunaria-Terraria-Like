@@ -1,17 +1,15 @@
 package universite_paris8.iut.epereira.lunaria.controleur;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -25,10 +23,15 @@ import java.util.*;
 import java.util.List;
 
 public class Controleur implements Initializable {
+//    @FXML
+//    private GridPane inventaireGridPane;  //gridPane qui contient les emplacement d'inventaire
+
     @FXML
-    private GridPane inventaireGridPane;  //gridPane qui contient les emplacement d'inventaire
+    private TilePane tilePaneInventaire;
+
     @FXML
     private Label ecu;
+
     @FXML
     private TilePane tilePaneId; //tilePane pour poesr nos bloc et les casser
 
@@ -39,7 +42,10 @@ public class Controleur implements Initializable {
     private Pane tabJeu;
 
     @FXML
-    private ImageView imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9;
+    private ScrollPane craftPane;
+
+    @FXML
+    private TilePane tilePaneMarchand;
 
     //listener de l'inventaire
     private ObsInventaire obsInventaire;
@@ -61,6 +67,7 @@ public class Controleur implements Initializable {
     private GestionTouches gestionTouches;
     private GestionSouris gestionSouris;
     private GestionInventaire gestionInventaire;
+    private GestionInventaire gestionInventaireMarchand;
     private GestionBoucle gestionBoucle;
     private List<VueActeur> vuesActeurs = new ArrayList<>();
     private VueHero v;
@@ -71,12 +78,16 @@ public class Controleur implements Initializable {
     //Vue Environnement
     private VueEnvironnement vueEnvironnement;
 
+    private VueCraft vueCraft;
+
 
     @Override //initialization
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Création de l'environement de la taille de l'écren
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
-        v = new VueHero(env.getHero(),this);
+        v = new VueHero(env.getHero(), this);
+//        vueCraft = new VueCraft(craftPane);
+//        vueCraft.init();
 
         // Récupération du terrain
         Terrain terrain = env.getTerrain();
@@ -90,20 +101,22 @@ public class Controleur implements Initializable {
         }
 
         //initialisation de la Vue Environnement
-        this.vueEnvironnement=new VueEnvironnement(this);
+        this.vueEnvironnement = new VueEnvironnement(this);
 
         //initialisation du gestionaire de la map
         gestionMap = new VueTerrain(env, this);
-        gestionTouches= new GestionTouches(env,this);
-        gestionSouris = new GestionSouris(env,this);
-        gestionInventaire = new GestionInventaire(env,this);
-        gestionBoucle = new GestionBoucle(env,this);
+        gestionTouches = new GestionTouches(env, this);
+        gestionSouris = new GestionSouris(env, this);
+        gestionInventaire = new GestionInventaire(env, this, true);
+
+        gestionBoucle = new GestionBoucle(env, this);
 
         //initialisation de la barre de vie du hero
-        barreDuHero = new BarresStatut(env.getHero().getPv(), 200, 200,20);
+        barreDuHero = new BarresStatut(env.getHero().getPv(), 200, 200, 20);
         barreDuHero.setTranslateX(ConfigurationJeu.WIDTH_SCREEN - 230);
         barreDuHero.setTranslateY(30);
         tabJeu.getChildren().add(barreDuHero);
+
 
         // Ajouter d'abord la vue héros à la liste
         vuesActeurs.add(v);
@@ -127,23 +140,26 @@ public class Controleur implements Initializable {
             gestionBoucle.demarrer();
         });
 
-        //ajout du listener sur l'observable liste de l'inventaire
-        obsInventaire = new ObsInventaire(imageInv1,imageInv2,imageInv3,imageInv4,imageInv5,imageInv6,imageInv7,imageInv8,imageInv9);
-        env.getHero().getInv().getListeditem().addListener(obsInventaire);
+        initTilePaneInv(tilePaneInventaire, hero.getInv().getListeditem());
+    }
 
+    public void initTilePaneInv(TilePane tilePane, ObservableList<Item> liste) {
+        gestionInventaire.initPane(tilePane, liste);
     }
 
 
     //pour chaque entré de touche
-    private void configurerEvenements(){
+    private void configurerEvenements() {
         tabJeu.setOnKeyPressed(event -> gestionTouches.gererTouchePressee(event));
         tabJeu.setOnKeyReleased(event -> gestionTouches.gererToucheRelachee(event));
     }
+
     //chaque click de souris
     @FXML
     public void clicSouris(MouseEvent mouseEvent) {
         gestionSouris.clicDeSouris(mouseEvent);
     }
+
     @FXML
     public void gererPositionSouris(MouseEvent mouseEvent) {
         gestionSouris.gererPositionDeSouris(mouseEvent);
@@ -152,12 +168,6 @@ public class Controleur implements Initializable {
     public GestionSouris getGestionSouris() {
         return gestionSouris;
     }
-
-    //pour chaque action dans inventaire
-    @FXML
-    public void inv(ActionEvent event) {
-    gestionInventaire.inv(event);
-   }
 
     public TextArea getPauseID() {
         return pauseID;
@@ -175,8 +185,9 @@ public class Controleur implements Initializable {
         return gestionMap;
     }
 
-    public GridPane getInventaireGridPane() {
-        return inventaireGridPane;
+
+    public TilePane getTilePaneInventaire() {
+        return tilePaneInventaire;
     }
 
     public Environement getEnv() {
@@ -226,5 +237,9 @@ public class Controleur implements Initializable {
 
     public VueEnvironnement getVueEnvironnement() {
         return vueEnvironnement;
+    }
+
+    public ScrollPane getCraftPane() {
+        return craftPane;
     }
 }

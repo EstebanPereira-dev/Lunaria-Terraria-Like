@@ -7,7 +7,15 @@ import javafx.collections.ObservableList;
 import javafx.util.Duration;
 import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Ennemi;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Buisson;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Herbe;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
+import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Terre;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Armes.EpeeEnBois;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Hache;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.HacheBois;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Pioche;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.PiocheBois;
 
 import java.util.ArrayList;
 
@@ -20,6 +28,8 @@ public class Hero extends Acteur {
     private int compteurRegen = 0;
     private final int INTERVALLE_REGEN = 250;
     private final int INTERVALLE_FAIM = 150;
+    private Item souris;
+    private int quantiteItem;
 
     public Hero(Environement env) {
         super(env);
@@ -28,6 +38,8 @@ public class Hero extends Acteur {
         remplirAction();
         range = 16;
         degat = 10;
+        souris = null;
+        quantiteItem = 0;
         faim = 200;
     }
 
@@ -166,20 +178,45 @@ public class Hero extends Acteur {
     }
 
     public void casserBloc(ObservableList<Integer> terrain, int tuileX, int tuileY) {
-        Item item = Item.getItemPourTuile(getEnv().getTerrain().getTableau().get(getEnv().getTerrain().getPos(tuileX, tuileY)));
+        // Récupérer le type de bloc une seule fois
+        int typeBloc = getEnv().getTerrain().getTableau().get(getEnv().getTerrain().getPos(tuileX, tuileY));
 
-        if (getEnv().getTerrain().getTableau().get(getEnv().getTerrain().getPos(tuileX, tuileY)) == 5) {
-            casserArbre(getEnv().getTerrain().compterArbreAuDessus(tuileX, tuileY), tuileX, tuileY);
-        } else if (getEnv().getTerrain().getTableau().get(getEnv().getTerrain().getPos(tuileX, tuileY)) != 5) {
-            getInv().ajouterItem(item, 1);
-            // Supprimer la tuile du terrain
-            getEnv().getTerrain().changerTuile(0, tuileX, tuileY);
-            //optionnel, juste pour voir l'avancé
-            System.out.println("+1 " + item.getNom());
-            // Afficher le total de cet item dans l'inventaire
-            int totalItem = getInv().compterItem(item.getNom());
-            System.out.println("Total " + item.getNom() + " : " + totalItem);
+        // Vérifier que l'outil peut casser ce bloc (sécurité)
+        Item outilEquipe = getInv().getItemEquipeSousFormeItem();
+        if (!outilEquipe.peutCasser(typeBloc)) {
+            System.out.println("Votre outil ne peut pas casser ce type de bloc !");
+            return;
         }
+
+        // Traitement spécial pour les arbres (bloc 5)
+        if (typeBloc == 5) {
+            casserArbre(getEnv().getTerrain().compterArbreAuDessus(tuileX, tuileY), tuileX, tuileY);
+        } else {
+            // Traitement normal pour les autres blocs
+            casserBlocNormal(typeBloc, tuileX, tuileY);
+        }
+    }
+
+    private void casserBlocNormal(int typeBloc, int tuileX, int tuileY) {
+        // Créer l'item correspondant au bloc cassé selon le type
+        Item itemRecolte;
+        switch (typeBloc) {
+            case 1: itemRecolte = new Terre(); break;
+            case 2: itemRecolte = new Herbe(); break;
+            case 3: itemRecolte = new Buisson(); break;
+            default:itemRecolte = new Planche(); break;
+        }
+
+        // Ajouter l'item à l'inventaire
+        getInv().ajouterItem(itemRecolte, 1);
+
+        // Supprimer la tuile du terrain
+        getEnv().getTerrain().changerTuile(0, tuileX, tuileY);
+
+        // Messages informatifs
+        System.out.println("+1 " + itemRecolte.getNom());
+        int totalItem = getInv().compterItem(itemRecolte.getNom());
+        System.out.println("Total " + itemRecolte.getNom() + " : " + totalItem);
     }
     public void placerBloc(int tuileX, int tuileY) {
         if (getEnv().estPositionOccupeeParActeur(tuileX, tuileY)) {
@@ -189,16 +226,16 @@ public class Hero extends Acteur {
 
             if (positionEquipe != -1) {
                 Item item = getInv().getListeditem().get(positionEquipe);
+                int typeBloc = getEnv().getTerrain().getTableau().get(getEnv().getTerrain().getPos(tuileX, tuileY));
 
                 // Vérification que l'item existe et peut être placé
-                if (item != null && item.getPeutEtrePlace()) {
+                if (item != null && item.peutEtrePlaceSur(typeBloc)) { // ✅ Correction ici
                     // Placer le bloc sur le terrain
                     getEnv().getTerrain().changerTuile(item.getId(), tuileX, tuileY);
                     // controleur.getGestionMap().chargerTiles(env.getTerrain());
 
                     // Retirer un item de l'inventaire
                     getInv().retirerItem(positionEquipe, 1);
-
                 }
             }
         }
@@ -222,6 +259,16 @@ public class Hero extends Acteur {
             }
         }
     }
+    public void initialiserHero(){
+        getInv().ajouterItem(new EpeeEnBois());
+        getInv().ajouterItem(new PiocheBois());
+        getInv().ajouterItem(new HacheBois());
+        getInv().equiperItem(0);
+    }
+    public void restaurerFaim(int nutriment){
+        faim += nutriment;
+    }
+
     public void setEcu(int ecu) {
         this.ecu.set(ecu);
     }
@@ -250,8 +297,33 @@ public class Hero extends Acteur {
     }
 
     public boolean verifAttaque(){
-        if(getInv().getItemEquipeSousFormeItem().getId()==20 ||getInv().getItemEquipeSousFormeItem().getId()==21)
-            return true;
-        return false;
+        Item itemEquipe = getInv().getItemEquipeSousFormeItem();
+        if (itemEquipe == null) {
+            return false;
+        }
+        return itemEquipe.getId() == 20 || itemEquipe.getId() == 21;
+    }
+
+
+    public int getQuantiteItem() {
+        return quantiteItem;
+    }
+
+    public Item getSouris() {
+        return souris;
+    }
+
+    public void setSouris(Item souris) {
+        this.souris = souris;
+    }
+
+    public void setQuantiteItem(int quantiteItem) {
+        this.quantiteItem = quantiteItem;
+    }
+
+    public boolean sourisVide() {
+//        System.out.println("item dans souris: " + souris.toString());
+//        System.out.println("Quantite Souris:" + quantiteItem);
+        return souris == null;
     }
 }

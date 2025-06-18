@@ -5,6 +5,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import universite_paris8.iut.epereira.lunaria.modele.*;
+import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Interfaces.Consommable;
 
 
 public class GestionSouris {
@@ -42,33 +43,35 @@ public class GestionSouris {
         boolean doitAfficherSurbrillance = false;
         Color couleurSurbrillance = Color.WHITE;
 
-        // Vérifier si le héros est dans la portée
         if (env.getHero().estDansRange(tuileX, tuileY)) {
+            Item itemEquipe = env.getHero().getInv().getItemEquipeSousFormeItem();
+            if (itemEquipe != null) {
+                int typeBloc = env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY));
 
-            //verifie si on a un bloc d equipé
-            if (env.getHero().getInv().getItemEquipeSousFormeItem().getId() > 0 && env.getHero().getInv().getItemEquipeSousFormeItem().getId() <= 19) {
-                // Vérifie que la tuile est vide
-                if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY)) == 0) {
+                // Vérifier si on peut placer un bloc
+                if (itemEquipe.peutEtrePlaceSur(typeBloc)) {
+                    if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY)) == 0) {
+                        doitAfficherSurbrillance = true;
+                        couleurSurbrillance = Color.GREEN;
+                    }
+                }
+                // Vérifier si on peut casser le bloc
+                else if (itemEquipe.peutCasser(typeBloc)) {
                     doitAfficherSurbrillance = true;
-                    couleurSurbrillance = Color.GREEN;
+                    couleurSurbrillance = Color.RED;
                 }
             }
-            //verifie si o peut casser le bloc
-            else if (env.verifCasser(tuileX, tuileY)) {
-                doitAfficherSurbrillance = true;
-                couleurSurbrillance = Color.RED;
+
+            // Appliquer l'état de la surbrillance
+            if (doitAfficherSurbrillance) {
+                tuileSurbrillance.setVisible(true);
+                tuileSurbrillance.setStroke(couleurSurbrillance);
+            } else {
+                tuileSurbrillance.setVisible(false);
             }
         }
 
-        // Appliquer l'état de la surbrillance
-        if (doitAfficherSurbrillance) {
-            tuileSurbrillance.setVisible(true);
-            tuileSurbrillance.setStroke(couleurSurbrillance);
-        } else {
-            tuileSurbrillance.setVisible(false);
-        }
     }
-
     public void clicDeSouris(MouseEvent mouseEvent) {
         if(env.getHero().getPv() > 0) {
             dernierePosX = mouseEvent.getX();
@@ -94,6 +97,12 @@ public class GestionSouris {
 
     private void gererClicGauche(ObservableList<Integer> terrain, int tuileX, int tuileY) { // faire plutot un appel a agir
         System.out.println("Clic à : X = " + dernierePosX + " | Y = " + dernierePosY);
+        Item itemEquipe = env.getHero().getInv().getItemEquipeSousFormeItem();
+        if (itemEquipe == null) {
+            System.out.println("Aucun item équipé !");
+            env.getHero().getInv().afficherInventaire();
+            return;
+        }
             if (env.verifCasser(tuileX,tuileY)) {
                 if(env.getHero().estDansRange(tuileX, tuileY)) {
                     env.getHero().casserBloc(terrain, tuileX, tuileY);
@@ -113,15 +122,61 @@ public class GestionSouris {
     private void gererClicDroit(ObservableList<Integer> terrain, int tuileX, int tuileY) {
         System.out.println("Clic droit à : X = " + dernierePosX + " | Y = " + dernierePosY);
 
-        if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX,tuileY)) == 0) { // Si la case est vide
+        Item itemEquipe = env.getHero().getInv().getItemEquipeSousFormeItem();
+
+        // ✅ Vérifier null dès le début
+        if (itemEquipe == null) {
+            System.out.println("Aucun item équipé !");
+            return;
+        }
+
+        // Logique pour placer des blocs
+        if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY)) == 0) {
             if (env.getHero().estDansRange(tuileX, tuileY)) {
-                env.getHero().placerBloc(tuileX, tuileY);
-                    // Mettre à jour l'affichage de l'inventaire
+                int typeBloc = env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY));
+
+                if (itemEquipe.peutEtrePlaceSur(typeBloc)) { // ✅ Maintenant sûr
+                    env.getHero().placerBloc(tuileX, tuileY);
                     controleur.getGestionInventaire().mettreAJourAffichage();
+                    return;
+                }
             }
         }
-        if (env.getHero().getInv().getItemEquipeSousFormeItem().getId() > 39 && env.getHero().getInv().getItemEquipeSousFormeItem().getId() > 50){
 
+        // Logique pour consommer les items
+        if (itemEquipe instanceof Consommable) {
+            Consommable consommable = (Consommable) itemEquipe;
+            consommable.consommer(env.getHero());
+
+            // Retirer l'item de l'inventaire
+            int positionEquipe = env.getHero().getInv().getItemEquipe();
+            if (positionEquipe != -1) {
+                env.getHero().getInv().retirerItem(positionEquipe, 1);
+                System.out.println("Item consommé et retiré de l'inventaire !");
+            }
+
+            controleur.getGestionInventaire().mettreAJourAffichage();
+        } else {
+            System.out.println("Cet item ne peut pas être consommé !");
+        }
+    }
+
+    private void gererConsommation() {
+        Item itemEquipe = env.getHero().getInv().getItemEquipeSousFormeItem();
+
+        if (itemEquipe != null && itemEquipe instanceof Consommable) {
+            Consommable consommable = (Consommable) itemEquipe;
+            consommable.consommer(env.getHero());
+
+            int positionEquipe = env.getHero().getInv().getItemEquipe();
+            if (positionEquipe != -1) {
+                env.getHero().getInv().retirerItem(positionEquipe, 1);
+                System.out.println("Item consommé et retiré de l'inventaire !");
+            }
+
+            controleur.getGestionInventaire().mettreAJourAffichage();
+        } else if (itemEquipe != null) {
+            System.out.println("Cet item ne peut pas être consommé !");
         }
     }
 

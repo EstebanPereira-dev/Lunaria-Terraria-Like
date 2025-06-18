@@ -5,7 +5,7 @@ import universite_paris8.iut.epereira.lunaria.modele.Item;
 
 import java.util.ArrayList;
 
-public class Craft {
+public abstract class Craft {
 
     private Environement env;
     private ArrayList<Item> recette;
@@ -36,7 +36,7 @@ public class Craft {
                 //System.out.println((env.getHero().getInv().getListeditem()[i]));
                 if(env.getHero().getInv().getListeditem().get(i) != null){
                     if(env.getHero().getInv().getListeditem().get(i).getId() == recette.get(j).getId()){
-                        quantiteNecessaire -= env.getHero().getInv().getQuantite()[i];
+                        quantiteNecessaire -= env.getHero().getInv().getQuantite()[i].getValue();
                     }
                 }
             }
@@ -63,17 +63,17 @@ public class Craft {
                         if(env.getHero().getInv().getListeditem().get(i).getId() == recette.get(j).getId()){
                             //si la quantité dans l inventaire est supérieur a la quantite demander
                             //alors enlever la quantite a l inventaire
-                            if(quantiteAPrendre < env.getHero().getInv().getQuantite()[i]){
-                                env.getHero().getInv().getQuantite()[i] -= quantiteAPrendre;
+                            if(quantiteAPrendre < env.getHero().getInv().getQuantite()[i].getValue()){
+                                env.getHero().getInv().getQuantite()[i].set(env.getHero().getInv().getQuantite()[i].getValue() - quantiteAPrendre);
                                 quantiteAPrendre = 0;
                             }
                             //si la quantite est moindre ou égal
                             //alors supprimer de l'inventaire,
                             //réduit la quantite necessaire apres avoir 'pris' ce qu'il y as dans l'inventaire
                             // et continuer la recherche
-                            if(env.getHero().getInv().getQuantite()[i] <= quantiteAPrendre){
-                                quantiteAPrendre -= env.getHero().getInv().getQuantite()[i];
-                                env.getHero().getInv().getQuantite()[i] = 0;
+                            if(env.getHero().getInv().getQuantite()[i].getValue() <= quantiteAPrendre){
+                                quantiteAPrendre -= env.getHero().getInv().getQuantite()[i].getValue();
+                                env.getHero().getInv().getQuantite()[i].setValue(0);
                                 env.getHero().getInv().getListeditem().set(i,null);
                             }
                         }

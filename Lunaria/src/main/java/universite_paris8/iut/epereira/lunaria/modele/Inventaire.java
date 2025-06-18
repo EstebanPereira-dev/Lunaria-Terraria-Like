@@ -1,22 +1,29 @@
 package universite_paris8.iut.epereira.lunaria.modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Inventaire {
     private ObservableList<Item> listeditem;
-    private int[] quantite; // Quantité pour chaque slot
+    private IntegerProperty[] quantite; // Quantité pour chaque slot
     private int taille;
 
     public Inventaire() {
-        taille = 9;
+        taille = 27;
         //listeditem = new Item[taille];
         listeditem = FXCollections.observableArrayList();
-        quantite = new int[taille];
+        quantite = new SimpleIntegerProperty[taille];
         for(int i = 0; i < taille;i++){
+            quantite[i] = new SimpleIntegerProperty();
             listeditem.add(null);
+            quantite[i].setValue(0);
         }
     }
+
+
+
 
 
 
@@ -36,7 +43,7 @@ public class Inventaire {
 
         for (int i = 0; i < listeditem.size(); i++) {
             if (listeditem.get(i) != null && listeditem.get(i).getId()==(item.getId()) &&
-                    quantite[i] < item.getStackMax()) {
+                    quantite[i].getValue() < item.getStackMax()) {
                 //System.out.println("i");
                 return i;
             }
@@ -55,20 +62,20 @@ public class Inventaire {
                 int caseItem = trouverCaseItem(item);
                 if (caseItem != -1) { //Si l'item est présent dans l'inv
                     //System.out.println("entré ici");
-                    this.quantite[caseItem] += quantite;
+                    this.quantite[caseItem].set(this.quantite[caseItem].getValue() + quantite);
                 } else {
                     int caseLibre = trouverPremiereCaseVide();
                     //System.out.println("ne pas entrer ici svp");
                     if (caseLibre != -1) {
                         listeditem.set(caseLibre,item);
-                        this.quantite[caseLibre] = quantite;
+                        this.quantite[caseLibre].setValue(quantite);
                     }
                 }
             } else { // si c'est pas stackable
                 int caseLibre = trouverPremiereCaseVide();
                 if (caseLibre != -1) {
                     listeditem.set(caseLibre,item);
-                    this.quantite[caseLibre] = 1;
+                    this.quantite[caseLibre].set(1);
                 }
             }
         }
@@ -81,10 +88,10 @@ public class Inventaire {
 
     public void retirerItem(int pos, int quantite) {
         if (pos >= 0 && pos < taille && listeditem.get(pos) != null && quantite > 0) {
-            this.quantite[pos] -= quantite;
+            this.quantite[pos].set(this.quantite[pos].getValue() - quantite);
 
             // Si la quantité atteint 0, déséquiper l'item avant de le supprimer
-            if (this.quantite[pos] <= 0) {
+            if (this.quantite[pos].getValue() <= 0) {
                 if (listeditem.get(pos).estEquipe()) {
                     desequiperItem(pos);
                 }
@@ -98,7 +105,7 @@ public class Inventaire {
     public void supprimmerItem(int pos) {
         if (pos >= 0 && pos < taille) {
             listeditem.set(pos,null);
-            quantite[pos] = 0;
+            quantite[pos].setValue(0);
         }
     }
 //    public Item[] getListeditem() {
@@ -107,9 +114,10 @@ public class Inventaire {
 
 
 
-    public int[] getQuantite() {
+    public IntegerProperty[] getQuantite() {
         return quantite;
     }
+
     public ObservableList<Item> getListeditem(){
         return listeditem;
     }
@@ -159,7 +167,7 @@ public class Inventaire {
         int total = 0;
         for (int i = 0; i < listeditem.size(); i++) {
             if (listeditem.get(i) != null && listeditem.get(i).getNom().equals(nomItem)) {
-                total += quantite[i];
+                total += quantite[i].getValue();
             }
         }
         return total;
@@ -182,7 +190,7 @@ public class Inventaire {
                 String nomItem = listeditem.get(i).getNom();
 
                 // Quantité
-                String quantiteStr = (quantite[i] > 1) ? " x" + quantite[i] : "";
+                String quantiteStr = (quantite[i].getValue() > 1) ? " x" + quantite[i].getValue() : "";
 
                 // Status équipé
                 String equipeStr = listeditem.get(i).estEquipe() ? " [ÉQUIPÉ]" : "";
