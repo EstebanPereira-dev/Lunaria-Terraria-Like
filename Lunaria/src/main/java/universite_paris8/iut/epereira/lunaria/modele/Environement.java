@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.epereira.lunaria.controleur.GestionInventaire;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Adepte;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.Ennemis.Aigle;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Aleksa;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
@@ -29,9 +30,11 @@ public class Environement {
     private List<Acteur> acteursASupprimer = new ArrayList<>();
     // Spawner pour les ennemis
     private Adepte spawnerAdepte;
+    private Aigle spawnerAigle;
     private boolean etatJour;    //permet de savoir si on est le jour ou la nuit
                           //true=jour, false=nuit
     private Inventaire marchand;
+
 
     public Environement(int width, int height){
         this.terrain = new Terrain(width/ConfigurationJeu.TAILLE_TUILE,height/ConfigurationJeu.TAILLE_TUILE);
@@ -49,12 +52,14 @@ public class Environement {
         this.height = height;
         this.width = width;
 
-        spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0);
+        spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0,5);
+        spawnerAigle = new Aigle(1, 1, 1, 50, this, hero, 0, 0,5);
         this.etatJour =true;
     }
 
     public void update() { //faire agir tout le monde et supprimer les morts
         spawnerAdepte.spawner();
+        spawnerAigle.spawner();
         supprimerActeursMarques();
         getHero().saciete();
     }
