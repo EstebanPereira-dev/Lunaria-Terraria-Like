@@ -23,8 +23,4 @@ public class VueActeurFactory {
         else
             return new VuePNJ(acteur, controleur);
     }
-
-    public static boolean aVueSpecialisee(Acteur acteur) {
-        return acteur instanceof Hero || acteur instanceof Ennemi;
-    }
 }

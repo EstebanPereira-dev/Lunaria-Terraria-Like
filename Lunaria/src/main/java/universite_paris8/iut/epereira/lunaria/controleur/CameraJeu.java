@@ -100,10 +100,6 @@ public class CameraJeu {
         conteneurMonde.getChildren().remove(acteurNode);
     }
 
-    // Getters utiles
-    public double getCameraX() { return cameraX; }
-    public double getCameraY() { return cameraY; }
-    public Pane getConteneurMonde() { return conteneurMonde; }
 
     public double[] ecranVersMonde(double ecranX, double ecranY) {
         return new double[]{ecranX + cameraX, ecranY + cameraY};

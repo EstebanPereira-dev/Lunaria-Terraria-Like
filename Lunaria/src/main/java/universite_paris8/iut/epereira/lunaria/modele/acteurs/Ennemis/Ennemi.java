@@ -29,8 +29,6 @@ public abstract class Ennemi extends Acteur {
     private double rayonPatrouille = 100; // Rayon de patrouille
     private boolean directionPatrouille = true; // true = droite, false = gauche
 
-    private static long dernierSpawn = 0;
-
     private Queue<Point> chemin;
     private long dernierCalculChemin;
     private static final long INTERVALLE_CALCUL_CHEMIN = 1500; // Recalculer toutes les 1.5s (plus stable)
@@ -239,23 +237,6 @@ public abstract class Ennemi extends Acteur {
 
     public abstract void spawner();
 
-
-    private String getModeString(int mode) {
-        switch (mode) {
-            case MODE_INACTIF: return "INACTIF";
-            case MODE_AGGRESSIF: return "AGGRESSIF";
-            case MODE_PATROUILLE: return "PATROUILLE";
-            default: return "INCONNU";
-        }
-    }
-
-    public void setDistanceDetection(double distance) {
-        this.distanceDetection = distance;
-    }
-
-    public void setRayonPatrouille(double rayon) {
-        this.rayonPatrouille = rayon;
-    }
     public int getDegat() {
         return degat;
     }
@@ -270,10 +251,6 @@ public abstract class Ennemi extends Acteur {
 
     public int getMode() {
         return mode;
-    }
-
-    public void setMode(int mode) {
-        this.mode = mode;
     }
 
     public int getCooldown() {

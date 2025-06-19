@@ -138,18 +138,10 @@ public abstract class Acteur {
         updateVisualPosition();
     }
 
-    public double getPosX() {
-        return posX;
-    }
-
-    public double getPosY() {
-        return posY;
-    }
 
     // SETTER
-    public void setXProperty(double x) {
-        this.posX = x;
-        this.x.set(x);
+    public void setPv(int pv) {
+        this.pv = pv;
     }
 
     public void setYProperty(double y) {
@@ -161,6 +153,14 @@ public abstract class Acteur {
 
     public int getEcu() {
         return ecu.get();
+    }
+
+    public double getPosY() {
+        return posY;
+    }
+
+    public double getPosX() {
+        return posX;
     }
 
     public Environement getEnv() {
@@ -177,15 +177,6 @@ public abstract class Acteur {
 
     public double getVitesseX() {
         return vitesseX;
-    }
-
-    public int getCooldownAttack() {
-        return cooldownAttack;
-    }
-    //SETTER
-
-    public void setPv(int pv) {
-        this.pv = pv;
     }
 
     @Override

@@ -25,8 +25,6 @@ import java.util.*;
 import java.util.List;
 
 public class Controleur implements Initializable {
-//    @FXML
-//    private GridPane inventaireGridPane;  //gridPane qui contient les emplacement d'inventaire
 
     @FXML
     private TilePane tilePaneInventaire;
@@ -69,23 +67,15 @@ public class Controleur implements Initializable {
     private GestionTouches gestionTouches;
     private GestionSouris gestionSouris;
     private GestionInventaire gestionInventaire;
-    private GestionInventaire gestionInventaireMarchand;
     private GestionBoucle gestionBoucle;
     private List<VueActeur> vuesActeurs = new ArrayList<>();
     private VueHero v;
-
-    //game loop
-    private Timeline gameLoop;
 
     //Vue Environnement
     private VueEnvironnement vueEnvironnement;
     private LecteurAudio lecteurAudio;
 
     private CameraJeu camera;
-
-    private VueCraft vueCraft;
-
-
 
     // Getter pour accéder à la caméra
     public CameraJeu getCamera() {
@@ -135,15 +125,6 @@ public class Controleur implements Initializable {
         vbox3.getChildren().add(img3);
         vbox4.getChildren().add(img4);
 
-        vueCraft = new VueCraft(tilePaneCraft,env);
-        vueCraft.init();
-
-
-        //env.getCraftingList().addListener(new ObsCraft(tilePaneCraft,env));
-
-
-
-
         // Récupération du terrain
         Terrain terrain = env.getTerrain();
 
@@ -153,10 +134,6 @@ public class Controleur implements Initializable {
         for (int i = 0; i < terrain.getTableau().size(); i++) {
             obsTerrain.updateTuile(i, terrain.getTableau().get(i));
         }
-
-//        vueCraft = new VueCraft(craftPane);
-//        vueCraft.init();
-
 
         // 3. Créer les vues d'acteurs
         vuesActeurs.add(v);
@@ -220,7 +197,7 @@ public class Controleur implements Initializable {
         tabJeu.setOnKeyReleased(event -> gestionTouches.gererToucheRelachee(event));
     }
 
-    //methode barbar car pas de temps
+    //craft des différent items
     @FXML
     public void craftHacheBois(){
         System.out.println("entrer dans hachebois");
@@ -276,10 +253,6 @@ public class Controleur implements Initializable {
         gestionSouris.gererPositionDeSouris(mouseEvent);
     }
 
-    public GestionSouris getGestionSouris() {
-        return gestionSouris;
-    }
-
     public TextArea getPauseID() {
         return pauseID;
     }
@@ -290,10 +263,6 @@ public class Controleur implements Initializable {
 
     public BarresStatut getBarreDeVieHero() {
         return barreDuHero;
-    }
-
-    public VueTerrain getGestionMap() {
-        return gestionMap;
     }
 
 
@@ -340,14 +309,6 @@ public class Controleur implements Initializable {
 
     public Pane getTabJeu() {
         return tabJeu;
-    }
-
-    public GridPane getTerrainGrid() {
-        return terrainGrid;
-    }
-
-    public VueEnvironnement getVueEnvironnement() {
-        return vueEnvironnement;
     }
 
     public TilePane getTilePaneCraft() {

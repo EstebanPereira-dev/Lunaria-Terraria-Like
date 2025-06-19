@@ -137,33 +137,4 @@ public class BarresStatut extends Pane {
         mettreAJourFaim(nouvelleFaim);
     }
 
-    // Getters
-    public int getVieActuelle() {
-        return barreVie.getValeurActuelle();
-    }
-
-    public int getVieMax() {
-        return barreVie.getValeurMax();
-    }
-
-    public int getFaimActuelle() {
-        return barreFaim.getValeurActuelle();
-    }
-
-    public int getFaimMax() {
-        return barreFaim.getValeurMax();
-    }
-
-    // Méthodes utilitaires
-    public boolean estVivant() {
-        return getVieActuelle() > 0;
-    }
-
-    public boolean aFaim() {
-        return getFaimActuelle() < getFaimMax() * 0.3; // Moins de 30%
-    }
-
-    public boolean estAffame() {
-        return getFaimActuelle() == 0;
-    }
 }

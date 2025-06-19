@@ -37,9 +37,6 @@ public class ObsInventaire implements ListChangeListener<Item> {
             ImageView imageView = (ImageView) vbox.getChildren().get(0);
             imageView.setImage(librairiImage.selectImage(((Item) change.getList().get(change.getFrom()))));
 
-            //env.updateCraft();
-
-
         }
     }
 

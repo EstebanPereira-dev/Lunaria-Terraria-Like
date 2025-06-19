@@ -28,23 +28,13 @@ public abstract class Item {
     public boolean peutCasser(int typeBloc) { return false; }
     public boolean peutEtrePlaceSur(int typeBloc) { return false; }
     public int getValeurNutritive() { return 0; }
-    public int getDegats() { return 0; }
-    public int getPortee() { return 0; }
 
     public boolean isEstStackable() {
         return estStackable;
     }
 
-    public void setEstStackable(boolean estStackable) {
-        this.estStackable = estStackable;
-    }
-
     public int getStackMax() {
         return stackMax;
-    }
-
-    public void setStackMax(int stackMax) {
-        this.stackMax = stackMax;
     }
 
     public boolean estEquipe() {
@@ -55,16 +45,7 @@ public abstract class Item {
         this.equipe = equipe;
     }
 
-    // Méthodes de vérification basées sur les valeurs de retour
-    public boolean estOutil() { return peutCasser(1) || peutCasser(5); }
-    public boolean estConsommable() { return getValeurNutritive() > 0; }
-    public boolean estPlacable() { return peutEtrePlaceSur(0); }
-    public boolean estArme() { return getDegats() > 0; }
-
     // Getters basiques
     public String getNom() { return nom; }
-    public String getDescription() { return description; }
     public int getId() { return id; }
-    public boolean isDestructible() { return destructible; }
-    public boolean isConsommableUneSeuleFois() { return consommableUneSeuleFois; }
 }

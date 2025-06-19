@@ -164,21 +164,6 @@ public class Hero extends Acteur {
         return distanceX <= range && distanceY <= range;
     }
 
-//    public void casserArbre(int nbreBuches,int x, int y){
-//        Item planche = new Planche();
-//        int i=0;
-//        for (i=0; i < nbreBuches; i++) {
-//            getInv().ajouterItem(planche, 1);
-//            // Supprimer la tuile du terrain
-//            getEnv().getTerrain().changerTuile(0, x, y - i);
-//            //optionnel, juste pour voir l'avancé
-//            System.out.println("+1 " + planche.getNom());
-//        }
-//        // Afficher le total de cet item dans l'inventaire
-//        int totalItem = getInv().compterItem(planche.getNom());
-//        System.out.println("Total " + planche.getNom() + " : " + totalItem);
-//    }
-
     public void casserArbre(int nbreBuches, int x, int y) {
         Item planche = new Planche();
 

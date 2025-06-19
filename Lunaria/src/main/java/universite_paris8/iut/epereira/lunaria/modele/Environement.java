@@ -14,27 +14,17 @@ import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.Mouton;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.mobPassif.PNJ;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Planche;
 import universite_paris8.iut.epereira.lunaria.modele.items.Consommables.Terre;
-import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Armes.EpeeEnBois;
-import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Hache;
-import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.Pioche;
-import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Outils.PiocheBois;
-
-import javax.crypto.spec.PSource;
-import java.security.cert.CertificateNotYetValidException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Environement {
     private Terrain terrain;
     private Hero hero;
-    private char cylceJourNuit;
     private int width;
     private int height;
     private ArrayList<Acteur> acteurs;
     //rajouter une liste de spawns
     private ArrayList<PNJ> pnjs;
-    private int compteurFaim = 0;
-    private final int INTERVALLE_FAIM = 140;
     private List<Acteur> acteursASupprimer = new ArrayList<>();
     // Spawner pour les ennemis
     private Adepte spawnerAdepte;
@@ -117,19 +107,6 @@ public class Environement {
         return false;
     }
 
-
-    public void updateCraft(){
-//        System.out.println("update craft");
-//        for(int i = 0; i < listeCraft.size();i++){
-//            if(listeCraft.get(i).craftable() && !craftingListVue.contains(listeCraft.get(i))){
-//                craftingListVue.add(listeCraft.get(i));
-//            } else if (craftingListVue.contains(listeCraft.get(i))) {
-//                craftingListVue.remove(listeCraft.get(i));
-//            }
-//
-//        }
-    }
-
     // GETTER :
     public List<Acteur> getActeursASupprimer() {
         return new ArrayList<>(acteursASupprimer);
@@ -164,25 +141,12 @@ public class Environement {
         return width;
     }
 
-//    public ObservableList<Craft> getCraftingList() {
-//        return craftingListVue;
-//    }
-
-
     public ArrayList<Craft> getListeCraft() {
         return listeCraft;
     }
 
-    public char getCylceJourNuit() {
-        return cylceJourNuit;
-    }
-
     public Hero getHero() {
         return hero;
-    }
-
-    public PNJ getPNJ(int id) {
-        return pnjs.get(id);
     }
 
     public ArrayList<PNJ> getPNJs() {

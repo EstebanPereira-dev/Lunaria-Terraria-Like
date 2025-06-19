@@ -123,10 +123,6 @@ public abstract class VueActeur {
     protected abstract ImageView creerSprite();
 
     // Getters
-    public Map<Acteur, ImageView> getSprites() {
-        return sprites;
-    }
-
     public Acteur getActeur() {
         return acteur;
     }

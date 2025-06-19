@@ -14,9 +14,6 @@ public class Aleksa extends PNJ{
     public void reStock() {
         inv.ajouterItem(new Planche(), 50);
     }
-    public void prix() {
-
-    }
 
     @Override
     public void agit() {

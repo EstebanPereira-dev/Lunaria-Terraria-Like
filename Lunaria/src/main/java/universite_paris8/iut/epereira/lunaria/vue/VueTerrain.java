@@ -65,11 +65,4 @@ public class VueTerrain {
         else
             return null;
         }
-
-    public Terrain getTableau() {
-        return tableau;
-    }
-
-
-
 }

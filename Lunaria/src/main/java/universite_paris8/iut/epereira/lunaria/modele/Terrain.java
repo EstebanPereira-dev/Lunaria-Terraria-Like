@@ -271,12 +271,6 @@ public class Terrain {
 
         return false;
     }
-    // UTILE POUR POSER DES BLOCS ETC
-    public void setTangible(int x, int y, boolean estTangible) {
-        if (x >= 0 && x < width && y >= 0 && y < height) {
-            tangibilite[y][x] = estTangible;
-        }
-    }
 
     public boolean estTangible(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
@@ -307,13 +301,6 @@ public class Terrain {
             tableau.set(pos, blocDeRemplacement);
             updateTangibilite();
             System.out.println("Le bloc en x=" + x + " et en y=" + y + " est remplacé par un bloc de type " + blocDeRemplacement);
-
-            //test permettant d afficher le tableau
-          /*  for (int i = 0; i < this.getTableau().length; i++) {
-                for (int j = 0; j < this.getTableau()[i].length; j++)
-                    System.out.print(this.getTableau()[i][j]);
-                System.out.println("");
-            }*/
         }
     }
 

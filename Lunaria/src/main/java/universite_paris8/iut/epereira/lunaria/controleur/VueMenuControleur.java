@@ -26,10 +26,4 @@ public class VueMenuControleur {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    private void quitterJeu(ActionEvent event) {
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        stage.close();
-    }
 }

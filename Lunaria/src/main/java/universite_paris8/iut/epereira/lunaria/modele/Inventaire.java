@@ -108,10 +108,6 @@ public class Inventaire {
             quantite[pos].setValue(0);
         }
     }
-//    public Item[] getListeditem() {
-//        return listeditem;
-//    }
-
 
 
     public IntegerProperty[] getQuantite() {

@@ -8,12 +8,4 @@ public class Arme extends Item {
     public Arme(String nom, String description, int id) {
         super(nom, description,false,id,false);
     }
-
-    public double getDegat() {
-        return degat;
-    }
-
-    public int getRange() {
-        return range;
-    }
 }

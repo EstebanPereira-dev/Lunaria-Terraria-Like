@@ -113,8 +113,6 @@ public class GestionSouris {
                 if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                     gererClicDroit(env.getTerrain().getTableau(), tuileX, tuileY);
                 }
-            } else {
-                System.out.println("❌ Clic hors limites du terrain: tuile (" + tuileX + ", " + tuileY + ")");
             }
         }
     }
@@ -158,7 +156,7 @@ public class GestionSouris {
             if (env.getHero().estDansRange(tuileX, tuileY)) {
                 int typeBloc = env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY));
 
-                if (itemEquipe.peutEtrePlaceSur(typeBloc)) { // ✅ Maintenant sûr
+                if (itemEquipe.peutEtrePlaceSur(typeBloc)) {
                     env.getHero().placerBloc(tuileX, tuileY);
                     controleur.getGestionInventaire().mettreAJourAffichage();
                     return;

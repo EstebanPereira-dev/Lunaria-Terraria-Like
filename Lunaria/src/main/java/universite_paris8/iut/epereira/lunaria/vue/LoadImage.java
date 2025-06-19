@@ -72,8 +72,4 @@ public class LoadImage {
 
         return sprite;
     }
-
-    public Image getImageVide() {
-        return imageVide;
-    }
 }
