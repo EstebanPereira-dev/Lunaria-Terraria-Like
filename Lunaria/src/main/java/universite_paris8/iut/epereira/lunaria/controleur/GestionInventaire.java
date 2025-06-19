@@ -58,7 +58,7 @@ public class GestionInventaire{
         for (int i = 0; i < env.getHero().getInv().getTaille(); i++) {
             Label labelQuantite = new Label();
 
-            env.getHero().getInv().getQuantite()[i].addListener(((observableValue, number, t1) -> env.updateCraft()));
+            //env.getHero().getInv().getQuantite()[i].addListener(((observableValue, number, t1) -> env.updateCraft()));
             labelQuantite.textProperty().bind(env.getHero().getInv().getQuantite()[i].asString());
             labelQuantite.setStyle("-fx-background-color: grey");
 

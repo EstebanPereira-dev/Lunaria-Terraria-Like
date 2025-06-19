@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.vue.*;
@@ -47,8 +48,8 @@ public class Controleur implements Initializable {
     @FXML
     private TilePane tilePaneMarchand;
 
-
-    private ObsCraft obsCraft;
+    @FXML
+    private VBox vbox1,vbox2,vbox3,vbox4;
 
     @FXML //Afficher le fond
     private ImageView background;
@@ -88,10 +89,45 @@ public class Controleur implements Initializable {
         v = new VueHero(env.getHero(), this);
 
         tilePaneCraft = new TilePane();
+
+        LoadImage imgLoad = new LoadImage();
+        ImageView img1,img2,img3,img4;
+
+        img1 = new ImageView(imgLoad.selectImage(env.getListeCraft().get(0).getResultat()));
+        img2 = new ImageView(imgLoad.selectImage(env.getListeCraft().get(1).getResultat()));
+        img3 = new ImageView(imgLoad.selectImage(env.getListeCraft().get(2).getResultat()));
+        img4 = new ImageView(imgLoad.selectImage(env.getListeCraft().get(3).getResultat()));
+
+        img1.setOnMouseClicked(event -> craftHacheBois());
+        img2.setOnMouseClicked(event -> craftPiocheBois());
+        img3.setOnMouseClicked(event -> craftHachePierre());
+        img4.setOnMouseClicked(event -> craftPiochePierre());
+
+        img1.setFocusTraversable(true);
+        img2.setFocusTraversable(true);
+        img3.setFocusTraversable(true);
+        img4.setFocusTraversable(true);
+
+        img1.setFitHeight(48);
+        img2.setFitHeight(48);
+        img3.setFitHeight(48);
+        img4.setFitHeight(48);
+
+        img1.setFitWidth(48);
+        img2.setFitWidth(48);
+        img3.setFitWidth(48);
+        img4.setFitWidth(48);
+
+        vbox1.getChildren().add(img1);
+        vbox2.getChildren().add(img2);
+        vbox3.getChildren().add(img3);
+        vbox4.getChildren().add(img4);
+
         vueCraft = new VueCraft(tilePaneCraft,env);
         vueCraft.init();
 
-        env.getCraftingList().addListener(new ObsCraft(tilePaneCraft,env));
+
+        //env.getCraftingList().addListener(new ObsCraft(tilePaneCraft,env));
 
 
 
@@ -161,9 +197,49 @@ public class Controleur implements Initializable {
         tabJeu.setOnKeyReleased(event -> gestionTouches.gererToucheRelachee(event));
     }
 
+    //methode barbar car pas de temps
     @FXML
-    public void craftItem(){
+    public void craftHacheBois(){
+        System.out.println("entrer dans hachebois");
+        System.out.println(env.getHero().getSouris());
+        if (env.getHero().getSouris() == null){
+            System.out.println("entrer dans hachebois if");
+            env.getHero().setSouris(env.getListeCraft().get(0).crafting());
+            env.getHero().setQuantiteItem(1);
+        }
+    }
 
+    @FXML
+    public void craftPiocheBois(){
+        System.out.println("entrer dans pioche bois");
+        if (env.getHero().getSouris() == null){
+
+            System.out.println("entrer dans pioche bois if");
+            env.getHero().setSouris(env.getListeCraft().get(1).crafting());
+            env.getHero().setQuantiteItem(1);
+        }
+    }
+
+    @FXML
+    public void craftHachePierre(){
+        System.out.println("entrer dans hache pierre");
+        if (env.getHero().getSouris() == null){
+
+            System.out.println("entrer dans hache pierre if");
+            env.getHero().setSouris(env.getListeCraft().get(2).crafting());
+            env.getHero().setQuantiteItem(1);
+        }
+    }
+
+    @FXML
+    public void craftPiochePierre(){
+        System.out.println("entrer dans pioche pierre");
+        if(env.getHero().getSouris() == null){
+
+            System.out.println("entrer dans pioche pierre if");
+            env.getHero().setSouris(env.getListeCraft().get(3).crafting());
+            env.getHero().setQuantiteItem(1);
+        }
     }
 
     //chaque click de souris

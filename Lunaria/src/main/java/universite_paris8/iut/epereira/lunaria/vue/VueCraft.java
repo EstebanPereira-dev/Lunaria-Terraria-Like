@@ -31,34 +31,34 @@ public class VueCraft {
 
 
     }
-
-
-    private void onClickedCraft(MouseEvent event) {
-        Node clicked = (Node) event.getTarget();
-        HBox hbox;
-        if(clicked instanceof ImageView || clicked instanceof Label){
-            hbox = (HBox) clicked.getParent();
-        }
-        else{
-            hbox = (HBox) clicked;
-        }
-        int id = Integer.parseInt(hbox.getId());
-        if(env.getHero().getSouris() == null || env.getHero().getSouris().getId() == id  ){
-            int index = 0;
-            for(Craft i: env.getCraftingList()){
-                if(i.getResultat().getId() == id){
-                    if(env.getHero().getSouris() == null){
-                        env.getHero().setSouris(i.crafting());
-                        env.getHero().setQuantiteItem(1);
-                    }
-                    else{
-                        if(env.getHero().getSouris().getStackMax() < env.getHero().getQuantiteItem() ){
-                            i.craftable();
-                            env.getHero().setQuantiteItem(env.getHero().getQuantiteItem()+1);
-                        }
-                    }
-                }
-            }
-        }
-    }
+//
+//
+//    private void onClickedCraft(MouseEvent event) {
+//        Node clicked = (Node) event.getTarget();
+//        HBox hbox;
+//        if(clicked instanceof ImageView || clicked instanceof Label){
+//            hbox = (HBox) clicked.getParent();
+//        }
+//        else{
+//            hbox = (HBox) clicked;
+//        }
+//        int id = Integer.parseInt(hbox.getId());
+//        if(env.getHero().getSouris() == null || env.getHero().getSouris().getId() == id  ){
+//            int index = 0;
+//            for(Craft i: env.getCraftingList()){
+//                if(i.getResultat().getId() == id){
+//                    if(env.getHero().getSouris() == null){
+//                        env.getHero().setSouris(i.crafting());
+//                        env.getHero().setQuantiteItem(1);
+//                    }
+//                    else{
+//                        if(env.getHero().getSouris().getStackMax() < env.getHero().getQuantiteItem() ){
+//                            i.craftable();
+//                            env.getHero().setQuantiteItem(env.getHero().getQuantiteItem()+1);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
