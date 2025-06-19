@@ -59,9 +59,9 @@ public class Environement {
         listeCraft.add(new CraftHacheBois(this));
         listeCraft.add(new CraftHachePierre(this));
 
-        acteurs.add(new Mouton(20, 1, this, 200, 400));
+        acteurs.add(new Mouton(20, 1, this, 500, 400));
 
-        acteurs.add(new Aleksa(100, 1, this, 300, 400));
+        acteurs.add(new Aleksa(100, 1, this, 800, 400));
 
         acteurs.add(hero);
 
@@ -73,7 +73,7 @@ public class Environement {
         this.etatJour =new SimpleBooleanProperty(true);
         initTest();
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0,5);
-        this.etatJour = true;
+        this.etatJour.set(true);
     }
 
     public void update() { //faire agir tout le monde et supprimer les morts

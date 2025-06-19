@@ -78,6 +78,7 @@ public class Controleur implements Initializable {
 
     //Vue Environnement
     private VueEnvironnement vueEnvironnement;
+    private LecteurAudio lecteurAudio;
 
     private CameraJeu camera;
 
@@ -97,7 +98,7 @@ public class Controleur implements Initializable {
         double largeurCarteComplete = ConfigurationJeu.WIDTH_TILES * ConfigurationJeu.TAILLE_TUILE; // 100 * 16 = 1600
         double hauteurCarteComplete = ConfigurationJeu.HEIGHT_TILES * ConfigurationJeu.TAILLE_TUILE; // 100 * 16 = 1600
         camera = new CameraJeu(terrainGrid, tabJeu, env.getHero(), largeurCarteComplete, hauteurCarteComplete);
-
+        lecteurAudio = new LecteurAudio();
         // Récupération du terrain
         Terrain terrain = env.getTerrain();
 
@@ -130,7 +131,7 @@ public class Controleur implements Initializable {
 
         // 5. Initialiser les autres gestionnaires
         this.vueEnvironnement = new VueEnvironnement(this);
-
+        initialiserAudio();
         env.getEtatJour().addListener((e-> vueEnvironnement.setBackground()));
 
         //initialisation du gestionaire de la map
@@ -155,6 +156,21 @@ public class Controleur implements Initializable {
         });
 
         initTilePaneInv(tilePaneInventaire, hero.getInv().getListeditem());
+    }
+
+    private void initialiserAudio() {
+        // Musique initiale
+        lecteurAudio.jouerSon("universite_paris8/iut/epereira/lunaria/DossierMap/jour.wav");
+
+        // Listener pour changement jour/nuit
+        env.getEtatJour().addListener((obs, oldVal, newVal) -> {
+            lecteurAudio.arreter();
+            if (newVal) {
+                lecteurAudio.jouerSon("universite_paris8/iut/epereira/lunaria/DossierMap/jour.wav");
+            } else {
+                lecteurAudio.jouerSon("universite_paris8/iut/epereira/lunaria/DossierMap/nuit.wav");
+            }
+        });
     }
 
     public void initTilePaneInv(TilePane tilePane, ObservableList<Item> liste) {
