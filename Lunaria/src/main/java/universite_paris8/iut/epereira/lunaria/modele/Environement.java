@@ -43,7 +43,7 @@ public class Environement {
     //true=jour, false=nuit
     private Inventaire marchand;
     private ArrayList<Craft> listeCraft;
-    private ObservableList<Craft> craftingListVue;
+    //private ObservableList<Craft> craftingListVue;
 
     public Environement(int width, int height) {
         this.terrain = new Terrain(width / ConfigurationJeu.TAILLE_TUILE, height / ConfigurationJeu.TAILLE_TUILE);
@@ -51,13 +51,13 @@ public class Environement {
         hero.initialiserHero();
         pnjs = new ArrayList<>();
         acteurs = new ArrayList<>();
-        craftingListVue = FXCollections.observableArrayList();
+        //craftingListVue = FXCollections.observableArrayList();
         listeCraft = new ArrayList<>();
 
-        listeCraft.add(new CraftPiocheBois(this));
-        listeCraft.add(new CraftPiochePierre(this));
         listeCraft.add(new CraftHacheBois(this));
+        listeCraft.add(new CraftPiocheBois(this));
         listeCraft.add(new CraftHachePierre(this));
+        listeCraft.add(new CraftPiochePierre(this));
 
         acteurs.add(new Mouton(20, 1, this, 500, 400));
 
@@ -119,14 +119,15 @@ public class Environement {
 
 
     public void updateCraft(){
-        for(int i = 0; i < listeCraft.size();i++){
-            if(listeCraft.get(i).craftable()){
-                craftingListVue.add(listeCraft.get(i));
-            } else if (craftingListVue.contains(craftingListVue.get(i))) {
-                craftingListVue.remove(craftingListVue.get(i));
-            }
-
-        }
+//        System.out.println("update craft");
+//        for(int i = 0; i < listeCraft.size();i++){
+//            if(listeCraft.get(i).craftable() && !craftingListVue.contains(listeCraft.get(i))){
+//                craftingListVue.add(listeCraft.get(i));
+//            } else if (craftingListVue.contains(listeCraft.get(i))) {
+//                craftingListVue.remove(listeCraft.get(i));
+//            }
+//
+//        }
     }
 
     // GETTER :
@@ -163,8 +164,13 @@ public class Environement {
         return width;
     }
 
-    public ObservableList<Craft> getCraftingList() {
-        return craftingListVue;
+//    public ObservableList<Craft> getCraftingList() {
+//        return craftingListVue;
+//    }
+
+
+    public ArrayList<Craft> getListeCraft() {
+        return listeCraft;
     }
 
     public char getCylceJourNuit() {
@@ -302,6 +308,8 @@ public class Environement {
             }
         }
     }
+
+
 
 
     public void initTest() {

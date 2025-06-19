@@ -1,5 +1,10 @@
 package universite_paris8.iut.epereira.lunaria.modele.Craft;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
 
@@ -28,29 +33,35 @@ public abstract class Craft {
 
     //regarde si le hero as tout les ingrédiant pour craft l'item
     public boolean craftable(){
-
+        boolean quit = true;
+        boolean craftable = true;
         for(int j = 0; j< recette.size();j++){
             int quantiteNecessaire = quantite.get(j);
-
+            System.out.println("quantite necessaire: " + quantiteNecessaire);
             for(int i = 0; i < env.getHero().getInv().getTaille(); i++){
                 //System.out.println((env.getHero().getInv().getListeditem()[i]));
                 if(env.getHero().getInv().getListeditem().get(i) != null){
+                    System.out.println("entrer dans case inv non vide");
                     if(env.getHero().getInv().getListeditem().get(i).getId() == recette.get(j).getId()){
+                        System.out.println("entrer dans item necessaire = item dans inv");
                         quantiteNecessaire -= env.getHero().getInv().getQuantite()[i].getValue();
                     }
                 }
             }
             //si apres avoir parcourus tout l'inventaire, il manque des ressource, alors return false
             if(quantiteNecessaire > 0){
-                return false;
+                System.out.println("quantiteNecessaire : " + quantiteNecessaire);
+                craftable = false;
+                System.out.println( " quantiteNecessaire > 0 : " + craftable);
             }
         }
-
-        return true;
+        System.out.println( "craftable return :" + craftable);
+        return craftable;
     }
 
 
     public Item crafting(){
+        System.out.println(" TU NE DEVRAIS PAS ETRE" + craftable());
         if(craftable()){
             //parcours de la liste d item de la recette
             for(int j = 0; j < recette.size(); j++){
@@ -80,10 +91,15 @@ public abstract class Craft {
                     }
                 }
             }
+            System.out.println("retourne le resultat");
+            return resultat; //return l'item crafté
         }
-        return resultat; //return l'item crafté
+        return null;
     }
 
 
+    public Item getResultat(){
+        return resultat;
+    }
 
 }
