@@ -109,11 +109,12 @@ public class Environement {
 
 
     public void updateCraft(){
+        System.out.println("update craft");
         for(int i = 0; i < listeCraft.size();i++){
-            if(listeCraft.get(i).craftable()){
+            if(listeCraft.get(i).craftable() && !craftingListVue.contains(listeCraft.get(i))){
                 craftingListVue.add(listeCraft.get(i));
-            } else if (craftingListVue.contains(craftingListVue.get(i))) {
-                craftingListVue.remove(craftingListVue.get(i));
+            } else if (craftingListVue.contains(listeCraft.get(i))) {
+                craftingListVue.remove(listeCraft.get(i));
             }
 
         }
@@ -292,6 +293,8 @@ public class Environement {
             }
         }
     }
+
+
 
 
     public void initTest() {

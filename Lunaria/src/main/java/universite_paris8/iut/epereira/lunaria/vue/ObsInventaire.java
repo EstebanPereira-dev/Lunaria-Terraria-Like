@@ -34,10 +34,11 @@ public class ObsInventaire implements ListChangeListener<Item> {
     public void onChanged(Change change) {
         while (change.next()) {
 
-
             VBox vbox = (VBox) tilePaneInv.getChildren().get(change.getFrom());
             ImageView imageView = (ImageView) vbox.getChildren().get(0);
             imageView.setImage(librairiImage.selectImage(((Item) change.getList().get(change.getFrom()))));
+
+            env.updateCraft();
 
 
         }

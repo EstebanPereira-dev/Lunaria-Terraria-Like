@@ -1,5 +1,10 @@
 package universite_paris8.iut.epereira.lunaria.modele.Craft;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
 
@@ -28,8 +33,9 @@ public abstract class Craft {
 
     //regarde si le hero as tout les ingrédiant pour craft l'item
     public boolean craftable(){
-
-        for(int j = 0; j< recette.size();j++){
+        boolean quit = true;
+        boolean craftable = true;
+        for(int j = 0; j< recette.size() && quit;j++){
             int quantiteNecessaire = quantite.get(j);
 
             for(int i = 0; i < env.getHero().getInv().getTaille(); i++){
@@ -37,16 +43,19 @@ public abstract class Craft {
                 if(env.getHero().getInv().getListeditem().get(i) != null){
                     if(env.getHero().getInv().getListeditem().get(i).getId() == recette.get(j).getId()){
                         quantiteNecessaire -= env.getHero().getInv().getQuantite()[i].getValue();
+                        if(quantiteNecessaire <= 0){
+                            quit = false;
+                        }
                     }
                 }
             }
             //si apres avoir parcourus tout l'inventaire, il manque des ressource, alors return false
             if(quantiteNecessaire > 0){
-                return false;
+                craftable = false;
             }
         }
 
-        return true;
+        return craftable;
     }
 
 
@@ -85,5 +94,8 @@ public abstract class Craft {
     }
 
 
+    public Item getResultat(){
+        return resultat;
+    }
 
 }

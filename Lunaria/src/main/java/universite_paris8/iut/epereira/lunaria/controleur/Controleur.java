@@ -42,13 +42,13 @@ public class Controleur implements Initializable {
     private Pane tabJeu;
 
     @FXML
-    private ScrollPane craftPane;
+    private TilePane tilePaneCraft;
 
     @FXML
     private TilePane tilePaneMarchand;
 
-    //listener de l'inventaire
-    private ObsInventaire obsInventaire;
+
+    private ObsCraft obsCraft;
 
     @FXML //Afficher le fond
     private ImageView background;
@@ -86,8 +86,15 @@ public class Controleur implements Initializable {
         //Création de l'environement de la taille de l'écren
         env = new Environement(ConfigurationJeu.WIDTH_SCREEN, ConfigurationJeu.HEIGHT_SCREEN);
         v = new VueHero(env.getHero(), this);
-        vueCraft = new VueCraft(craftPane);
+
+        tilePaneCraft = new TilePane();
+        vueCraft = new VueCraft(tilePaneCraft,env);
         vueCraft.init();
+
+        env.getCraftingList().addListener(new ObsCraft(tilePaneCraft,env));
+
+
+
 
         // Récupération du terrain
         Terrain terrain = env.getTerrain();
@@ -152,6 +159,11 @@ public class Controleur implements Initializable {
     private void configurerEvenements() {
         tabJeu.setOnKeyPressed(event -> gestionTouches.gererTouchePressee(event));
         tabJeu.setOnKeyReleased(event -> gestionTouches.gererToucheRelachee(event));
+    }
+
+    @FXML
+    public void craftItem(){
+
     }
 
     //chaque click de souris
@@ -239,7 +251,7 @@ public class Controleur implements Initializable {
         return vueEnvironnement;
     }
 
-    public ScrollPane getCraftPane() {
-        return craftPane;
+    public TilePane getTilePaneCraft() {
+        return tilePaneCraft;
     }
 }

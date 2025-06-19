@@ -57,8 +57,11 @@ public class GestionInventaire{
     public void initInventaire(TilePane paneInv) {
         for (int i = 0; i < env.getHero().getInv().getTaille(); i++) {
             Label labelQuantite = new Label();
+
+            env.getHero().getInv().getQuantite()[i].addListener(((observableValue, number, t1) -> env.updateCraft()));
             labelQuantite.textProperty().bind(env.getHero().getInv().getQuantite()[i].asString());
             labelQuantite.setStyle("-fx-background-color: grey");
+
 
             labelQuantite.setPrefSize(48,16);
 
@@ -177,8 +180,8 @@ public class GestionInventaire{
     public void setInvVisible(Boolean bool) {
         controleur.getTilePaneInventaire().setVisible(bool);
         controleur.getTilePaneInventaire().setDisable(!bool);
-        controleur.getCraftPane().setVisible(bool);
-        controleur.getCraftPane().setDisable(!bool);
+        controleur.getTilePaneCraft().setVisible(bool);
+        controleur.getTilePaneCraft().setDisable(!bool);
     }
 
     public void setInventaireBooleanOvert(boolean inventaireBooleanOvert) {
