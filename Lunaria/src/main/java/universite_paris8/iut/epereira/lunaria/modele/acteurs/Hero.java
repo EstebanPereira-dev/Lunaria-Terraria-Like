@@ -34,7 +34,7 @@ public class Hero extends Acteur {
     public Hero(Environement env) {
         super(env);
         actions = new ArrayList<>();
-        inv = new Inventaire();
+        inv = new Inventaire(27);
         remplirAction();
         range = 16;
         degat = 10;
@@ -357,4 +357,97 @@ public class Hero extends Acteur {
 //        System.out.println("Quantite Souris:" + quantiteItem);
         return souris == null;
     }
+
+
+    //click gauche echange l'item dans la souris avec l'item dans l'inventaire avec les quantite
+    public void clickPrimaire(int index) {
+        Item itemTemp = getSouris();
+        int quantiteTemp = getQuantiteItem();
+        System.out.println(itemTemp);
+        System.out.println(quantiteTemp);
+        //si on appuie sur une case non null avec un item dans la souris
+        if (getSouris() != null && getInv().getListeditem().get(index) != null) {
+            //si l'item dans la souris et l'item dans l'inventaire est le meme
+            if (getSouris().getId() == getInv().getListeditem().get(index).getId()) {
+                setSouris(null);
+                //si en ajoutant la quantite de la souris dans l'inventaire, possibilité de dépasser la taille max
+                if ((getInv().getQuantite()[index].getValue() + getQuantiteItem()) > (getInv().getListeditem().get(index).getStackMax()) ) {
+
+                    setQuantiteItem((getQuantiteItem() + getInv().getQuantite()[index].getValue()) - getInv().getListeditem().get(index).getStackMax());
+                    getInv().getQuantite()[index].set(getInv().getListeditem().get(index).getStackMax());
+                } else {
+                    getInv().getQuantite()[index].set(getInv().getQuantite()[index].getValue() + getQuantiteItem());
+                    setQuantiteItem(0);
+                }
+            }
+        } else {
+
+            setQuantiteItem(getInv().getQuantite()[index].getValue());
+            setSouris(getInv().getListeditem().get(index));
+
+            getInv().getQuantite()[index].set(quantiteTemp);
+            getInv().getListeditem().set(index, itemTemp);
+        }
+    }
+
+    //click droit avec la souris vide pour prendre la moitier des item dans l'invnetaire et le mettre dans la souris
+    public void clickSecondaireVide(int index) {
+        int qt = getInv().getQuantite()[index].getValue();
+
+        if (sourisVide() && getInv().getQuantite()[index].getValue() > 1 && getInv().getListeditem().get(index) != null) {
+
+            setSouris(getInv().getListeditem().get(index));
+
+            setQuantiteItem((int) Math.floorDiv(qt, 2) + Math.floorMod(qt, 2));
+            getInv().getQuantite()[index].set(Math.floorDiv(qt, 2));
+        } else if (getInv().getQuantite()[index].getValue() == 1) {
+            clickPrimaire(index);
+        }
+    }
+
+    //click droit avec la souris qui contient des item pose 1 item dans l'inventaire
+    public void clickSecondairePlein(int index) {
+//        System.out.println("entrer 1");
+//        System.out.println(hero.getSouris());
+//        System.out.println(hero.sourisVide());
+        if (!sourisVide()) {
+            if (getQuantiteItem() == 1) {
+                clickPrimaire(index);
+            }
+            //System.out.println("entrer 2");
+            if (getInv().getListeditem().get(index) == null) {
+                //System.out.println("entrer 3");
+                getInv().getListeditem().set(index, getSouris());
+                getInv().getQuantite()[index].setValue(1);
+                setQuantiteItem(getQuantiteItem() - 1);
+            } else {
+                //System.out.println("entrer 4");
+                if(getInv().getListeditem().get(index) != null){
+                    if (getInv().getListeditem().get(index).getId() == getSouris().getId()) {
+                        //System.out.println("entrer 5");
+                        getInv().getQuantite()[index].set(getInv().getQuantite()[index].getValue() + 1);
+                        setQuantiteItem(getQuantiteItem() - 1);
+                    }
+                }
+            }
+            if (getQuantiteItem() == 0) {
+                //System.out.println("entrer 6");
+                setSouris(null);
+            }
+        }
+    }
+
+    //gestion de click sur l'inventaire du PNJ
+    public void clickPrimaireNonHero(int index, Inventaire invPNJ){
+        if(invPNJ.getListeditem().get(index) != null){
+            if (sourisVide()){
+            }else{
+                if(invPNJ.getListeditem().get(index).getId() == souris.getId()) {
+                    invPNJ.getQuantite()[index].subtract(1);
+                    quantiteItem += 1;
+                }
+            }
+        }
+    }
+
 }

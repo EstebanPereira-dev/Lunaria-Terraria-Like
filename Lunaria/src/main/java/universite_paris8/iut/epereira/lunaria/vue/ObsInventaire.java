@@ -11,17 +11,16 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
+import universite_paris8.iut.epereira.lunaria.modele.Inventaire;
 import universite_paris8.iut.epereira.lunaria.modele.Item;
 
 
 public class ObsInventaire implements ListChangeListener<Item> {
     private TilePane tilePaneInv;
-    private Environement env;
     private LoadImage librairiImage;
 
-    public ObsInventaire(TilePane tilePaneInv,Environement env) {
+    public ObsInventaire(TilePane tilePaneInv) {
         this.tilePaneInv = tilePaneInv;
-        this.env = env;
         librairiImage = new LoadImage();
 
     }

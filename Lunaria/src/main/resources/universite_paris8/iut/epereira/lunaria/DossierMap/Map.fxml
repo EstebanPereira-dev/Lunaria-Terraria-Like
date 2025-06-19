@@ -36,6 +36,7 @@
                   <Image url="@Ecu.png" />
                </image>
             </ImageView>
+            <TilePane fx:id="tilePaneMarchand" layoutX="975.0" layoutY="199.0" prefColumns="9" prefHeight="280.0" prefWidth="250.0" style="-fx-border-color: black;" />
          </children>
       </Pane>
       <TextArea fx:id="pauseID" editable="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="55.0" prefWidth="128.0" text="PAUSE" visible="false">

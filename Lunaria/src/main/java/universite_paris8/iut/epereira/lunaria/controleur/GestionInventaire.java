@@ -2,29 +2,28 @@ package universite_paris8.iut.epereira.lunaria.controleur;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import universite_paris8.iut.epereira.lunaria.modele.Environement;
-import universite_paris8.iut.epereira.lunaria.modele.Item;
+import universite_paris8.iut.epereira.lunaria.modele.Inventaire;
+import universite_paris8.iut.epereira.lunaria.modele.acteurs.Hero;
 import universite_paris8.iut.epereira.lunaria.vue.LoadImage;
 import universite_paris8.iut.epereira.lunaria.vue.ObsInventaire;
 
 public class GestionInventaire{
 
-    private Environement env;
     private Controleur controleur;
-    private boolean hero;
+    private boolean isHero;
     private LoadImage librairiImage;
-
-    boolean cooldownInv;
+    private Inventaire inv;
+    private boolean cooldownInv;
+    private TilePane tilePane;
+    private Hero hero;
 
     //garde quel slot de l'inventaire est selectioné
     private int isSelectedInHand;
@@ -33,13 +32,15 @@ public class GestionInventaire{
     //boolean popur savoir si l'inventaire est ouvert ou pas.
     private boolean inventaireBooleanOvert;
 
-    public GestionInventaire(Environement env, Controleur controleur, boolean hero) {
-        this.env = env;
+    public GestionInventaire(Hero hero, boolean isHero, Inventaire inv, TilePane tilePane) {
         this.controleur = controleur;
         isSelectedInHand = 0;
         cooldownInv = true;
-        this.hero = hero;
+        this.isHero = isHero;
         librairiImage = new LoadImage();
+        this.inv = inv;
+        this.tilePane = tilePane;
+        initPane();
     }
 
     public void cooldown(){
@@ -54,19 +55,19 @@ public class GestionInventaire{
     }
 
 
-    public void initInventaire(TilePane paneInv) {
-        for (int i = 0; i < env.getHero().getInv().getTaille(); i++) {
+    public void initInventaire() {
+        for (int i = 0; i < inv.getTaille(); i++) {
             Label labelQuantite = new Label();
 
             //env.getHero().getInv().getQuantite()[i].addListener(((observableValue, number, t1) -> env.updateCraft()));
-            labelQuantite.textProperty().bind(env.getHero().getInv().getQuantite()[i].asString());
+            labelQuantite.textProperty().bind(inv.getQuantite()[i].asString());
             labelQuantite.setStyle("-fx-background-color: grey");
 
 
             labelQuantite.setPrefSize(48,16);
 
 
-            ImageView img = new ImageView(librairiImage.selectImage(env.getHero().getInv().getListeditem().get(i)));
+            ImageView img = new ImageView(librairiImage.selectImage(inv.getListeditem().get(i)));
             img.setFitHeight(48);
             img.setFitWidth(48);
             img.setFocusTraversable(true);
@@ -81,7 +82,7 @@ public class GestionInventaire{
             warpper.setStyle("-fx-border-color: blue;");
             warpper.setId("" + i);
             warpper.setFocusTraversable(true);
-            paneInv.getChildren().add(i, warpper);
+            tilePane.getChildren().add(i, warpper);
 
 
 
@@ -99,45 +100,45 @@ public class GestionInventaire{
         }
     }
 
-    public void initPane(TilePane tilePane, ObservableList<Item> liste) {
+    public void initPane() {
         tilePane.setHgap(1);
         tilePane.setVgap(1);
-        initInventaire(tilePane);
+        initInventaire();
         //ajout du listener sur l'observable liste de l'inventaire
-        ObsInventaire obsInventaire = new ObsInventaire(tilePane,env);
-        liste.addListener(obsInventaire);
+        ObsInventaire obsInventaire = new ObsInventaire(tilePane);
+        inv.getListeditem().addListener(obsInventaire);
     }
 
     //selectionne l'item en appuyant dans l'inventaire ou sur les touche 1-9
     public void selectItem(int i) {
         System.out.println("enter selectitem");
-        if (!inventaireBooleanOvert) {
+        if (!inventaireBooleanOvert && isHero) {
             // Vérifier si la case contient un item avant d'essayer de l'équiper
-            if (env.getHero().getInv().getListeditem().get(i) != null) {
+            if (inv.getListeditem().get(i) != null) {
 
-                if (controleur.getTilePaneInventaire().getChildren().get(i).getStyle().equals("-fx-border-color: blue")) {
-                    controleur.getTilePaneInventaire().getChildren().get(i).setStyle("-fx-border-color: yellow");
-                } else if (controleur.getTilePaneInventaire().getChildren().get(i).getStyle().equals("-fx-border-color: blue")) {
-                    controleur.getTilePaneInventaire().getChildren().get(i).setStyle("-fx-border-color: yellow");
+                if ( tilePane.getChildren().get(i).getStyle().equals("-fx-border-color: blue")) {
+                    tilePane.getChildren().get(i).setStyle("-fx-border-color: yellow");
+                } else if (tilePane.getChildren().get(i).getStyle().equals("-fx-border-color: blue")) {
+                    tilePane.getChildren().get(i).setStyle("-fx-border-color: yellow");
                 }
 
                 // Déselectionner l'ancien item si différent
                 if (isSelectedInHand != i) {
-                    controleur.getTilePaneInventaire().getChildren().get(isSelectedInHand).setStyle("-fx-border-color: blue");
+                    tilePane.getChildren().get(isSelectedInHand).setStyle("-fx-border-color: blue");
                 }
 
                 isSelectedInHand = i;
-                env.getHero().getInv().equiperItem(i);
+                inv.equiperItem(i);
             } else {
                 // Si la case est vide, déselectionner tout
-                controleur.getTilePaneInventaire().getChildren().get(isSelectedInHand).setStyle("-fx-border-color: blue");
+                tilePane.getChildren().get(isSelectedInHand).setStyle("-fx-border-color: blue");
 
                 System.out.println("Case vide, aucun item à sélectionner");
             }
         } else {
             // Mode inventaire ouvert
-            if (env.getHero().getInv().getListeditem().get(isSelectedInHand) != null) {
-                env.getHero().getInv().equiperItem(isSelectedInHand);
+            if (inv.getListeditem().get(isSelectedInHand) != null) {
+                inv.equiperItem(isSelectedInHand);
             }
         }
     }
@@ -150,25 +151,29 @@ public class GestionInventaire{
             System.out.println("entrer dnas inv");
             int index = Integer.parseInt(vbox.getId());
             // System.out.println("index vbox " + index);
-            if (env.getHero().getInv().getListeditem().get(index) == null && env.getHero().getSouris() == null) {
+            if (inv.getListeditem().get(index) == null && hero.getSouris() == null ) {
                 System.out.println("entrer case null");
             } else {
-                if (event.getButton() == MouseButton.PRIMARY) {
+                if (event.getButton() == MouseButton.PRIMARY && isHero) {
                     System.out.println("entrer even.getButton == primary");
-                    env.clickPrimaire(index);
-                } else if (event.getButton() == MouseButton.SECONDARY) {
+                    hero.clickPrimaire(index);
+                } else if (event.getButton() == MouseButton.SECONDARY && isHero) {
                     System.out.println(" entrer even.getButton == secondary");
-                    if (env.getHero().getSouris() != null) {
+                    if (hero.getSouris() != null) {
                         //System.out.println("entrer souris plein");
-                        env.clickSecondairePlein(index);
-                    } else if (env.getHero().getSouris() == null) {
+                        hero.clickSecondairePlein(index);
+                    } else if (hero.getSouris() == null) {
                         //System.out.println("entrer souris vide");
-                        env.clickSecondaireVide(index);
+                        hero.clickSecondaireVide(index);
                     } else {
                         System.out.println("error, souris null avec quantite ou quantite avec souris non null");
                     }
                 }
             }
+            if(!isHero){
+
+            }
+
             cooldown();
         }
 
@@ -194,13 +199,13 @@ public class GestionInventaire{
 
     public void mettreAJourAffichage() {
         // Vérifier si l'item actuellement sélectionné existe encore
-        if (env.getHero().getInv().getListeditem().get(isSelectedInHand) == null) {
+        if (inv.getListeditem().get(isSelectedInHand) == null) {
             // Déselectionner visuellement
             //controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
             controleur.getTilePaneInventaire().getChildren().get(isSelectedInHand).setStyle("-fx-border-color: blue");
 
             // Chercher le prochain item équipé (s'il y en a un)
-            int nouvelItemEquipe = env.getHero().getInv().getItemEquipe();
+            int nouvelItemEquipe = inv.getItemEquipe();
             if (nouvelItemEquipe != -1) {
                 isSelectedInHand = nouvelItemEquipe;
                 //controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: yellow");
@@ -208,13 +213,15 @@ public class GestionInventaire{
             }
         }
 
-        for (int i = 0; i < env.getHero().getInv().getTaille(); i++) {
-            if (env.getHero().getInv().getQuantite()[i].getValue() == 0 && env.getHero().getInv().getListeditem().get(i) != null) {
-                env.getHero().getInv().getListeditem().set(i, null);
+        for (int i = 0; i < inv.getTaille(); i++) {
+            if (inv.getQuantite()[i].getValue() == 0 && inv.getListeditem().get(i) != null) {
+                inv.getListeditem().set(i, null);
             }
-            if (env.getHero().getInv().getQuantite()[i].getValue() < 0 && env.getHero().getInv().getListeditem().get(i) != null) {
+            if (inv.getQuantite()[i].getValue() < 0 && inv.getListeditem().get(i) != null) {
                 System.out.println("\n\n\n\n QUANTITE IMPOSSIBLE\nQUANTITE NEGATIF\nQUANTITE IMPOSSIBLE\nQUANTITE NEGATIF\n\n\n\n");
             }
         }
     }
+
+
 }

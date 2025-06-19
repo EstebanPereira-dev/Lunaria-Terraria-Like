@@ -10,8 +10,8 @@ public class Inventaire {
     private IntegerProperty[] quantite; // Quantité pour chaque slot
     private int taille;
 
-    public Inventaire() {
-        taille = 27;
+    public Inventaire(int taille) {
+        this.taille = taille;
         //listeditem = new Item[taille];
         listeditem = FXCollections.observableArrayList();
         quantite = new SimpleIntegerProperty[taille];

@@ -105,9 +105,6 @@ public class Controleur implements Initializable {
         v = new VueHero(env.getHero(), this);
 
         tilePaneInventaire.toFront();
-
-        tilePaneCraft = new TilePane();
-
         tilePaneCraft.toFront();
 
         LoadImage imgLoad = new LoadImage();
@@ -185,7 +182,7 @@ public class Controleur implements Initializable {
         gestionMap = new VueTerrain(env, this);
         gestionTouches = new GestionTouches(env, this);
         gestionSouris = new GestionSouris(env, this);
-        gestionInventaire = new GestionInventaire(env, this, true);
+        gestionInventaire = new GestionInventaire(hero,true,hero.getInv(),tilePaneInventaire);
         gestionBoucle = new GestionBoucle(env, this);
 
         // 6. Éléments d'interface
@@ -201,8 +198,6 @@ public class Controleur implements Initializable {
             tabJeu.requestFocus();
             gestionBoucle.demarrer();
         });
-
-        initTilePaneInv(tilePaneInventaire, hero.getInv().getListeditem());
     }
 
     private void initialiserAudio() {
@@ -219,11 +214,6 @@ public class Controleur implements Initializable {
             }
         });
     }
-
-    public void initTilePaneInv(TilePane tilePane, ObservableList<Item> liste) {
-        gestionInventaire.initPane(tilePane, liste);
-    }
-
 
     //pour chaque entré de touche
     private void configurerEvenements() {

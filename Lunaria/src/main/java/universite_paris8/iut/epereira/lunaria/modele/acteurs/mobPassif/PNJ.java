@@ -18,7 +18,7 @@ public abstract class PNJ extends mobPassif{
         super(pv, v, env, x, y);
         this.description = description;
         this.marchand = marchand;
-        inv = new Inventaire();
+        inv = new Inventaire(9);
     }
     @Override
     public void deplacement() {
