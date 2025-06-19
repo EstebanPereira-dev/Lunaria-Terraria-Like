@@ -159,7 +159,6 @@ public class Controleur implements Initializable {
 
 
         // 3. Créer les vues d'acteurs
-        v = new VueHero(env.getHero(), this);
         vuesActeurs.add(v);
 
         Hero hero = env.getHero();
@@ -182,7 +181,7 @@ public class Controleur implements Initializable {
         gestionMap = new VueTerrain(env, this);
         gestionTouches = new GestionTouches(env, this);
         gestionSouris = new GestionSouris(env, this);
-        gestionInventaire = new GestionInventaire(hero,true,hero.getInv(),tilePaneInventaire);
+        gestionInventaire = new GestionInventaire(hero,true,hero.getInv(),tilePaneInventaire,this);
         gestionBoucle = new GestionBoucle(env, this);
 
         // 6. Éléments d'interface

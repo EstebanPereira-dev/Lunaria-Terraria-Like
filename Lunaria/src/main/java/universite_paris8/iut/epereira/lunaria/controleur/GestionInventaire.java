@@ -32,11 +32,12 @@ public class GestionInventaire{
     //boolean popur savoir si l'inventaire est ouvert ou pas.
     private boolean inventaireBooleanOvert;
 
-    public GestionInventaire(Hero hero, boolean isHero, Inventaire inv, TilePane tilePane) {
+    public GestionInventaire(Hero hero, boolean isHero, Inventaire inv, TilePane tilePane, Controleur controleur){
         this.controleur = controleur;
         isSelectedInHand = 0;
         cooldownInv = true;
         this.isHero = isHero;
+        this.hero = hero;
         librairiImage = new LoadImage();
         this.inv = inv;
         this.tilePane = tilePane;
@@ -107,6 +108,10 @@ public class GestionInventaire{
         //ajout du listener sur l'observable liste de l'inventaire
         ObsInventaire obsInventaire = new ObsInventaire(tilePane);
         inv.getListeditem().addListener(obsInventaire);
+        tilePane.setVisible(false);
+        tilePane.setDisable(true);
+        controleur.getTilePaneCraft().setVisible(false);
+        controleur.getTilePaneCraft().setDisable(true);
     }
 
     //selectionne l'item en appuyant dans l'inventaire ou sur les touche 1-9
@@ -202,14 +207,14 @@ public class GestionInventaire{
         if (inv.getListeditem().get(isSelectedInHand) == null) {
             // Déselectionner visuellement
             //controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: white");
-            controleur.getTilePaneInventaire().getChildren().get(isSelectedInHand).setStyle("-fx-border-color: blue");
+            tilePane.getChildren().get(isSelectedInHand).setStyle("-fx-border-color: blue");
 
             // Chercher le prochain item équipé (s'il y en a un)
             int nouvelItemEquipe = inv.getItemEquipe();
             if (nouvelItemEquipe != -1) {
                 isSelectedInHand = nouvelItemEquipe;
                 //controleur.getInventaireGridPane().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: yellow");
-                controleur.getTilePaneInventaire().getChildren().get(isSelectedInHand).setStyle("-fx-background-color: yellow;");
+                tilePane.getChildren().get(isSelectedInHand).setStyle("-fx-background-color: yellow;");
             }
         }
 

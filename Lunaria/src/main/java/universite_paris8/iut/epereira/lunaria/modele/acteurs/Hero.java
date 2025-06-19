@@ -36,7 +36,7 @@ public class Hero extends Acteur {
         actions = new ArrayList<>();
         inv = new Inventaire(27);
         remplirAction();
-        range = 16;
+        range = 8;
         degat = 10;
         souris = null;
         quantiteItem = 0;
@@ -437,17 +437,5 @@ public class Hero extends Acteur {
         }
     }
 
-    //gestion de click sur l'inventaire du PNJ
-    public void clickPrimaireNonHero(int index, Inventaire invPNJ){
-        if(invPNJ.getListeditem().get(index) != null){
-            if (sourisVide()){
-            }else{
-                if(invPNJ.getListeditem().get(index).getId() == souris.getId()) {
-                    invPNJ.getQuantite()[index].subtract(1);
-                    quantiteItem += 1;
-                }
-            }
-        }
-    }
 
 }
