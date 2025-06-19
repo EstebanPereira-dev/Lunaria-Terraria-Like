@@ -7,7 +7,6 @@ import javafx.scene.shape.Rectangle;
 import universite_paris8.iut.epereira.lunaria.modele.*;
 import universite_paris8.iut.epereira.lunaria.modele.items.Equipements.Interfaces.Consommable;
 
-
 public class GestionSouris {
     private Environement env;
     private Controleur controleur;
@@ -23,15 +22,26 @@ public class GestionSouris {
         this.tuileSurbrillance.setFill(Color.TRANSPARENT);
         this.tuileSurbrillance.setStrokeWidth(1);
         this.tuileSurbrillance.setVisible(false);
-        controleur.getTilePaneId().getChildren().add(tuileSurbrillance);
+
+        controleur.getCamera().ajouterActeurAuMonde(tuileSurbrillance);
     }
 
     public void gererPositionDeSouris(MouseEvent mouseEvent) {
-        dernierePosX = mouseEvent.getX();
-        dernierePosY = mouseEvent.getY();
 
-        int tuileX = (int) (dernierePosX / ConfigurationJeu.TAILLE_TUILE);
-        int tuileY = (int) (dernierePosY / ConfigurationJeu.TAILLE_TUILE);
+        double ecranX = mouseEvent.getX();
+        double ecranY = mouseEvent.getY();
+
+        double[] coordonneesMonde = controleur.getCamera().ecranVersMonde(ecranX, ecranY);
+        double mondeX = coordonneesMonde[0];
+        double mondeY = coordonneesMonde[1];
+
+
+        int tuileX = (int) (mondeX / ConfigurationJeu.TAILLE_TUILE);
+        int tuileY = (int) (mondeY / ConfigurationJeu.TAILLE_TUILE);
+
+        // Garder les positions monde pour les autres méthodes
+        dernierePosX = mondeX;
+        dernierePosY = mondeY;
 
         double posX = tuileX * ConfigurationJeu.TAILLE_TUILE;
         double posY = tuileY * ConfigurationJeu.TAILLE_TUILE;
@@ -43,54 +53,68 @@ public class GestionSouris {
         boolean doitAfficherSurbrillance = false;
         Color couleurSurbrillance = Color.WHITE;
 
-        if (env.getHero().estDansRange(tuileX, tuileY)) {
-            Item itemEquipe = env.getHero().getInv().getItemEquipeSousFormeItem();
-            if (itemEquipe != null) {
-                int typeBloc = env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY));
+        if (tuileX >= 0 && tuileX < env.getTerrain().getWidth() &&
+                tuileY >= 0 && tuileY < env.getTerrain().getHeight()) {
 
-                // Vérifier si on peut placer un bloc
-                if (itemEquipe.peutEtrePlaceSur(typeBloc)) {
-                    if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY)) == 0) {
+            if (env.getHero().estDansRange(tuileX, tuileY)) {
+                Item itemEquipe = env.getHero().getInv().getItemEquipeSousFormeItem();
+                if (itemEquipe != null) {
+                    int typeBloc = env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY));
+
+                    // Vérifier si on peut placer un bloc
+                    if (itemEquipe.peutEtrePlaceSur(typeBloc)) {
+                        if (env.getTerrain().getTableau().get(env.getTerrain().getPos(tuileX, tuileY)) == 0) {
+                            doitAfficherSurbrillance = true;
+                            couleurSurbrillance = Color.GREEN;
+                        }
+                    }
+                    // Vérifier si on peut casser le bloc
+                    else if (itemEquipe.peutCasser(typeBloc)) {
                         doitAfficherSurbrillance = true;
-                        couleurSurbrillance = Color.GREEN;
+                        couleurSurbrillance = Color.RED;
                     }
                 }
-                // Vérifier si on peut casser le bloc
-                else if (itemEquipe.peutCasser(typeBloc)) {
-                    doitAfficherSurbrillance = true;
-                    couleurSurbrillance = Color.RED;
-                }
-            }
-
-            // Appliquer l'état de la surbrillance
-            if (doitAfficherSurbrillance) {
-                tuileSurbrillance.setVisible(true);
-                tuileSurbrillance.setStroke(couleurSurbrillance);
-            } else {
-                tuileSurbrillance.setVisible(false);
             }
         }
 
+        // Appliquer l'état de la surbrillance
+        if (doitAfficherSurbrillance) {
+            tuileSurbrillance.setVisible(true);
+            tuileSurbrillance.setStroke(couleurSurbrillance);
+        } else {
+            tuileSurbrillance.setVisible(false);
+        }
     }
+
     public void clicDeSouris(MouseEvent mouseEvent) {
         if(env.getHero().getPv() > 0) {
-            dernierePosX = mouseEvent.getX();
-            dernierePosY = mouseEvent.getY();
+            double ecranX = mouseEvent.getX();
+            double ecranY = mouseEvent.getY();
 
-            int tuileX = (int) (dernierePosX / ConfigurationJeu.TAILLE_TUILE);
-            int tuileY = (int) (dernierePosY / ConfigurationJeu.TAILLE_TUILE);
+            double[] coordonneesMonde = controleur.getCamera().ecranVersMonde(ecranX, ecranY);
+            double mondeX = coordonneesMonde[0];
+            double mondeY = coordonneesMonde[1];
 
-//        ObservableList<Integer> terrain = env.getTerrain().getTableau();
+            int tuileX = (int) (mondeX / ConfigurationJeu.TAILLE_TUILE);
+            int tuileY = (int) (mondeY / ConfigurationJeu.TAILLE_TUILE);
 
-            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                gererClicGauche(env.getTerrain().getTableau(), tuileX, tuileY);
-            }
-        if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            gererClicGauche(env.getTerrain().getTableau(), tuileX, tuileY);
-        }
+            // Garder les positions monde
+            dernierePosX = mondeX;
+            dernierePosY = mondeY;
 
-            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                gererClicDroit(env.getTerrain().getTableau(), tuileX, tuileY);
+
+            if (tuileX >= 0 && tuileX < env.getTerrain().getWidth() &&
+                    tuileY >= 0 && tuileY < env.getTerrain().getHeight()) {
+
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    gererClicGauche(env.getTerrain().getTableau(), tuileX, tuileY);
+                }
+
+                if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                    gererClicDroit(env.getTerrain().getTableau(), tuileX, tuileY);
+                }
+            } else {
+                System.out.println("❌ Clic hors limites du terrain: tuile (" + tuileX + ", " + tuileY + ")");
             }
         }
     }
@@ -103,10 +127,10 @@ public class GestionSouris {
             env.getHero().getInv().afficherInventaire();
             return;
         }
-            if (env.verifCasser(tuileX,tuileY)) {
-                if(env.getHero().estDansRange(tuileX, tuileY)) {
-                    env.getHero().casserBloc(terrain, tuileX, tuileY);
-                }
+        if (env.verifCasser(tuileX,tuileY)) {
+            if(env.getHero().estDansRange(tuileX, tuileY)) {
+                env.getHero().casserBloc(terrain, tuileX, tuileY);
+            }
         } else {
             if (env.getHero().verifAttaque()){
                 boolean attaqueLancee = env.getHero().executerAttaque();
@@ -124,7 +148,6 @@ public class GestionSouris {
 
         Item itemEquipe = env.getHero().getInv().getItemEquipeSousFormeItem();
 
-        // ✅ Vérifier null dès le début
         if (itemEquipe == null) {
             System.out.println("Aucun item équipé !");
             return;
@@ -179,6 +202,4 @@ public class GestionSouris {
             System.out.println("Cet item ne peut pas être consommé !");
         }
     }
-
-
 }

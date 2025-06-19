@@ -113,7 +113,6 @@ public class Controleur implements Initializable {
 //        vueCraft.init();
 
 
-
         // 3. Créer les vues d'acteurs
         v = new VueHero(env.getHero(), this);
         vuesActeurs.add(v);
@@ -160,15 +159,15 @@ public class Controleur implements Initializable {
 
     private void initialiserAudio() {
         // Musique initiale
-        lecteurAudio.jouerSon("universite_paris8/iut/epereira/lunaria/DossierMap/jour.wav");
+        lecteurAudio.jouerSon("src/main/resources/universite_paris8/iut/epereira/lunaria/DossierMap/jour.wav");
 
         // Listener pour changement jour/nuit
         env.getEtatJour().addListener((obs, oldVal, newVal) -> {
             lecteurAudio.arreter();
             if (newVal) {
-                lecteurAudio.jouerSon("universite_paris8/iut/epereira/lunaria/DossierMap/jour.wav");
+                lecteurAudio.jouerSon("src/main/resources/universite_paris8/iut/epereira/lunaria/DossierMap/jour.wav");
             } else {
-                lecteurAudio.jouerSon("universite_paris8/iut/epereira/lunaria/DossierMap/nuit.wav");
+                lecteurAudio.jouerSon("src/main/resources/universite_paris8/iut/epereira/lunaria/DossierMap/nuit.wav");
             }
         });
     }
