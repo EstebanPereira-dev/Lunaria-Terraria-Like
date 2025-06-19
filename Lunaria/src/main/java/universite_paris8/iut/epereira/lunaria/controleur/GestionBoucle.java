@@ -22,7 +22,7 @@ public class GestionBoucle {
 
     private int compteurFrames = 0;
     private static final int FRAMES_PAR_SECONDE = 1000 / 15; // 15ms par frame = ~66.67 FPS
-    private static final int FRAMES_POUR_60_SECONDES = FRAMES_PAR_SECONDE * 10;
+    private static final int FRAMES_POUR_60_SECONDES = FRAMES_PAR_SECONDE * 60;
 
 
     public GestionBoucle(Environement env, Controleur controleur){
