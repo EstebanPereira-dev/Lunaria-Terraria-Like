@@ -60,12 +60,12 @@ public abstract class EnnemiTerrestre extends Ennemi {
             if (getDirectionPatrouille()) {
                 deplacerHorizontalement(vitesseX);
                 if (getPosX() >= getZonePatrouilleX() + getRayonPatrouille()) {
-                    setDirectionPatrouille(false);
+                    setDirectionPatrouille(false);  // Si l'ennemi est trop loin du centre, il revient vers ce centre
                 }
             } else {
                 deplacerHorizontalement(-vitesseX);
                 if (getPosX() <= getZonePatrouilleX() - getRayonPatrouille()) {
-                    setDirectionPatrouille(true);
+                    setDirectionPatrouille(true);// Sinon, il patrouille dans la direction actuelle, et inversera la direction s’il atteint le bord de la zone
                 }
             }
         }
@@ -85,16 +85,15 @@ public abstract class EnnemiTerrestre extends Ennemi {
 
         long maintenant = System.currentTimeMillis();
 
-        // Recalculer le chemin périodiquement
-        if (maintenant - getDernierCalculChemin() > getIntervalleCalculChemin()) {
+        if (maintenant - getDernierCalculChemin() > getIntervalleCalculChemin()) {//On vérifie si assez de temps c'est écoulé depuis le dernier calcul du chemin pour éviter de faire trop de calculs
             calculerCheminVersHero();
             setDernierCalculChemin(maintenant);
         }
 
         // Suivre le chemin calculé
         if (!getChemin().isEmpty()) {
-            Point prochainPoint = getChemin().peek();
-            double targetX = prochainPoint.x * ConfigurationJeu.TAILLE_TUILE;
+            Point prochainPoint = getChemin().peek(); // peek donne le prochain point sans l'enlever
+            double targetX = prochainPoint.x * ConfigurationJeu.TAILLE_TUILE; //On convertit les coordonnéees en pixels
 
             if (Math.abs(getPosX() - targetX) < ConfigurationJeu.TAILLE_TUILE) {
                 getChemin().poll(); // Point atteint, passer au suivant
@@ -137,9 +136,13 @@ public abstract class EnnemiTerrestre extends Ennemi {
         if (prochainPoint.y < currentTileY) {
             return true;
         }
+        int direction;
 
         // Vérifier s'il y a un obstacle devant nous qui nécessite un saut
-        int direction = (getPosX() < prochainPoint.x * ConfigurationJeu.TAILLE_TUILE) ? 1 : -1;
+        if (getPosX() < prochainPoint.x * ConfigurationJeu.TAILLE_TUILE)
+             direction = 1;
+        else
+             direction = -1;
         int nextX = (int) (getPosX() / ConfigurationJeu.TAILLE_TUILE) + direction;
 
         // Si il y a un mur devant et qu'on est au sol, sauter
@@ -150,22 +153,22 @@ public abstract class EnnemiTerrestre extends Ennemi {
         return false;
     }
 
-    public double trouverHauteurSol(double x) {
-        int tileX = (int) (x / ConfigurationJeu.TAILLE_TUILE);
+
+
+    public double trouverHauteurSol(double x) { //trouve pour une colonne sa première tuile solide
+        int tileX = (int) (x / ConfigurationJeu.TAILLE_TUILE); //conversion de pos(x) en id de tuile
         ObservableList<Integer> terrain = getEnv().getTerrain().getTableau();
 
-        for (int tileY = 0; tileY < terrain.size(); tileY++) {
+        for (int tileY = 0; tileY < terrain.size(); tileY++) {  // parcours la map (vertical) pour trouver la premiere tuile solide
             if (getEnv().getTerrain().estTangible(tileX, tileY)) {
                 return tileY * ConfigurationJeu.TAILLE_TUILE;
             }
         }
-
         return getEnv().getHeight();
     }
 
     @Override
     public void explorerMouvements(Point current, Queue<Point> queue, Set<Point> visited, Map<Point, Point> parent){
-        {
             // Mouvements horizontaux (gauche et droite)
             int[] directions = {-1, 1};
 
@@ -192,7 +195,6 @@ public abstract class EnnemiTerrestre extends Ennemi {
                     }
                 }
             }
-        }
     }
 
 

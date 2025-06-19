@@ -53,7 +53,7 @@ public abstract class Ennemi extends Acteur {
     public int hashCode() {
         return Objects.hash(x, y);
     }
-
+// les fonctions hash code et equals permettent de faire des égalitées entre les ennemis et les points
     public boolean equals(Object obj) {
         if (obj instanceof Point) {
             Point p = (Point) obj;
@@ -71,6 +71,7 @@ public abstract class Ennemi extends Acteur {
 
     public abstract  void deplacementSimple();
 
+    //Transforme les coordonnées du héros et de l’ennemi en tuiles
     public void calculerCheminVersHero() {
         int startX = (int) (getPosX() / ConfigurationJeu.TAILLE_TUILE);
         int startY = (int) (getPosY() / ConfigurationJeu.TAILLE_TUILE);
@@ -112,14 +113,14 @@ public abstract class Ennemi extends Acteur {
 
     public abstract void explorerMouvements(Point current, Queue<Point> queue, Set<Point> visited, Map<Point, Point> parent);
 
-
+///parent est une Map ==>clé=point, valeur=point parent
     private Queue<Point> reconstruireChemin(Map<Point, Point> parent, Point start, Point target) {
         LinkedList<Point> chemin = new LinkedList<>();
-        Point current = target;
+        Point current = target; // on remonte la liste depuis la fin (target)
 
-        while (current != null && !current.equals(start)) {
-            chemin.addFirst(current);
-            current = parent.get(current);
+        while (current != null && !current.equals(start)) { //parcours de la liste
+            chemin.addFirst(current); //ajoute chaque point au début de la liste pour avoir un ordre du point de départ au point d’arrivée.
+            current = parent.get(current); // on remonte d’un cran vers le parent de ce point
         }
 
         return chemin;
@@ -224,7 +225,7 @@ public abstract class Ennemi extends Acteur {
         // Chercher le premier bloc tangible depuis le haut
         for (int y = 0; y < terrain.size(); y++) {
             if (getEnv().getTerrain().estTangible(x, y)) {
-                return Math.max(0, y - 1); // Position juste au-dessus du bloc
+                return Math.max(0, y - 1); // Position juste au-dessus du bloc (pour se retrouver sur et non dans le bloc) et on utilise math.max pour ne pas se retrouver avec des cases négatives
             }
         }
 
