@@ -101,17 +101,17 @@ public abstract class VueActeur {
         animations.values().forEach(Timeline::stop);
     }
 
-    // Méthodes finales communes
     private final void ajouterActeurVue() {
         ImageView sprite = creerSprite();
         sprites.put(acteur, sprite);
-        controleur.getTabJeu().getChildren().add(sprite);
+
+        controleur.getCamera().ajouterActeurAuMonde(sprite);
     }
 
     public final void supprimerActeurVue(Acteur acteur) {
         ImageView sprite = sprites.get(acteur);
         if (sprite != null) {
-            controleur.getTabJeu().getChildren().remove(sprite);
+            controleur.getCamera().retirerActeurDuMonde(sprite);
             sprites.remove(acteur);
         }
 

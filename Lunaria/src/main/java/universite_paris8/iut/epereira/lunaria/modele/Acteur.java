@@ -62,10 +62,10 @@ public abstract class Acteur {
         pv = 100;
         this.vitesseX = 3;
 
-        this.posX = 100;
+        this.posX = 900;
         this.posY = 100;
 
-        this.x = new SimpleDoubleProperty(100);
+        this.x = new SimpleDoubleProperty(900);
         this.y = new SimpleDoubleProperty(100);
 
         id = "A"+0;

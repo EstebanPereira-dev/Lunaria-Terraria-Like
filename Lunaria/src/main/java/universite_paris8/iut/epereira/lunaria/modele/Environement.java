@@ -31,6 +31,7 @@ public class Environement {
     private int width;
     private int height;
     private ArrayList<Acteur> acteurs;
+    //rajouter une liste de spawns
     private ArrayList<PNJ> pnjs;
     private int compteurFaim = 0;
     private final int INTERVALLE_FAIM = 140;
@@ -58,9 +59,9 @@ public class Environement {
         listeCraft.add(new CraftHacheBois(this));
         listeCraft.add(new CraftHachePierre(this));
 
-        acteurs.add(new Mouton(20, 1, this, 200, 400));
+        acteurs.add(new Mouton(20, 1, this, 500, 400));
 
-        acteurs.add(new Aleksa(100, 1, this, 300, 400));
+        acteurs.add(new Aleksa(100, 1, this, 800, 400));
 
         acteurs.add(hero);
 
@@ -72,11 +73,13 @@ public class Environement {
         this.etatJour =new SimpleBooleanProperty(true);
         initTest();
         spawnerAdepte = new Adepte(1, 1, 1, 50, this, hero, 0, 0,5);
+        this.etatJour.set(true);
     }
 
     public void update() { //faire agir tout le monde et supprimer les morts
         spawnerAdepte.spawner();
         spawnerAigle.spawner();
+        spawnerAdepte.spawner(); //faire plutot une classe qui gere les spawns (reservoir de spawn dans env)
         supprimerActeursMarques();
         getHero().saciete();
     }

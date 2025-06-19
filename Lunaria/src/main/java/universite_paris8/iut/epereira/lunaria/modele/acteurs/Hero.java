@@ -75,6 +75,11 @@ public class Hero extends Acteur {
         deplacerHorizontalement(deltaX);
     }
 
+    @Override
+    public void agit() {
+        deplacement();
+    }
+
     public boolean peutAttaquer() {
         return !attackOnCooldown;
     }
@@ -141,10 +146,6 @@ public class Hero extends Acteur {
         );
         cooldownTimer.setCycleCount(1);
         cooldownTimer.play();
-    }
-    @Override
-    public void agit() {
-
     }
 
     @Override
