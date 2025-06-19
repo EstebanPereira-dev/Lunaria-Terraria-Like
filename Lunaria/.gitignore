@@ -137,4 +137,3 @@ buildNumber.properties
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,intellij+all
 
 /src/main/java/universite_paris8/iut/epereira/lunaria/test.java
-/src/main/java/universite_paris8/iut/epereira/lunaria/modele/TestJunit.java

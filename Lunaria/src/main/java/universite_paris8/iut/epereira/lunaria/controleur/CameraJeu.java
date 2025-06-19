@@ -33,6 +33,7 @@ public class CameraJeu {
         // Créer le conteneur monde qui va contenir TOUT
         this.conteneurMonde = new Pane();
 
+
         // Retirer le terrain de son parent actuel et l'ajouter au conteneur monde
         if (terrainGrid.getParent() != null) {
             ((Pane) terrainGrid.getParent()).getChildren().remove(terrainGrid);

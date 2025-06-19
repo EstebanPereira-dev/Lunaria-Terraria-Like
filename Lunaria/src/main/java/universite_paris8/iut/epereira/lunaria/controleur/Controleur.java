@@ -91,6 +91,7 @@ public class Controleur implements Initializable {
     public CameraJeu getCamera() {
         return camera;
     }
+
     @Override //initialization
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Création de l'environement
@@ -98,11 +99,16 @@ public class Controleur implements Initializable {
         // CRÉER LA CAMÉRA
         double largeurCarteComplete = ConfigurationJeu.WIDTH_TILES * ConfigurationJeu.TAILLE_TUILE; // 100 * 16 = 1600
         double hauteurCarteComplete = ConfigurationJeu.HEIGHT_TILES * ConfigurationJeu.TAILLE_TUILE; // 100 * 16 = 1600
+
         camera = new CameraJeu(terrainGrid, tabJeu, env.getHero(), largeurCarteComplete, hauteurCarteComplete);
         lecteurAudio = new LecteurAudio();
         v = new VueHero(env.getHero(), this);
 
+        tilePaneInventaire.toFront();
+
         tilePaneCraft = new TilePane();
+
+        tilePaneCraft.toFront();
 
         LoadImage imgLoad = new LoadImage();
         ImageView img1,img2,img3,img4;
@@ -116,11 +122,6 @@ public class Controleur implements Initializable {
         img2.setOnMouseClicked(event -> craftPiocheBois());
         img3.setOnMouseClicked(event -> craftHachePierre());
         img4.setOnMouseClicked(event -> craftPiochePierre());
-
-        img1.setFocusTraversable(true);
-        img2.setFocusTraversable(true);
-        img3.setFocusTraversable(true);
-        img4.setFocusTraversable(true);
 
         img1.setFitHeight(48);
         img2.setFitHeight(48);
