@@ -76,24 +76,13 @@ public class ObsTerrain implements ListChangeListener<Integer> {
         int y = index / width;
 
         // Supprimer l'ancienne tuile s'il y en a une
-        var enfants = grilleAffichage.getChildren();
-
-        // On parcourt tous les enfants pour trouver ceux qui sont à la position (x, y)
-        for (int i = enfants.size() - 1; i >= 0; i--) { // on boucle à l’envers pour pouvoir supprimer sans problème
-            var noeud = enfants.get(i);
-            Integer col = GridPane.getColumnIndex(noeud);
-            Integer row = GridPane.getRowIndex(noeud);
-
-            // Vérifier que la position n’est pas nulle et correspond à (x, y)
-            if (col != null && row != null && col == x && row == y) {
-                // Supprimer ce nœud
-                enfants.remove(i);
-            }
-        }
-
-        // Ajouter la nouvelle image à la position (x, y)
+        grilleAffichage.getChildren().removeIf(node ->
+                GridPane.getColumnIndex(node) != null &&
+                        GridPane.getRowIndex(node) != null &&
+                        GridPane.getColumnIndex(node) == x &&
+                        GridPane.getRowIndex(node) == y
+        );
         grilleAffichage.add(imageView, x, y);
     }
-
 }
 
