@@ -11,7 +11,6 @@ import java.util.Set;
 import static universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu.rdm;
 
 public abstract class EnnemiVolant extends Ennemi {
-    private boolean monte = true;
     private double altitudeCible = 120; // position centrale pour oscillation
     private double amplitudeVol = 100; // variation maximale autour de la position centrale
 

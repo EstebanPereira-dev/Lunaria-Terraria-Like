@@ -7,7 +7,7 @@ import universite_paris8.iut.epereira.lunaria.controleur.Controleur;
 import universite_paris8.iut.epereira.lunaria.modele.Acteur;
 
 public class VuePNJ extends VueActeur {
-    private Image[] moutonFrames;
+    private Image[] pnjFrames;
 
 
     public VuePNJ(Acteur pnj, Controleur controleur) {
@@ -17,13 +17,13 @@ public class VuePNJ extends VueActeur {
 
     @Override
     protected void prechargerImages() {
-        moutonFrames = new Image[1];
-        moutonFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Aleksa.png"));
+        pnjFrames = new Image[1];
+        pnjFrames[0] = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Aleksa.png"));
     }
 
     @Override
     protected Image[] getFramesForAnimation(String animationType) {
-        return moutonFrames;
+        return pnjFrames;
     }
 
     @Override
@@ -33,8 +33,8 @@ public class VuePNJ extends VueActeur {
 
     @Override
     protected ImageView creerSprite() {
-        ImageView imageView = creerImageViewBase(moutonFrames[0]);
-        Timeline animation = creerAnimationCyclique(imageView, moutonFrames, 150);
+        ImageView imageView = creerImageViewBase(pnjFrames[0]);
+        Timeline animation = creerAnimationCyclique(imageView, pnjFrames, 150);
         animation.play();
         stockerAnimation("idle", animation);
         return imageView;

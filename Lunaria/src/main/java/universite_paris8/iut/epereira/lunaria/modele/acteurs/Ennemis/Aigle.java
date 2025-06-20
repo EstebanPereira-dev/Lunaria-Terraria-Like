@@ -10,8 +10,6 @@ import static universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu.rdm
 public class Aigle extends EnnemiVolant{
     private static long dernierSpawn = 0;
 
-    private Queue<Point> chemin;
-
     public Aigle(int pv, int v, int degat, int range, Environement env, Hero hero, double x, double y, int cooldown) {
         super(pv, v, degat, range, env, hero, x, y,cooldown);
         ecu.set(1);
