@@ -1,17 +1,10 @@
 package universite_paris8.iut.epereira.lunaria.vue;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.TilePane;
 import universite_paris8.iut.epereira.lunaria.controleur.Controleur;
 import universite_paris8.iut.epereira.lunaria.modele.ConfigurationJeu;
 import universite_paris8.iut.epereira.lunaria.modele.Environement;
 import universite_paris8.iut.epereira.lunaria.modele.Terrain;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-
-import javax.sound.sampled.Control;
 
 
 public class VueTerrain {

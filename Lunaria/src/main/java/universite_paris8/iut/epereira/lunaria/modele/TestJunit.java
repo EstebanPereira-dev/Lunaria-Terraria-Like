@@ -33,8 +33,6 @@ public class TestJunit {
         craftHachePierre = new CraftHachePierre(env);
     }
 
-
-
     @Test
     public final void CraftInitInventaireTest(){
 
@@ -87,7 +85,6 @@ public class TestJunit {
 
 
     }
-
 
     @Test //test si le craft supprime bien l'item si la quantite qu'il faut est égal a la quantite qu'on as
     public final void craftCraftingTest2(){

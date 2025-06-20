@@ -5,7 +5,7 @@ import universite_paris8.iut.epereira.lunaria.modele.Item;
 
 public class LoadImage {
 
-    private Image imageVide, imageBois, imageBuisson, imageHerbe, imageMur, imageTerre, imagePiocheEnBois, imageHacheEnBois, imageEpeeEnBois, imageViandeMouton;
+    private Image imageVide, imageBois, imageBuisson, imageHerbe, imageMur, imageTerre, imagePiocheEnBois, imageHacheEnBois, imageEpeeEnBois, imageViandeMouton, imagePlanche;
 
     public LoadImage() {
         //initializer chaque image
@@ -15,6 +15,7 @@ public class LoadImage {
         imageBuisson = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Buisson.png"));
         imageMur = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/MurEnPierre.png"));
         imageBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/FondEnBois.png"));
+        imagePlanche = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/Planche.png"));
         imagePiocheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/PiocheEnBois.png"));
         imageHacheEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/HacheEnBois.png"));
         imageEpeeEnBois = new Image(getClass().getResourceAsStream("/universite_paris8/iut/epereira/lunaria/DossierMap/EpeeEnBois.png"));
@@ -47,6 +48,9 @@ public class LoadImage {
 
                 case 5:
                     sprite = imageBois;
+                    break;
+                case 15:
+                    sprite = imagePlanche;
                     break;
                 case 21:
                     sprite = imageEpeeEnBois;
